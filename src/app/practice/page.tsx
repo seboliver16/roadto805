@@ -3,10 +3,13 @@
 import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
-import { questions } from "@/data/questions";
-import { Question, ThemeCategory, THEME_CATEGORIES } from "@/types";
+import { allQuestions } from "@/data/questions";
+import { Question, Section, ThemeCategory, THEME_CATEGORIES, SECTION_LABELS } from "@/types";
 import { createSession, updateSession, saveAttempt, updateProfileStats } from "@/lib/store";
 import { PageSkeleton } from "@/components/loading-skeleton";
+import { QuestionRenderer } from "@/components/question-renderer";
+import { AiHelpButton } from "@/components/ai-help-button";
+import { Badge } from "@/components/badge";
 
 function shuffleArray<T>(arr: T[]): T[] {
   const shuffled = [...arr];
@@ -23,39 +26,46 @@ function PracticeContent() {
   const { user, loading } = useAuth();
 
   const category = searchParams.get("category") as ThemeCategory | null;
+  const sectionParam = searchParams.get("section") as Section | null;
   const themesParam = searchParams.get("themes");
   const themes = useMemo(() => themesParam?.split(",") || [], [themesParam]);
 
   const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [selectedAnswerB, setSelectedAnswerB] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [finished, setFinished] = useState(false);
 
   useEffect(() => {
-    let filtered = questions;
+    let filtered = allQuestions;
+
+    if (sectionParam) {
+      filtered = filtered.filter((q) => q.section === sectionParam);
+    }
 
     if (category && THEME_CATEGORIES[category]) {
       const categoryThemes = THEME_CATEGORIES[category].themes;
-      filtered = questions.filter((q) =>
+      filtered = filtered.filter((q) =>
         q.themes.some((t) => categoryThemes.includes(t))
       );
     } else if (themes.length > 0) {
-      filtered = questions.filter((q) =>
+      filtered = filtered.filter((q) =>
         q.themes.some((t) => themes.includes(t))
       );
     }
 
     const selected = shuffleArray(filtered).slice(0, 10);
     setSessionQuestions(selected);
-  }, [category, themes]);
+  }, [category, themes, sectionParam]);
 
   useEffect(() => {
     if (user && sessionQuestions.length > 0 && !sessionId) {
-      createSession({
+      const sessionData: Parameters<typeof createSession>[0] = {
         userId: user.uid,
+        sessionType: "practice",
         questionIds: sessionQuestions.map((q) => q.id),
         answers: {},
         score: 0,
@@ -63,53 +73,54 @@ function PracticeContent() {
         themeBreakdown: {},
         timestamp: Date.now(),
         completed: false,
-      }).then(setSessionId);
+      };
+      if (sectionParam) sessionData.section = sectionParam;
+      createSession(sessionData).then(setSessionId);
     }
-  }, [user, sessionQuestions, sessionId]);
+  }, [user, sessionQuestions, sessionId, sectionParam]);
 
-  // Warn on accidental navigation during active session
+  // Warn on accidental navigation
   useEffect(() => {
     if (sessionQuestions.length === 0 || finished) return;
-
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-    };
-
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => { e.preventDefault(); };
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [sessionQuestions.length, finished]);
 
   const currentQuestion = sessionQuestions[currentIndex];
 
+  const isTPA = currentQuestion?.type === "two-part-analysis";
+
   const handleSubmit = useCallback(async () => {
     if (selectedAnswer === null || !currentQuestion || !user || !sessionId) return;
-
-    const correct = selectedAnswer === currentQuestion.correctAnswer;
+    if (isTPA && selectedAnswerB === null) return;
     setShowResult(true);
     setAnswers((prev) => ({ ...prev, [currentQuestion.id]: selectedAnswer }));
+
+    const isCorrect = isTPA
+      ? selectedAnswer === currentQuestion.correctAnswer && selectedAnswerB === currentQuestion.correctAnswerB
+      : selectedAnswer === currentQuestion.correctAnswer;
 
     await saveAttempt({
       userId: user.uid,
       questionId: currentQuestion.id,
       selectedAnswer,
-      correct,
+      correct: isCorrect,
       themes: currentQuestion.themes,
       timestamp: Date.now(),
       sessionId,
     });
-  }, [selectedAnswer, currentQuestion, user, sessionId]);
+  }, [selectedAnswer, selectedAnswerB, currentQuestion, user, sessionId, isTPA]);
 
   const handleNext = useCallback(async () => {
     if (currentIndex < sessionQuestions.length - 1) {
       setCurrentIndex((i) => i + 1);
       setSelectedAnswer(null);
+      setSelectedAnswerB(null);
       setShowResult(false);
     } else {
-      // Finish session
       const finalAnswers = { ...answers };
-      if (currentQuestion) {
-        finalAnswers[currentQuestion.id] = selectedAnswer!;
-      }
+      if (currentQuestion) finalAnswers[currentQuestion.id] = selectedAnswer!;
 
       let score = 0;
       const themeBreakdown: Record<string, { correct: number; total: number }> = {};
@@ -118,7 +129,6 @@ function PracticeContent() {
         const userAns = finalAnswers[q.id];
         const isCorrect = userAns === q.correctAnswer;
         if (isCorrect) score++;
-
         q.themes.forEach((theme) => {
           if (!themeBreakdown[theme]) themeBreakdown[theme] = { correct: 0, total: 0 };
           themeBreakdown[theme].total++;
@@ -142,25 +152,19 @@ function PracticeContent() {
   }, [currentIndex, sessionQuestions, answers, currentQuestion, selectedAnswer, sessionId, user, router]);
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.push("/");
-    }
+    if (!loading && !user) router.push("/");
   }, [user, loading, router]);
 
   if (!user || sessionQuestions.length === 0) {
     return <PageSkeleton label="Loading questions..." />;
   }
-
-  if (finished) {
-    return <PageSkeleton label="Loading results..." />;
-  }
-
+  if (finished) return <PageSkeleton label="Loading results..." />;
   if (!currentQuestion) return null;
 
   return (
     <div className="min-h-screen">
       <header className="border-b bg-white">
-        <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
+        <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
           <button
             onClick={() => {
               if (window.confirm("Leave this session? Your progress will be lost.")) {
@@ -171,19 +175,20 @@ function PracticeContent() {
           >
             &larr; Exit
           </button>
-          <span className="text-sm font-medium text-gray-600">
-            Question {currentIndex + 1} of {sessionQuestions.length}
-          </span>
+          <div className="flex items-center gap-2">
+            <Badge variant={currentQuestion.section === "quant" ? "blue" : currentQuestion.section === "verbal" ? "green" : "purple"}>
+              {SECTION_LABELS[currentQuestion.section]}
+            </Badge>
+            <span className="text-sm font-medium text-gray-600">
+              {currentIndex + 1} / {sessionQuestions.length}
+            </span>
+          </div>
           <div className="flex items-center gap-0.5 w-32">
             {sessionQuestions.map((_, i) => (
               <div
                 key={i}
                 className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
-                  i < currentIndex
-                    ? "bg-blue-600"
-                    : i === currentIndex
-                    ? "bg-blue-400"
-                    : "bg-gray-200"
+                  i < currentIndex ? "bg-blue-600" : i === currentIndex ? "bg-blue-400" : "bg-gray-200"
                 }`}
               />
             ))}
@@ -192,91 +197,36 @@ function PracticeContent() {
       </header>
 
       <main className="mx-auto max-w-3xl px-4 py-8">
-        <div key={currentIndex} className="animate-fade-in">
-          {/* Question type badge */}
-          <div className="mb-4 flex items-center gap-2">
-            <span className={`rounded-full px-3 py-1 text-xs font-medium ${
-              currentQuestion.type === "data-sufficiency"
-                ? "bg-purple-100 text-purple-700"
-                : "bg-blue-100 text-blue-700"
-            }`}>
-              {currentQuestion.type === "data-sufficiency" ? "Data Sufficiency" : "Problem Solving"}
-            </span>
-            <span className={`rounded-full px-3 py-1 text-xs font-medium ${
-              currentQuestion.difficulty === "easy"
-                ? "bg-green-100 text-green-700"
-                : currentQuestion.difficulty === "medium"
-                ? "bg-yellow-100 text-yellow-700"
-                : "bg-red-100 text-red-700"
-            }`}>
-              {currentQuestion.difficulty.charAt(0).toUpperCase() + currentQuestion.difficulty.slice(1)}
-            </span>
-          </div>
+        <div key={currentIndex} className="animate-slide-up">
+          <QuestionRenderer
+            question={currentQuestion}
+            selectedAnswer={selectedAnswer}
+            selectedAnswerB={selectedAnswerB}
+            showResult={showResult}
+            onSelectAnswer={setSelectedAnswer}
+            onSelectAnswerB={setSelectedAnswerB}
+          />
 
-          {/* Question text */}
-          <div className="mb-8 rounded-xl bg-white p-6 shadow-sm border">
-            <p className="text-lg leading-relaxed whitespace-pre-line">{currentQuestion.text}</p>
-          </div>
+          <AiHelpButton
+            key={`ai-${currentIndex}`}
+            question={currentQuestion}
+            showResult={showResult}
+            selectedAnswer={selectedAnswer}
+          />
 
-          {/* Choices */}
-          <div className="space-y-3">
-            {currentQuestion.choices.map((choice, i) => {
-              let borderColor = "border-gray-200";
-              let bg = "bg-white";
-
-              if (showResult) {
-                if (i === currentQuestion.correctAnswer) {
-                  borderColor = "border-green-500";
-                  bg = "bg-green-50";
-                } else if (i === selectedAnswer && i !== currentQuestion.correctAnswer) {
-                  borderColor = "border-red-500";
-                  bg = "bg-red-50";
-                }
-              } else if (selectedAnswer === i) {
-                borderColor = "border-blue-500";
-                bg = "bg-blue-50";
-              }
-
-              return (
-                <button
-                  key={i}
-                  onClick={() => !showResult && setSelectedAnswer(i)}
-                  disabled={showResult}
-                  className={`w-full rounded-lg border-2 ${borderColor} ${bg} p-4 text-left transition-colors ${
-                    !showResult ? "hover:border-blue-300 hover:bg-blue-50" : ""
-                  }`}
-                >
-                  <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold">
-                    {String.fromCharCode(65 + i)}
-                  </span>
-                  {choice}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Explanation */}
-          {showResult && (
-            <div className="mt-6 rounded-xl bg-amber-50 border border-amber-200 p-6">
-              <h3 className="font-semibold text-amber-800 mb-2">Explanation</h3>
-              <p className="text-amber-900 text-sm leading-relaxed">{currentQuestion.explanation}</p>
-            </div>
-          )}
-
-          {/* Action button */}
-          <div className="mt-8">
+          <div className="mt-4">
             {!showResult ? (
               <button
                 onClick={handleSubmit}
-                disabled={selectedAnswer === null}
-                className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                disabled={selectedAnswer === null || (isTPA && selectedAnswerB === null)}
+                className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors btn-press disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 Submit Answer
               </button>
             ) : (
               <button
                 onClick={handleNext}
-                className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors"
+                className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors btn-press"
               >
                 {currentIndex < sessionQuestions.length - 1 ? "Next Question" : "See Results"}
               </button>

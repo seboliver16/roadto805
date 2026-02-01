@@ -12,8 +12,10 @@ import { TableAnalysis } from "./question-types/table-analysis";
 interface QuestionRendererProps {
   question: Question;
   selectedAnswer: number | null;
+  selectedAnswerB?: number | null;
   showResult: boolean;
   onSelectAnswer: (index: number) => void;
+  onSelectAnswerB?: (index: number) => void;
 }
 
 export function QuestionRenderer(props: QuestionRendererProps) {

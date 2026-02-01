@@ -18,17 +18,24 @@ function db() {
   return getDbInstance();
 }
 
+/** Strip undefined values — Firestore rejects them. */
+function clean<T extends Record<string, unknown>>(obj: T): T {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([, v]) => v !== undefined)
+  ) as T;
+}
+
 // --- Practice Sessions ---
 
 export async function createSession(session: PracticeSession): Promise<string> {
   const ref = doc(collection(db(), "sessions"));
-  await setDoc(ref, { ...session, id: ref.id });
+  await setDoc(ref, clean({ ...session, id: ref.id }));
   return ref.id;
 }
 
 export async function updateSession(sessionId: string, data: Partial<PracticeSession>) {
   const ref = doc(db(), "sessions", sessionId);
-  await updateDoc(ref, data);
+  await updateDoc(ref, clean(data as Record<string, unknown>));
 }
 
 export async function getSession(sessionId: string): Promise<PracticeSession | null> {
@@ -87,7 +94,7 @@ export async function getProfile(userId: string): Promise<UserProfile | null> {
 
 export async function updateProfile(userId: string, data: Partial<UserProfile>) {
   const ref = doc(db(), "users", userId);
-  await updateDoc(ref, data);
+  await updateDoc(ref, clean(data as Record<string, unknown>));
 }
 
 // --- Study Plans ---

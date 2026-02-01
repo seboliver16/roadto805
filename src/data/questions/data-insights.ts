@@ -806,6 +806,7 @@ export const dataInsightsQuestions: Question[] = [
     text: "A store sells apples at $2 each and oranges at $3 each. A customer buys a total of 10 fruits and pays $24. How many apples and how many oranges did the customer buy?\n\nSelect one value for each column.",
     choices: ["2", "4", "5", "6", "7", "8"],
     correctAnswer: 3,
+    correctAnswerB: 1,
     explanation:
       "Let a = apples, o = oranges. We have: a + o = 10 and 2a + 3o = 24. From the first equation: a = 10 - o. Substituting: 2(10 - o) + 3o = 24 → 20 - 2o + 3o = 24 → o = 4. So a = 6.\n\nApples = 6 (column 1, index 3), Oranges = 4 (column 2, index 1).\n\nVerification: 6 + 4 = 10 fruits; 6($2) + 4($3) = $12 + $12 = $24.",
     source: SOURCE,
@@ -821,6 +822,7 @@ export const dataInsightsQuestions: Question[] = [
     text: "If x + y = 12 and x - y = 4, find the values of x and y.\n\nSelect one value for each column.",
     choices: ["2", "4", "6", "8", "10", "12"],
     correctAnswer: 3,
+    correctAnswerB: 1,
     explanation:
       "Adding the equations: (x + y) + (x - y) = 12 + 4 → 2x = 16 → x = 8. Substituting back: 8 + y = 12 → y = 4.\n\nValue of x = 8 (column 1, index 3), Value of y = 4 (column 2, index 1).\n\nVerification: 8 + 4 = 12 and 8 - 4 = 4.",
     source: SOURCE,
@@ -836,6 +838,7 @@ export const dataInsightsQuestions: Question[] = [
     text: "A 50-liter solution is 30% acid. Water is added to dilute it to 15% acid. What is the amount of acid (in liters) and the total volume of the new solution (in liters)?\n\nSelect one value for each column.",
     choices: ["10", "15", "50", "75", "100", "150"],
     correctAnswer: 1,
+    correctAnswerB: 4,
     explanation:
       "Amount of acid = 50 × 0.30 = 15 liters (this doesn't change when water is added). For the new solution: 15 / V = 0.15, so V = 15 / 0.15 = 100 liters.\n\nAmount of acid = 15 (column 1, index 1), Total volume = 100 (column 2, index 4).\n\nVerification: 15 liters acid in 100 liters total = 15%.",
     source: SOURCE,
@@ -851,6 +854,7 @@ export const dataInsightsQuestions: Question[] = [
     text: "A company's profit function is P(x) = -2x² + 24x - 40, where x is the number of units sold (in thousands). Find the number of units sold that maximizes profit and the maximum profit.\n\nSelect one value for each column.",
     choices: ["4", "6", "12", "24", "32", "40"],
     correctAnswer: 1,
+    correctAnswerB: 4,
     explanation:
       "P(x) = -2x² + 24x - 40. The maximum occurs at x = -b/(2a) = -24/(2×(-2)) = -24/(-4) = 6. Maximum profit = P(6) = -2(36) + 24(6) - 40 = -72 + 144 - 40 = 32.\n\nUnits sold (thousands) = 6 (column 1, index 1), Maximum profit = 32 (column 2, index 4).\n\nVerification: P(6) = -2(36) + 144 - 40 = -72 + 144 - 40 = 32.",
     source: SOURCE,
@@ -866,6 +870,7 @@ export const dataInsightsQuestions: Question[] = [
     text: "Two trains leave the same station at the same time, traveling in opposite directions. Train A travels at a speed that is 20 mph faster than Train B. After 2 hours, they are 280 miles apart. Find the speed of Train A and the speed of Train B.\n\nSelect one value for each column.",
     choices: ["40", "50", "60", "70", "80", "90"],
     correctAnswer: 4,
+    correctAnswerB: 2,
     explanation:
       "Let Train B's speed = b mph. Then Train A's speed = b + 20 mph. After 2 hours: distance apart = 2b + 2(b + 20) = 280 → 2b + 2b + 40 = 280 → 4b = 240 → b = 60. Train A's speed = 80 mph.\n\nSpeed of Train A = 80 (column 1, index 4), Speed of Train B = 60 (column 2, index 2).\n\nVerification: 2(80) + 2(60) = 160 + 120 = 280 miles.",
     source: SOURCE,
@@ -881,6 +886,7 @@ export const dataInsightsQuestions: Question[] = [
     text: "A rectangular garden has a perimeter of 56 meters. The length is 4 meters more than twice the width. Find the length and width of the garden.\n\nSelect one value for each column.",
     choices: ["6", "8", "12", "16", "20", "24"],
     correctAnswer: 4,
+    correctAnswerB: 1,
     explanation:
       "Let w = width, l = length. We have: 2l + 2w = 56 → l + w = 28. Also, l = 2w + 4. Substituting: (2w + 4) + w = 28 → 3w = 24 → w = 8. l = 2(8) + 4 = 20.\n\nLength = 20 (column 1, index 4), Width = 8 (column 2, index 1).\n\nVerification: 2(20) + 2(8) = 40 + 16 = 56 meters. Length = 20 = 2(8) + 4.",
     source: SOURCE,
@@ -896,6 +902,7 @@ export const dataInsightsQuestions: Question[] = [
     text: "An investor splits $10,000 between two accounts. Account A earns 5% simple annual interest and Account B earns 8% simple annual interest. After one year, the total interest earned is $620. How much was invested in each account?\n\nSelect one value for each column.",
     choices: ["$1,000", "$2,000", "$4,000", "$6,000", "$8,000", "$9,000"],
     correctAnswer: 3,
+    correctAnswerB: 2,
     explanation:
       "Let a = amount in Account A, b = amount in Account B. We have: a + b = 10,000 and 0.05a + 0.08b = 620. From the first equation: a = 10,000 - b. Substituting: 0.05(10,000 - b) + 0.08b = 620 → 500 - 0.05b + 0.08b = 620 → 0.03b = 120 → b = 4,000. So a = 6,000.\n\nAccount A = $6,000 (column 1, index 3), Account B = $4,000 (column 2, index 2).\n\nVerification: 0.05(6,000) + 0.08(4,000) = 300 + 320 = $620.",
     source: SOURCE,
@@ -911,6 +918,7 @@ export const dataInsightsQuestions: Question[] = [
     text: "A sequence is defined by a₁ = k and aₙ = 3aₙ₋₁ + 2 for n ≥ 2. If a₃ = 26, find the value of k (which is a₁) and the value of a₂.\n\nSelect one value for each column.",
     choices: ["2", "6", "8", "14", "24", "26"],
     correctAnswer: 0,
+    correctAnswerB: 2,
     explanation:
       "Using the recurrence: a₂ = 3k + 2, and a₃ = 3a₂ + 2 = 3(3k + 2) + 2 = 9k + 8. Setting a₃ = 26: 9k + 8 = 26 → 9k = 18 → k = 2. Then a₂ = 3(2) + 2 = 8.\n\nValue of k = 2 (column 1, index 0), Value of a₂ = 8 (column 2, index 2).\n\nVerification: a₁ = 2, a₂ = 3(2) + 2 = 8, a₃ = 3(8) + 2 = 26.",
     source: SOURCE,
@@ -926,6 +934,7 @@ export const dataInsightsQuestions: Question[] = [
     text: "A factory produces widgets using two machines. Machine 1 produces 3 widgets per hour with a 10% defect rate. Machine 2 produces 5 widgets per hour with a 6% defect rate. In a combined 8-hour shift, the factory produces a total of 34 widgets per hour. Find the number of Machine 1 units and Machine 2 units operating.\n\nSelect one value for each column.",
     choices: ["2", "3", "4", "5", "6", "8"],
     correctAnswer: 1,
+    correctAnswerB: 3,
     explanation:
       "Let m₁ = number of Machine 1 units, m₂ = number of Machine 2 units. Total production rate: 3m₁ + 5m₂ = 34 widgets per hour.\n\nWe need to find integer solutions. Testing: If m₂ = 5: 3m₁ + 25 = 34 → 3m₁ = 9 → m₁ = 3. If m₂ = 4: 3m₁ = 14, not integer. If m₂ = 2: 3m₁ = 24 → m₁ = 8. Let's use m₁ = 3, m₂ = 5.\n\nMachine 1 units = 3 (column 1, index 1), Machine 2 units = 5 (column 2, index 3).\n\nVerification: 3(3) + 5(5) = 9 + 25 = 34 widgets per hour.",
     source: SOURCE,
@@ -941,6 +950,7 @@ export const dataInsightsQuestions: Question[] = [
     text: "In a math competition, correct answers earn 5 points each and incorrect answers lose 2 points each. Unanswered questions score 0. A student answered 20 questions out of 25 and scored 72 points. Find the number of correct answers and the number of incorrect answers.\n\nSelect one value for each column.",
     choices: ["2", "4", "6", "8", "12", "16"],
     correctAnswer: 5,
+    correctAnswerB: 1,
     explanation:
       "Let c = correct, w = wrong. We have: c + w = 20 (all answered questions) and 5c - 2w = 72 (total score). From the first equation: w = 20 - c. Substituting: 5c - 2(20 - c) = 72 → 5c - 40 + 2c = 72 → 7c = 112 → c = 16. w = 20 - 16 = 4.\n\nCorrect answers = 16 (column 1, index 5), Incorrect answers = 4 (column 2, index 1).\n\nVerification: 16 + 4 = 20 answered; 5(16) - 2(4) = 80 - 8 = 72 points.",
     source: SOURCE,

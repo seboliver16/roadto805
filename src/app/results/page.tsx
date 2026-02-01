@@ -4,9 +4,10 @@ import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { getSession } from "@/lib/store";
-import { PracticeSession, THEME_LABELS, Theme } from "@/types";
-import { questions } from "@/data/questions";
+import { PracticeSession, THEME_LABELS, Theme, Section, SECTION_LABELS, SECTION_COLORS } from "@/types";
+import { questionMap } from "@/data/questions";
 import { PageSkeleton } from "@/components/loading-skeleton";
+import { ProgressRing } from "@/components/progress-ring";
 
 function ResultsContent() {
   const searchParams = useSearchParams();
@@ -18,9 +19,7 @@ function ResultsContent() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!authLoading && !user) {
-      router.push("/");
-    }
+    if (!authLoading && !user) router.push("/");
   }, [user, authLoading, router]);
 
   useEffect(() => {
@@ -37,6 +36,9 @@ function ResultsContent() {
 
   const percentage = Math.round((session.score / session.total) * 100);
 
+  // Section breakdown if available
+  const sectionBreakdown = session.sectionBreakdown;
+
   // Find weak themes (< 75% accuracy)
   const weakThemes = Object.entries(session.themeBreakdown)
     .filter(([, data]) => data.correct / data.total < 0.75)
@@ -45,11 +47,11 @@ function ResultsContent() {
   const strongThemes = Object.entries(session.themeBreakdown)
     .filter(([, data]) => data.correct / data.total >= 0.75);
 
-  // Get missed question IDs
-  const missedQuestionIds = session.questionIds.filter((qId) => {
-    const q = questions.find((x) => x.id === qId);
+  // Get missed question count
+  const missedCount = session.questionIds.filter((qId) => {
+    const q = questionMap[qId];
     return q && session.answers[qId] !== q.correctAnswer;
-  });
+  }).length;
 
   return (
     <div className="min-h-screen">
@@ -66,13 +68,35 @@ function ResultsContent() {
       <main className="mx-auto max-w-3xl px-4 py-8">
         {/* Score */}
         <div className="mb-8 rounded-xl bg-white p-8 shadow-sm border text-center">
-          <div className={`text-6xl font-bold ${percentage >= 70 ? "text-green-600" : percentage >= 50 ? "text-yellow-600" : "text-red-600"}`}>
-            {percentage}%
-          </div>
-          <p className="mt-2 text-gray-500">
+          <ProgressRing
+            percent={percentage}
+            size={120}
+            strokeWidth={8}
+            color={percentage >= 75 ? "text-green-600" : percentage >= 50 ? "text-yellow-600" : "text-red-600"}
+          />
+          <p className="mt-4 text-gray-500">
             {session.score} out of {session.total} correct
           </p>
         </div>
+
+        {/* Section Breakdown */}
+        {sectionBreakdown && (
+          <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {(["quant", "verbal", "data-insights"] as Section[]).map((section) => {
+              const data = sectionBreakdown[section];
+              if (!data || data.total === 0) return null;
+              const pct = Math.round((data.score / data.total) * 100);
+              const colors = SECTION_COLORS[section];
+              return (
+                <div key={section} className={`rounded-xl ${colors.bg} border ${colors.border} p-4 text-center`}>
+                  <p className={`text-sm font-medium ${colors.text}`}>{SECTION_LABELS[section]}</p>
+                  <p className="text-2xl font-bold">{pct}%</p>
+                  <p className="text-xs text-gray-500">{data.score}/{data.total}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
 
         {/* Weak Themes */}
         {weakThemes.length > 0 && (
@@ -88,10 +112,7 @@ function ResultsContent() {
                       <span className="text-sm text-red-600 font-semibold">{pct}% ({data.correct}/{data.total})</span>
                     </div>
                     <div className="mt-2 h-2 rounded-full bg-gray-100">
-                      <div
-                        className="h-2 rounded-full bg-red-500 transition-all"
-                        style={{ width: `${pct}%` }}
-                      />
+                      <div className="h-2 rounded-full bg-red-500 transition-all" style={{ width: `${pct}%` }} />
                     </div>
                   </div>
                 );
@@ -116,12 +137,12 @@ function ResultsContent() {
 
         {/* Actions */}
         <div className="space-y-3">
-          {missedQuestionIds.length > 0 && (
+          {missedCount > 0 && (
             <button
               onClick={() => router.push(`/review?session=${sessionId}`)}
               className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors"
             >
-              Review Missed Questions ({missedQuestionIds.length})
+              Review Missed Questions ({missedCount})
             </button>
           )}
           {weakThemes.length > 0 && (

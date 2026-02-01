@@ -55,7 +55,7 @@ function DiagnosticResultsContent() {
     return <PageSkeleton label="Loading results..." />;
   }
 
-  const sectionBreakdown = session.sectionBreakdown ?? {};
+  const sectionBreakdown: Partial<Record<Section, { score: number; total: number }>> = session.sectionBreakdown ?? {};
   const overallPercent = session.total > 0 ? Math.round((session.score / session.total) * 100) : 0;
 
   return (

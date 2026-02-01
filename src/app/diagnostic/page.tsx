@@ -32,6 +32,7 @@ function DiagnosticContent() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [selectedAnswerB, setSelectedAnswerB] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -80,15 +81,15 @@ function DiagnosticContent() {
 
   const currentQuestion = questions[currentIndex];
 
-  // Determine section boundaries
-  const getSectionForIndex = (idx: number): Section | undefined => {
-    return questions[idx]?.section;
-  };
+  const isTPA = currentQuestion?.type === "two-part-analysis";
 
   const handleSubmit = useCallback(async () => {
     if (selectedAnswer === null || !currentQuestion || !user || !sessionId) return;
+    if (isTPA && selectedAnswerB === null) return;
 
-    const correct = selectedAnswer === currentQuestion.correctAnswer;
+    const correct = isTPA
+      ? selectedAnswer === currentQuestion.correctAnswer && selectedAnswerB === currentQuestion.correctAnswerB
+      : selectedAnswer === currentQuestion.correctAnswer;
     setShowResult(true);
     setAnswers((prev) => ({ ...prev, [currentQuestion.id]: selectedAnswer }));
 
@@ -101,12 +102,12 @@ function DiagnosticContent() {
       timestamp: Date.now(),
       sessionId,
     });
-  }, [selectedAnswer, currentQuestion, user, sessionId]);
+  }, [selectedAnswer, selectedAnswerB, currentQuestion, user, sessionId, isTPA]);
 
   const handleNext = useCallback(async () => {
     if (currentIndex < questions.length - 1) {
-      const currentSection = getSectionForIndex(currentIndex);
-      const nextSection = getSectionForIndex(currentIndex + 1);
+      const currentSection = questions[currentIndex]?.section;
+      const nextSection = questions[currentIndex + 1]?.section;
 
       if (currentSection !== nextSection && nextSection) {
         // Show section transition
@@ -117,11 +118,13 @@ function DiagnosticContent() {
           setTransitionSection(null);
           setCurrentIndex((i) => i + 1);
           setSelectedAnswer(null);
+          setSelectedAnswerB(null);
           setShowResult(false);
         }, 2000);
       } else {
         setCurrentIndex((i) => i + 1);
         setSelectedAnswer(null);
+        setSelectedAnswerB(null);
         setShowResult(false);
       }
     } else {
@@ -223,15 +226,17 @@ function DiagnosticContent() {
         <QuestionRenderer
           question={currentQuestion}
           selectedAnswer={selectedAnswer}
+          selectedAnswerB={selectedAnswerB}
           showResult={showResult}
           onSelectAnswer={setSelectedAnswer}
+          onSelectAnswerB={setSelectedAnswerB}
         />
 
         <div className="mt-8">
           {!showResult ? (
             <button
               onClick={handleSubmit}
-              disabled={selectedAnswer === null}
+              disabled={selectedAnswer === null || (isTPA && selectedAnswerB === null)}
               className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Submit Answer

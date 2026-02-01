@@ -296,6 +296,7 @@ export interface Question {
   text: string;
   choices: string[];
   correctAnswer: number;
+  correctAnswerB?: number;
   explanation: string;
   source: QuestionSource;
   conceptExplanation?: string;

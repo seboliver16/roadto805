@@ -25,12 +25,12 @@ export default function Home() {
   }, [user, refreshProfile]);
 
   useEffect(() => {
-    if (user && profile?.currentStudyPlanId) {
-      setPlanLoading(true);
-      getUserStudyPlan(user.uid)
-        .then(setStudyPlan)
-        .finally(() => setPlanLoading(false));
-    }
+    if (!user || !profile?.currentStudyPlanId) return;
+    let cancelled = false;
+    getUserStudyPlan(user.uid)
+      .then((plan) => { if (!cancelled) setStudyPlan(plan); })
+      .finally(() => { if (!cancelled) setPlanLoading(false); });
+    return () => { cancelled = true; };
   }, [user, profile?.currentStudyPlanId]);
 
   if (loading) {
@@ -99,7 +99,7 @@ export default function Home() {
           </div>
           <button
             onClick={() => router.push("/diagnostic")}
-            className="mt-8 rounded-xl bg-blue-600 px-10 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors"
+            className="mt-8 rounded-xl bg-blue-600 px-10 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors btn-press"
           >
             Start Diagnostic Test
           </button>
@@ -204,13 +204,13 @@ export default function Home() {
       <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <button
           onClick={() => router.push("/practice")}
-          className="rounded-xl bg-blue-600 px-6 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors"
+          className="rounded-xl bg-blue-600 px-6 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors btn-press"
         >
           Start Practice Session
         </button>
         <button
           onClick={() => router.push("/learn")}
-          className="rounded-xl border-2 border-blue-600 bg-white px-6 py-4 text-lg font-semibold text-blue-600 hover:bg-blue-50 transition-colors"
+          className="rounded-xl border-2 border-blue-600 bg-white px-6 py-4 text-lg font-semibold text-blue-600 hover:bg-blue-50 transition-colors btn-press"
         >
           Continue Learning
         </button>
@@ -229,7 +229,7 @@ export default function Home() {
               <button
                 key={key}
                 onClick={() => router.push(`/practice?category=${key}`)}
-                className="rounded-xl bg-white p-5 text-left shadow-sm border hover:shadow-md transition-shadow"
+                className="rounded-xl bg-white p-5 text-left shadow-subtle border card-hover"
               >
                 <div className="flex items-center gap-2 mb-1">
                   <span className={`h-2 w-2 rounded-full ${colors.accent}`} />

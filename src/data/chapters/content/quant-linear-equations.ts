@@ -31,6 +31,8 @@ Solve $3(x - 2) + 4 = 2x + 7$.
 - Subtract $2x$: $x - 2 = 7$
 - Add 2: $x = 9$
 
+> **Quick Method:** After solving, always plug your answer back into the original equation to verify. Here: $3(9-2) + 4 = 3(7) + 4 = 25$, and $2(9) + 7 = 25$. It checks out. This 5-second check catches most arithmetic errors.
+
 ### Equations with Fractions
 
 When fractions appear, **clear them first**. If you see:
@@ -45,6 +47,22 @@ $$7x = 63$$
 $$x = 9$$
 
 This is much faster than working with fractions throughout.
+
+> **Common Trap:** When clearing fractions, you must multiply **every** term by the LCD, including any standalone constants. A common error is multiplying only the fraction terms. For example, in $\\frac{x}{3} + 2 = 5$, multiplying by 3 gives $x + 6 = 15$, NOT $x + 2 = 15$.
+
+**Example:** Solve $\\frac{2x + 1}{5} - \\frac{x - 3}{2} = 1$.
+
+**Solution:**
+
+LCD of 5 and 2 is 10. Multiply every term by 10:
+
+$$2(2x + 1) - 5(x - 3) = 10$$
+$$4x + 2 - 5x + 15 = 10$$
+$$-x + 17 = 10$$
+$$-x = -7$$
+$$x = \\textbf{7}$$
+
+Verify: $\\frac{2(7)+1}{5} - \\frac{7-3}{2} = \\frac{15}{5} - \\frac{4}{2} = 3 - 2 = 1$ ✓
 
 ---
 
@@ -64,9 +82,35 @@ The GMAT loves to test whether you can convert English into algebra. Here is a r
    - "the difference between A and B" $\\rightarrow$ $A - B$
 4. **Set up** and **solve** the equation.
 
-**Common traps:**
-- "5 less than $x$" is $x - 5$, **not** $5 - x$.
-- "A is 3 more than twice B" becomes $A = 2B + 3$.
+> **Common Trap:** "5 less than $x$" is $x - 5$, **not** $5 - x$. The order matters with subtraction. Similarly, "A is 3 more than twice B" becomes $A = 2B + 3$, NOT $A + 3 = 2B$. The word "is" marks the equals sign; everything before "is" goes on the left.
+
+**Example:** "The sum of three consecutive integers is 72. What is the largest integer?"
+
+**Solution:**
+
+Let the integers be $n$, $n+1$, and $n+2$.
+
+$$n + (n+1) + (n+2) = 72$$
+$$3n + 3 = 72$$
+$$3n = 69$$
+$$n = 23$$
+
+The largest integer is $n + 2 = \\textbf{25}$.
+
+> **Quick Method:** For consecutive integers summing to $S$, the middle value is always $\\frac{S}{\\text{count}}$. Here, $\\frac{72}{3} = 24$ is the middle integer, so the three integers are 23, 24, 25. This works for any count of consecutive integers.
+
+**Example:** "Maria is 4 years older than twice her son's age. If the sum of their ages is 49, how old is Maria?"
+
+**Solution:**
+
+Let the son's age be $s$. Then Maria's age is $2s + 4$.
+
+$$s + (2s + 4) = 49$$
+$$3s + 4 = 49$$
+$$3s = 45$$
+$$s = 15$$
+
+Maria's age $= 2(15) + 4 = \\textbf{34}$
 
 ---
 
@@ -103,6 +147,8 @@ $$x = 2$$
 
 Then $y = 2(2) + 1 = 5$. The solution is $(2, 5)$.
 
+> **Quick Method:** Choose substitution when one variable has a coefficient of 1 or -1 (easy to isolate). Choose elimination when both variables have larger coefficients or when coefficients are set up for easy cancellation.
+
 ### 3b. Elimination Method
 
 **When to use:** Neither variable is easily isolated, or you can quickly match coefficients.
@@ -125,6 +171,28 @@ $$6x = 18 \\implies x = 3$$
 Substitute back: $2(3) + 3y = 12 \\implies 3y = 6 \\implies y = 2$.
 
 Solution: $(3, 2)$.
+
+**Example:** Solve the system:
+
+$$3x + 2y = 19$$
+$$5x + 3y = 30$$
+
+**Solution:**
+
+Multiply the first equation by 3 and the second by 2 so the $y$-coefficients match:
+
+$$9x + 6y = 57$$
+$$10x + 6y = 60$$
+
+Subtract the first from the second:
+
+$$x = 3$$
+
+Back-substitute: $3(3) + 2y = 19 \\implies 2y = 10 \\implies y = 5$.
+
+Solution: $(3, 5)$.
+
+> **Common Trap:** When subtracting equations, students often make sign errors. If you are subtracting $9x + 6y = 57$ from $10x + 6y = 60$, that means $(10x - 9x) + (6y - 6y) = (60 - 57)$, giving $x = 3$. Be careful with every sign. If in doubt, multiply one equation by $-1$ first and then **add** instead of subtracting.
 
 ---
 
@@ -166,11 +234,24 @@ For the system $a_1 x + b_1 y = c_1$ and $a_2 x + b_2 y = c_2$:
 
 This ratio check can save valuable time on Data Sufficiency questions.
 
+> **Quick Method:** On Data Sufficiency, when you see two linear equations, immediately compare their coefficient ratios before solving. If the ratios match (equations are proportional), the second equation adds no new information, and the answer is "not sufficient." This 10-second check can save you from 2 minutes of unnecessary algebra.
+
+**Example:** Does the system $4x + 6y = 20$ and $6x + 9y = 30$ have a unique solution?
+
+**Solution:**
+
+Check ratios: $\\frac{4}{6} = \\frac{2}{3}$, $\\frac{6}{9} = \\frac{2}{3}$, $\\frac{20}{30} = \\frac{2}{3}$.
+
+All three ratios are equal, so the system has **infinitely many solutions** (the equations are proportional).
+
+> **Common Trap:** Students often assume that two equations with two unknowns always give a unique solution. This is only true when the equations are **independent** (not proportional). Always check before assuming sufficiency in Data Sufficiency questions.
+
 ---
 
 ## 5. Key Formulas & Identities
 
-- **Standard form:** $ax + b = c \\implies x = \\frac{c - b}{a}$
+$$\\boxed{ax + b = c \\implies x = \\frac{c - b}{a}}$$
+
 - **Two-variable system (Cramer's Rule shortcut):** For $a_1 x + b_1 y = c_1$ and $a_2 x + b_2 y = c_2$:
 
 $$x = \\frac{c_1 b_2 - c_2 b_1}{a_1 b_2 - a_2 b_1}, \\quad y = \\frac{a_1 c_2 - a_2 c_1}{a_1 b_2 - a_2 b_1}$$
@@ -227,6 +308,8 @@ $3\\left(\\frac{50}{13}\\right) + 4y = 26 \\implies \\frac{150}{13} + 4y = 26 \\
 
 $y = \\frac{47}{13}$
 
+> **Common Trap:** Getting a "messy" fraction on a GMAT problem-solving question is a strong signal that you made an error somewhere. GMAT answers are almost always clean integers or simple fractions. If you get $\\frac{50}{13}$, re-read the problem and re-check your arithmetic before moving on.
+
 ### Example 3: Data Sufficiency Style
 
 **Problem:** What is the value of $x + y$?
@@ -244,6 +327,8 @@ Statement (2): $x - y = 3$ gives us the difference, not the sum. **Not sufficien
 Answer: **(A)** --- Statement (1) alone is sufficient.
 
 **Key insight:** The GMAT often asks for the value of an *expression* (like $x + y$ or $3x - 2y$), not individual variables. Always check whether you can get the target expression directly without fully solving the system.
+
+> **Quick Method:** When the question asks for an expression like $x + y$ or $2x - y$, try to manipulate the given equation(s) to produce that exact expression. Add the equations, subtract them, multiply by a constant---whatever gets you to the target. Do NOT default to solving for individual variables.
 
 ### Example 4: No-Solution System
 
@@ -263,6 +348,76 @@ Rewrite in slope-intercept form:
 Set slopes equal: $\\frac{k}{4} = \\frac{1}{2} \\implies k = 2$.
 
 Check intercepts: $-2 \\neq -\\frac{5}{4}$, so the lines are indeed parallel. $k = 2$.
+
+### Example 5: Back-Solving (Plugging In Answer Choices)
+
+**Problem:** If $4x - 7 = 2x + 11$, what is $x$?
+
+(A) 2  (B) 5  (C) 7  (D) 9  (E) 12
+
+**Solution (algebraic):**
+
+$$4x - 7 = 2x + 11$$
+$$2x = 18$$
+$$x = 9$$
+
+Answer: **(D)**
+
+**Solution (back-solving):** Start with choice (C): $x = 7$.
+
+Left side: $4(7) - 7 = 21$. Right side: $2(7) + 11 = 25$. $21 \\neq 25$, and left is too small, so we need a larger $x$.
+
+Try (D): $x = 9$. Left: $4(9) - 7 = 29$. Right: $2(9) + 11 = 29$. ✓ Answer: **(D)**.
+
+> **Quick Method:** Back-solving (plugging in answer choices) is a powerful alternative on Problem Solving questions. Start with choice (C), the middle value. If it is too small, move to (D) or (E); if too large, move to (A) or (B). This process takes at most 3 tries.
+
+### Example 6: Age Word Problem
+
+**Problem:** Five years ago, a father was 3 times as old as his son. In 10 years, the father will be twice as old as his son. How old is the father now?
+
+**Solution:**
+
+Let $f$ = father's current age, $s$ = son's current age.
+
+Five years ago: $f - 5 = 3(s - 5)$
+
+$$f - 5 = 3s - 15 \\implies f = 3s - 10 \\quad \\text{...(1)}$$
+
+In 10 years: $f + 10 = 2(s + 10)$
+
+$$f + 10 = 2s + 20 \\implies f = 2s + 10 \\quad \\text{...(2)}$$
+
+Set (1) equal to (2):
+
+$$3s - 10 = 2s + 10$$
+$$s = 20$$
+
+From (2): $f = 2(20) + 10 = \\textbf{50}$
+
+Verify: Five years ago: father was 45, son was 15. $45 = 3 \\times 15$ ✓
+
+In 10 years: father will be 60, son will be 30. $60 = 2 \\times 30$ ✓
+
+### Example 7: System with Three Variables (Hidden Constraint)
+
+**Problem:** At a bakery, 2 muffins and 1 scone cost \\$7. One muffin and 2 scones cost \\$8. How much do 3 muffins and 3 scones cost?
+
+**Solution:**
+
+Let $m$ = price of a muffin, $s$ = price of a scone.
+
+$$2m + s = 7 \\quad \\text{...(1)}$$
+$$m + 2s = 8 \\quad \\text{...(2)}$$
+
+The question asks for $3m + 3s$. Add equations (1) and (2):
+
+$$3m + 3s = 15$$
+
+Answer: $\\textbf{\\$15}$.
+
+> **Quick Method:** We never needed to find $m$ and $s$ individually. The GMAT loves this: the target expression can be obtained directly by adding, subtracting, or scaling the given equations. Before solving for individual variables, always check if you can get the target expression in one step.
+
+> **Common Trap:** Solving for $m$ and $s$ individually wastes time here. From equation (1), $s = 7 - 2m$; substituting into (2): $m + 2(7-2m) = 8$, so $m + 14 - 4m = 8$, giving $m = 2$ and $s = 3$. Then $3(2) + 3(3) = 15$. Same answer, but took much longer. The GMAT rewards recognizing the shortcut.
 
 ---
 

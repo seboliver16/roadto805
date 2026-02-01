@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Question, THEME_LABELS, QUESTION_TYPE_LABELS } from "@/types";
 import { Badge } from "../badge";
 import { SourceBadge } from "../source-badge";
+import { SelectablePassage } from "../selectable-passage";
 
 interface Props {
   question: Question;
@@ -46,9 +47,10 @@ export function ReadingComprehension({ question, selectedAnswer, showResult, onS
           </button>
           {passageExpanded && (
             <div className="px-4 pb-4">
-              <p className="text-sm leading-relaxed text-slate-800 whitespace-pre-line">
-                {question.passage}
-              </p>
+              <SelectablePassage
+                passage={question.passage!}
+                questionContext={question.text}
+              />
             </div>
           )}
         </div>
@@ -83,8 +85,8 @@ export function ReadingComprehension({ question, selectedAnswer, showResult, onS
               key={i}
               onClick={() => !showResult && onSelectAnswer(i)}
               disabled={showResult}
-              className={`w-full rounded-lg border-2 ${borderColor} ${bg} p-4 text-left transition-colors ${
-                !showResult ? "hover:border-blue-300 hover:bg-blue-50" : ""
+              className={`w-full rounded-xl border-2 ${borderColor} ${bg} p-4 text-left choice-hover ${
+                !showResult ? "hover:border-blue-300 hover:bg-blue-50/50" : ""
               }`}
             >
               <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold">

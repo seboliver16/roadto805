@@ -7,12 +7,16 @@ import { SourceBadge } from "../source-badge";
 interface Props {
   question: Question;
   selectedAnswer: number | null;
+  selectedAnswerB?: number | null;
   showResult: boolean;
   onSelectAnswer: (index: number) => void;
+  onSelectAnswerB?: (index: number) => void;
 }
 
-export function TwoPartAnalysis({ question, selectedAnswer, showResult, onSelectAnswer }: Props) {
+export function TwoPartAnalysis({ question, selectedAnswer, selectedAnswerB, showResult, onSelectAnswer, onSelectAnswerB }: Props) {
   const columns = question.twoPartColumns ?? ["Column 1", "Column 2"];
+  const correctA = question.correctAnswer;
+  const correctB = question.correctAnswerB ?? -1;
 
   return (
     <div className="animate-fade-in">
@@ -40,53 +44,116 @@ export function TwoPartAnalysis({ question, selectedAnswer, showResult, onSelect
         <span className="text-xs font-semibold text-gray-500">Answer Choices</span>
       </div>
 
-      {/* Choices as rows -- simplified: select one answer that best fits */}
+      {/* Choices as rows with independent radio buttons per column */}
       <div className="space-y-2">
         {question.choices.map((choice, i) => {
-          let borderColor = "border-gray-200";
+          // Determine row background based on result state
           let bg = "bg-white";
+          let borderColor = "border-gray-200";
 
           if (showResult) {
-            if (i === question.correctAnswer) {
-              borderColor = "border-green-500";
+            const isCorrectA = i === correctA;
+            const isCorrectB = i === correctB;
+            const isWrongA = i === selectedAnswer && i !== correctA;
+            const isWrongB = i === selectedAnswerB && i !== correctB;
+
+            if (isCorrectA || isCorrectB) {
               bg = "bg-green-50";
-            } else if (i === selectedAnswer && i !== question.correctAnswer) {
-              borderColor = "border-red-500";
+              borderColor = "border-green-300";
+            } else if (isWrongA || isWrongB) {
               bg = "bg-red-50";
+              borderColor = "border-red-300";
             }
-          } else if (selectedAnswer === i) {
-            borderColor = "border-blue-500";
-            bg = "bg-blue-50";
+          }
+
+          // Column A radio state
+          const isSelectedA = selectedAnswer === i;
+          const isCorrectACell = showResult && i === correctA;
+          const isWrongACell = showResult && i === selectedAnswer && i !== correctA;
+
+          // Column B radio state
+          const isSelectedB = selectedAnswerB === i;
+          const isCorrectBCell = showResult && i === correctB;
+          const isWrongBCell = showResult && i === selectedAnswerB && i !== correctB;
+
+          function radioClasses(selected: boolean, isCorrect: boolean, isWrong: boolean) {
+            if (isCorrect) return "border-green-500 bg-green-500";
+            if (isWrong) return "border-red-500 bg-red-500";
+            if (selected && !showResult) return "border-blue-500 bg-blue-500";
+            return "border-gray-300";
           }
 
           return (
-            <button
+            <div
               key={i}
-              onClick={() => !showResult && onSelectAnswer(i)}
-              disabled={showResult}
-              className={`w-full grid grid-cols-[80px_80px_1fr] gap-2 items-center rounded-lg border-2 ${borderColor} ${bg} p-3 text-left transition-colors ${
-                !showResult ? "hover:border-blue-300 hover:bg-blue-50" : ""
-              }`}
+              className={`grid grid-cols-[80px_80px_1fr] gap-2 items-center rounded-lg border-2 ${borderColor} ${bg} p-3 transition-colors`}
             >
-              <div className="flex justify-center">
-                <div className={`h-4 w-4 rounded-full border-2 ${
-                  selectedAnswer === i || (showResult && i === question.correctAnswer)
-                    ? "border-blue-500 bg-blue-500"
-                    : "border-gray-300"
-                }`} />
-              </div>
-              <div className="flex justify-center">
-                <div className={`h-4 w-4 rounded-full border-2 ${
-                  showResult && i === question.correctAnswer
-                    ? "border-green-500 bg-green-500"
-                    : "border-gray-300"
-                }`} />
-              </div>
+              {/* Column A radio */}
+              <button
+                type="button"
+                onClick={() => !showResult && onSelectAnswer(i)}
+                disabled={showResult}
+                className="flex justify-center"
+                aria-label={`${columns[0]}: ${choice}`}
+              >
+                <div className={`h-5 w-5 rounded-full border-2 transition-colors ${radioClasses(isSelectedA, isCorrectACell, isWrongACell)}`}>
+                  {(isSelectedA || isCorrectACell) && (
+                    <div className="flex h-full w-full items-center justify-center">
+                      <div className="h-2 w-2 rounded-full bg-white" />
+                    </div>
+                  )}
+                </div>
+              </button>
+
+              {/* Column B radio */}
+              <button
+                type="button"
+                onClick={() => !showResult && onSelectAnswerB?.(i)}
+                disabled={showResult}
+                className="flex justify-center"
+                aria-label={`${columns[1]}: ${choice}`}
+              >
+                <div className={`h-5 w-5 rounded-full border-2 transition-colors ${radioClasses(isSelectedB, isCorrectBCell, isWrongBCell)}`}>
+                  {(isSelectedB || isCorrectBCell) && (
+                    <div className="flex h-full w-full items-center justify-center">
+                      <div className="h-2 w-2 rounded-full bg-white" />
+                    </div>
+                  )}
+                </div>
+              </button>
+
+              {/* Choice text */}
               <span className="text-sm">{choice}</span>
-            </button>
+            </div>
           );
         })}
       </div>
+
+      {/* Result labels */}
+      {showResult && (
+        <div className="mt-4 space-y-1 text-sm">
+          <p>
+            <span className="font-medium">{columns[0]}:</span>{" "}
+            {selectedAnswer === correctA ? (
+              <span className="text-green-600 font-medium">Correct</span>
+            ) : (
+              <span className="text-red-600 font-medium">
+                Incorrect (you chose {question.choices[selectedAnswer ?? 0]}, correct is {question.choices[correctA]})
+              </span>
+            )}
+          </p>
+          <p>
+            <span className="font-medium">{columns[1]}:</span>{" "}
+            {selectedAnswerB === correctB ? (
+              <span className="text-green-600 font-medium">Correct</span>
+            ) : (
+              <span className="text-red-600 font-medium">
+                Incorrect (you chose {question.choices[selectedAnswerB ?? 0]}, correct is {question.choices[correctB]})
+              </span>
+            )}
+          </p>
+        </div>
+      )}
 
       {/* Explanation */}
       {showResult && (

@@ -24,6 +24,8 @@ $$a^n = \\underbrace{a \\times a \\times a \\times \\cdots \\times a}_{n \\text{
 - A **negative** base raised to an **even** power is **positive**.
 - A **negative** base raised to an **odd** power is **negative**.
 
+> **Common Trap:** $(-3)^4 = 81$ but $-3^4 = -(3^4) = -81$. The parentheses make all the difference. Without parentheses, the exponent applies only to $3$, and the negative sign is applied afterward. The GMAT tests this distinction frequently.
+
 ---
 
 ## Exponent Rules
@@ -37,6 +39,8 @@ When multiplying powers with the same base, **add** the exponents:
 $$a^m \\times a^n = a^{m+n}$$
 
 **Example:** $2^3 \\times 2^5 = 2^{3+5} = 2^8 = 256$
+
+> **Common Trap:** The Product Rule only works when the **bases are the same**. You cannot simplify $2^3 \\times 3^5$ by adding exponents. Students sometimes try $6^8$, which is completely wrong. If bases differ, you must find a common base or compute directly.
 
 ### 2. Quotient Rule (Same Base)
 
@@ -54,17 +58,23 @@ $$(a^m)^n = a^{mn}$$
 
 **Example:** $(3^2)^4 = 3^{2 \\times 4} = 3^8 = 6{,}561$
 
+> **Common Trap:** Do not confuse $(a^m)^n$ with $a^{m^n}$. These are very different:
+> - $(2^3)^2 = 2^6 = 64$
+> - $2^{3^2} = 2^9 = 512$
+>
+> The first multiplies exponents; the second raises the exponent to a power first (exponentiation is right-associative).
+
 ### 4. Power of a Product
 
-$$({ab})^n = a^n \\times b^n$$
+$$(ab)^n = a^n \\times b^n$$
 
 **Example:** $(2 \\times 5)^3 = 2^3 \\times 5^3 = 8 \\times 125 = 1{,}000$
 
 ### 5. Power of a Quotient
 
-$$(\\frac{a}{b})^n = \\frac{a^n}{b^n}$$
+$$\\left(\\frac{a}{b}\\right)^n = \\frac{a^n}{b^n}$$
 
-**Example:** $(\\frac{3}{4})^2 = \\frac{3^2}{4^2} = \\frac{9}{16}$
+**Example:** $\\left(\\frac{3}{4}\\right)^2 = \\frac{3^2}{4^2} = \\frac{9}{16}$
 
 ### 6. Zero Exponent
 
@@ -72,7 +82,7 @@ Any nonzero base raised to the power of zero equals 1:
 
 $$a^0 = 1 \\quad (a \\neq 0)$$
 
-**Examples:** $5^0 = 1$, $(-7)^0 = 1$, $(\\frac{3}{4})^0 = 1$
+**Examples:** $5^0 = 1$, $(-7)^0 = 1$, $\\left(\\frac{3}{4}\\right)^0 = 1$
 
 **Note:** $0^0$ is undefined on the GMAT (and in most mathematical contexts the GMAT cares about).
 
@@ -85,7 +95,9 @@ $$a^{-n} = \\frac{1}{a^n}$$
 **Examples:**
 - $2^{-3} = \\frac{1}{2^3} = \\frac{1}{8}$
 - $\\frac{1}{5^{-2}} = 5^2 = 25$
-- $(\\frac{2}{3})^{-2} = (\\frac{3}{2})^2 = \\frac{9}{4}$
+- $\\left(\\frac{2}{3}\\right)^{-2} = \\left(\\frac{3}{2}\\right)^2 = \\frac{9}{4}$
+
+> **Quick Method:** To handle a negative exponent on a fraction, just flip the fraction and make the exponent positive: $\\left(\\frac{a}{b}\\right)^{-n} = \\left(\\frac{b}{a}\\right)^n$. This saves a step.
 
 ---
 
@@ -102,6 +114,8 @@ $$a^{m/n} = (\\sqrt[n]{a})^m = \\sqrt[n]{a^m}$$
 - $8^{2/3} = (\\sqrt[3]{8})^2 = 2^2 = 4$
 - $16^{3/4} = (\\sqrt[4]{16})^3 = 2^3 = 8$
 
+> **Quick Method:** When evaluating $a^{m/n}$, always take the root first, then raise to the power. Taking the root first keeps the numbers small. For $64^{2/3}$: cube root of 64 is 4, then $4^2 = 16$. Much easier than computing $64^2 = 4096$ first and then taking the cube root.
+
 ### Square Roots
 
 The **square root** $\\sqrt{a} = a^{1/2}$ is the most common root on the GMAT.
@@ -110,6 +124,8 @@ The **square root** $\\sqrt{a} = a^{1/2}$ is the most common root on the GMAT.
 - $\\sqrt{a}$ is defined for $a \\ge 0$ (in real numbers).
 - $\\sqrt{a}$ always refers to the **non-negative** root. So $\\sqrt{25} = 5$, not $\\pm 5$.
 - However, the equation $x^2 = 25$ has two solutions: $x = 5$ or $x = -5$. The GMAT tests this distinction.
+
+> **Common Trap:** $\\sqrt{25} = 5$ (always positive), but solving $x^2 = 25$ gives $x = \\pm 5$ (two solutions). Many students confuse these. The square root *symbol* denotes only the positive root. The *equation* $x^2 = k$ has two roots. Wrong answer choices on the GMAT exploit this distinction.
 
 ### Cube Roots
 
@@ -136,6 +152,8 @@ $$\\sqrt{72} = \\sqrt{36 \\times 2} = \\sqrt{36} \\times \\sqrt{2} = 6\\sqrt{2}$
 - $\\sqrt{200} = \\sqrt{100 \\times 2} = 10\\sqrt{2}$
 - $\\sqrt{48} = \\sqrt{16 \\times 3} = 4\\sqrt{3}$
 
+> **Quick Method:** To quickly find the largest perfect square factor, do prime factorization and pair up factors. $72 = 2^3 \\times 3^2$. Pair: one pair of 2s ($2^2 = 4$) and one pair of 3s ($3^2 = 9$). Outside: $2 \\times 3 = 6$. Remaining inside: one extra 2. Result: $6\\sqrt{2}$.
+
 ### Multiplying and Dividing Radicals
 
 $$\\sqrt{a} \\times \\sqrt{b} = \\sqrt{ab}$$
@@ -153,6 +171,8 @@ $$3\\sqrt{5} + 7\\sqrt{5} = 10\\sqrt{5}$$
 $$4\\sqrt{3} - \\sqrt{3} = 3\\sqrt{3}$$
 
 You **cannot** simplify $\\sqrt{2} + \\sqrt{3}$ into a single term.
+
+> **Common Trap:** Students sometimes write $\\sqrt{2} + \\sqrt{3} = \\sqrt{5}$. This is **wrong**. You cannot add numbers under separate radicals. Similarly, $\\sqrt{9 + 16} = \\sqrt{25} = 5$, but $\\sqrt{9} + \\sqrt{16} = 3 + 4 = 7$. These are not equal.
 
 ---
 
@@ -208,13 +228,19 @@ $$1, 8, 27, 64, 125, 216$$
 
 ## Key Formulas
 
-- **Product rule:** $a^m \\times a^n = a^{m+n}$
-- **Quotient rule:** $\\frac{a^m}{a^n} = a^{m-n}$
-- **Power rule:** $(a^m)^n = a^{mn}$
-- **Zero exponent:** $a^0 = 1$ (for $a \\neq 0$)
-- **Negative exponent:** $a^{-n} = \\frac{1}{a^n}$
-- **Fractional exponent:** $a^{m/n} = \\sqrt[n]{a^m}$
-- **Radical multiplication:** $\\sqrt{a} \\cdot \\sqrt{b} = \\sqrt{ab}$
+$$\\boxed{a^m \\times a^n = a^{m+n}}$$
+
+$$\\boxed{\\frac{a^m}{a^n} = a^{m-n}}$$
+
+$$\\boxed{(a^m)^n = a^{mn}}$$
+
+$$\\boxed{a^0 = 1 \\text{ (for } a \\neq 0\\text{)}}$$
+
+$$\\boxed{a^{-n} = \\frac{1}{a^n}}$$
+
+$$\\boxed{a^{m/n} = \\sqrt[n]{a^m}}$$
+
+$$\\boxed{\\sqrt{a} \\cdot \\sqrt{b} = \\sqrt{ab}}$$
 
 ---
 
@@ -240,6 +266,8 @@ $3^{30} = (3^3)^{10} = 27^{10}$
 
 Since $32 > 27$, we have $32^{10} > 27^{10}$, so $\\textbf{2^{50} > 3^{30}}$.
 
+> **Quick Method:** When comparing exponential expressions with different bases, try to rewrite them with the **same exponent**. Find a common factor of the exponents (here, 10) and express both as something raised to that power. The comparison then becomes trivial.
+
 ### Example 3: Fractional Exponents
 
 **Problem:** What is the value of $64^{2/3}$?
@@ -259,6 +287,80 @@ $$64^{2/3} = (\\sqrt[3]{64})^2 = 4^2 = \\textbf{16}$$
 $$\\frac{6}{\\sqrt{5} - \\sqrt{3}} \\times \\frac{\\sqrt{5} + \\sqrt{3}}{\\sqrt{5} + \\sqrt{3}} = \\frac{6(\\sqrt{5} + \\sqrt{3})}{(\\sqrt{5})^2 - (\\sqrt{3})^2} = \\frac{6(\\sqrt{5} + \\sqrt{3})}{5 - 3} = \\frac{6(\\sqrt{5} + \\sqrt{3})}{2}$$
 
 $$= \\textbf{3(\\sqrt{5} + \\sqrt{3})} = 3\\sqrt{5} + 3\\sqrt{3}$$
+
+### Example 5: Converting to a Common Base
+
+**Problem:** If $4^a \\times 8^b = 2^{10}$, and $a + b = 4$, what is the value of $a$?
+
+**Solution:**
+
+Rewrite everything in base 2:
+
+$$4^a = (2^2)^a = 2^{2a}$$
+$$8^b = (2^3)^b = 2^{3b}$$
+
+So: $2^{2a} \\times 2^{3b} = 2^{10}$
+
+Using the product rule: $2^{2a + 3b} = 2^{10}$
+
+$$2a + 3b = 10$$
+
+We also know $a + b = 4$, so $b = 4 - a$. Substitute:
+
+$$2a + 3(4 - a) = 10$$
+$$2a + 12 - 3a = 10$$
+$$-a = -2$$
+$$a = \\textbf{2}$$
+
+> **Quick Method:** Always rewrite $4$, $8$, $16$, $32$, and $64$ as powers of 2 when they appear together. Similarly, rewrite $9$, $27$, and $81$ as powers of 3. Getting everything to a common base is the single most powerful technique for GMAT exponent problems.
+
+### Example 6: Factoring Out Common Bases
+
+**Problem:** What is the value of $\\frac{2^{20} + 2^{18}}{2^{18}}$?
+
+**Solution:**
+
+Factor $2^{18}$ out of the numerator:
+
+$$\\frac{2^{18}(2^2 + 1)}{2^{18}} = 2^2 + 1 = 4 + 1 = \\textbf{5}$$
+
+> **Common Trap:** Students sometimes try to cancel the $2^{18}$ directly from only one term in the numerator, writing $\\frac{2^{20} + 2^{18}}{2^{18}} = 2^2 + 2^{18}$. This is wrong because you must divide **every** term in the numerator by the denominator. Always factor first, then cancel.
+
+### Example 7: Exponents Between 0 and 1
+
+**Problem:** If $0 < x < 1$, which of the following lists the expressions in order from least to greatest?
+
+(A) $x, x^2, \\sqrt{x}$
+(B) $x^2, x, \\sqrt{x}$
+(C) $\\sqrt{x}, x, x^2$
+(D) $x^2, \\sqrt{x}, x$
+(E) $\\sqrt{x}, x^2, x$
+
+**Solution:**
+
+Pick a test value. Let $x = \\frac{1}{4}$:
+
+- $x = \\frac{1}{4} = 0.25$
+- $x^2 = \\frac{1}{16} = 0.0625$
+- $\\sqrt{x} = \\frac{1}{2} = 0.5$
+
+Order from least to greatest: $x^2 < x < \\sqrt{x}$, i.e., $0.0625 < 0.25 < 0.5$.
+
+Answer: **(B)**
+
+> **Common Trap:** For bases between 0 and 1, exponent behavior is the **reverse** of what you expect. Higher powers make the number **smaller** (not bigger), and roots make the number **larger** (not smaller). This is the opposite of what happens for bases greater than 1. The GMAT exploits this reversal frequently.
+
+### Example 8: Negative Exponent in an Expression
+
+**Problem:** If $3^{-2} + 3^{-2} + 3^{-2} = 3^x$, what is $x$?
+
+**Solution:**
+
+$$3^{-2} + 3^{-2} + 3^{-2} = 3 \\cdot 3^{-2} = 3^1 \\cdot 3^{-2} = 3^{1 + (-2)} = 3^{-1}$$
+
+So $x = \\textbf{-1}$.
+
+> **Quick Method:** Adding $n$ copies of $a^k$ gives $n \\cdot a^k$. If $n$ itself is a power of $a$, you can combine: $a^m$ copies of $a^k$ equals $a^{m+k}$. Here, 3 copies of $3^{-2}$ equals $3^1 \\cdot 3^{-2} = 3^{-1}$.
 
 ---
 
