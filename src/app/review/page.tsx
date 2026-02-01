@@ -16,7 +16,7 @@ interface ReviewItem {
 function ReviewContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
 
   const sessionId = searchParams.get("session");
 
@@ -125,12 +125,13 @@ function ReviewContent() {
     }
   }, [weakThemes, reviewItems]);
 
-  if (!user) {
-    router.push("/");
-    return null;
-  }
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push("/");
+    }
+  }, [user, authLoading, router]);
 
-  if (loading) {
+  if (!user || loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="animate-pulse text-lg text-gray-500">Loading review...</div>

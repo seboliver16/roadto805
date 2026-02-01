@@ -19,7 +19,7 @@ function shuffleArray<T>(arr: T[]): T[] {
 function PracticeContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   const category = searchParams.get("category") as ThemeCategory | null;
   const themesParam = searchParams.get("themes");
@@ -128,12 +128,13 @@ function PracticeContent() {
     }
   }, [currentIndex, sessionQuestions, answers, currentQuestion, selectedAnswer, sessionId, user, router]);
 
-  if (!user) {
-    router.push("/");
-    return null;
-  }
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/");
+    }
+  }, [user, loading, router]);
 
-  if (sessionQuestions.length === 0) {
+  if (!user || sessionQuestions.length === 0) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="animate-pulse text-lg text-gray-500">Loading questions...</div>

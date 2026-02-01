@@ -10,11 +10,17 @@ import { questions } from "@/data/questions";
 function ResultsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const sessionId = searchParams.get("session");
 
   const [session, setSession] = useState<PracticeSession | null>(null);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push("/");
+    }
+  }, [user, authLoading, router]);
 
   useEffect(() => {
     if (!sessionId || !user) return;
@@ -24,12 +30,7 @@ function ResultsContent() {
     });
   }, [sessionId, user]);
 
-  if (!user) {
-    router.push("/");
-    return null;
-  }
-
-  if (loading || !session) {
+  if (!user || loading || !session) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="animate-pulse text-lg text-gray-500">Loading results...</div>

@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Road to 805
 
-## Getting Started
+Most GMAT prep is a grind. You do questions, see a score, maybe read an explanation, then move on. You never really learn *why* you're getting things wrong — you just see a list of missed questions with no structure.
 
-First, run the development server:
+Road to 805 fixes that.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## The idea
+
+When you miss GMAT questions, there are patterns. Maybe you consistently break down on number theory inside data sufficiency. Maybe you nail algebra but fall apart on combinatorics. The problem is that traditional practice never surfaces these patterns — it just tells you "7/10" and moves on.
+
+Road to 805 is built around one loop:
+
+```
+Practice → Diagnose → Learn → Drill → Repeat
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. **Practice** — Take a 10-question quant session. Questions are tagged with granular themes (not just "algebra" but "inequalities + absolute value").
+2. **Diagnose** — Results break down your performance by theme. Not just a score — a map of exactly where you're strong and where you're breaking down.
+3. **Learn** — Review mode walks you through every missed question step-by-step with AI-generated explanations personalized to *your wrong answer*. It doesn't just show the solution — it explains why your thinking went wrong.
+4. **Drill** — After review, you get served more questions targeting your specific weak themes. Not random practice — surgical repetition on the exact patterns you need.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Theme taxonomy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Questions are tagged across 25 granular themes in 5 categories:
 
-## Learn More
+- **Arithmetic** — Number properties, divisibility & primes, remainders, fractions, percentages, ratios, exponents
+- **Algebra** — Linear equations, quadratics, inequalities, absolute value, functions, sequences
+- **Geometry** — Triangles, circles, coordinate geometry, polygons, 3D geometry
+- **Word Problems** — Rate & work, mixtures, overlapping sets, probability, combinatorics, statistics
+- **Data Sufficiency** — The logical reasoning skill that sits on top of all math content
 
-To learn more about Next.js, take a look at the following resources:
+Questions can have multiple theme tags (e.g., "remainders + data sufficiency logic") which is where the real diagnostic power comes from.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Next.js** + TypeScript + Tailwind
+- **Firebase** — Auth (Google sign-in), Firestore (user data, sessions, attempts)
+- **Gemini Flash 2.5** — Personalized step-by-step walkthroughs in review mode
+- **Firebase App Hosting** — auto-deploys from `main`
 
-## Deploy on Vercel
+## Running locally
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm install
+cp .env.local.example .env.local
+# Fill in your Firebase + Gemini keys in .env.local
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## What's next
+
+- More questions (targeting 200+ across all themes)
+- Spaced repetition — resurface weak themes days later
+- Performance trends over time
+- Verbal + Data Insights sections
+- Timed practice mode matching real GMAT pacing
