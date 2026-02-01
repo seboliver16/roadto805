@@ -18,3 +18,5 @@ env:
     value: "168689833281"
   - variable: NEXT_PUBLIC_FIREBASE_APP_ID
     value: "1:168689833281:web:6b63faa8e0d6aa94b27dc0"
+  - variable: NEXT_PUBLIC_MISTRAL_API_KEY
+    value: 1Zg5mtuq1hFGO2ytigQPP63zZ7TrBDij
