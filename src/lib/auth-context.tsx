@@ -36,10 +36,10 @@ function isFirebaseConfigured(): boolean {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(isFirebaseConfigured);
+  const [loading, setLoading] = useState(() => isFirebaseConfigured());
 
   useEffect(() => {
-    if (!loading) return;
+    if (!isFirebaseConfigured()) return;
 
     const auth = getAuthInstance();
     const db = getDbInstance();
@@ -69,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     });
     return () => unsubscribe();
-  }, [loading]);
+  }, []);
 
   const signInWithGoogle = async () => {
     const auth = getAuthInstance();
