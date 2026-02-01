@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth-context";
+import { NavWrapper } from "@/components/nav-wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Road to 805 — GMAT Practice",
-  description: "GMAT Quant practice with theme-based review and AI-powered walkthroughs",
+  title: "Road to 805 — GMAT Focus Edition Prep",
+  description: "Full GMAT Focus Edition prep with diagnostic tests, study plans, lessons, and AI-powered walkthroughs",
 };
 
 export default function RootLayout({
@@ -18,7 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased bg-gray-50 text-gray-900`}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <NavWrapper />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

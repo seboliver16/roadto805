@@ -12,7 +12,7 @@ import {
   increment,
 } from "firebase/firestore";
 import { getDbInstance } from "./firebase";
-import { UserAttempt, PracticeSession, UserProfile } from "@/types";
+import { UserAttempt, PracticeSession, UserProfile, StudyPlan } from "@/types";
 
 function db() {
   return getDbInstance();
@@ -83,4 +83,45 @@ export async function getProfile(userId: string): Promise<UserProfile | null> {
   const ref = doc(db(), "users", userId);
   const snap = await getDoc(ref);
   return snap.exists() ? (snap.data() as UserProfile) : null;
+}
+
+export async function updateProfile(userId: string, data: Partial<UserProfile>) {
+  const ref = doc(db(), "users", userId);
+  await updateDoc(ref, data);
+}
+
+// --- Study Plans ---
+
+export async function createStudyPlan(plan: StudyPlan): Promise<string> {
+  const ref = doc(collection(db(), "studyPlans"));
+  await setDoc(ref, { ...plan, id: ref.id });
+  return ref.id;
+}
+
+export async function getStudyPlan(planId: string): Promise<StudyPlan | null> {
+  const ref = doc(db(), "studyPlans", planId);
+  const snap = await getDoc(ref);
+  return snap.exists() ? (snap.data() as StudyPlan) : null;
+}
+
+export async function getUserStudyPlan(userId: string): Promise<StudyPlan | null> {
+  const q = query(
+    collection(db(), "studyPlans"),
+    where("userId", "==", userId),
+    orderBy("createdAt", "desc"),
+    limit(1)
+  );
+  const snap = await getDocs(q);
+  if (snap.empty) return null;
+  return snap.docs[0].data() as StudyPlan;
+}
+
+export async function updateStudyPlanProgress(planId: string, chapterId: string, completed: boolean) {
+  const plan = await getStudyPlan(planId);
+  if (!plan) return;
+  const updated = plan.recommendedChapters.map((ch) =>
+    ch.chapterId === chapterId ? { ...ch, completed } : ch
+  );
+  const ref = doc(db(), "studyPlans", planId);
+  await updateDoc(ref, { recommendedChapters: updated, updatedAt: Date.now() });
 }
