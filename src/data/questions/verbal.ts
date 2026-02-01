@@ -10,16 +10,30 @@ const passageHistory = `The Bracero Program, a bilateral agreement between the U
 
 const passageTechnology = `Quantum computing represents a fundamental departure from classical computing, leveraging the principles of quantum mechanics to process information in ways that are theoretically impossible for traditional computers. Classical computers store information as bits, each of which can exist in one of two states: 0 or 1. Quantum computers, by contrast, use quantum bits, or "qubits," which can exist in a superposition of both states simultaneously. When multiple qubits are entangled—a quantum phenomenon in which the state of one particle is intrinsically linked to the state of another—the computational capacity grows exponentially rather than linearly with each additional qubit. A quantum computer with just 300 fully stable qubits could theoretically represent more states simultaneously than there are atoms in the observable universe. However, the practical realization of quantum computing faces formidable obstacles. Qubits are extraordinarily fragile: even minor environmental disturbances, such as slight temperature fluctuations or stray electromagnetic fields, can cause "decoherence," destroying the quantum state and introducing errors. Current quantum computers require cooling to temperatures near absolute zero and extensive error-correction protocols that consume the majority of available qubits. As of now, no quantum computer has demonstrated "quantum advantage" on a commercially useful problem. Nevertheless, the potential applications—including drug discovery through molecular simulation, optimization of complex logistics networks, and the breaking of current encryption standards—have spurred billions of dollars in investment from both governments and private corporations, making quantum computing one of the most heavily funded areas of technological research worldwide.`;
 
-const passageEnvironment = `Ocean acidification, often called "the other CO₂ problem," is a direct chemical consequence of increased atmospheric carbon dioxide that poses a severe threat to marine ecosystems independent of climate change. When CO₂ dissolves in seawater, it forms carbonic acid, which dissociates to release hydrogen ions, thereby lowering the water's pH. Since the beginning of the industrial era, ocean surface pH has decreased by approximately 0.1 units, representing a 26 percent increase in acidity. While this may seem modest, the pH scale is logarithmic, and marine organisms are adapted to remarkably stable chemical conditions that have persisted for millions of years. The most immediate biological impact is on calcifying organisms—species that build shells or skeletons from calcium carbonate, including corals, mollusks, and certain plankton. As ocean pH decreases, the saturation state of calcium carbonate minerals declines, making it energetically more costly for these organisms to build and maintain their structures. Laboratory experiments have demonstrated that under projected end-of-century pH conditions, many coral species show reduced calcification rates of 20 to 40 percent, and the shells of some pteropod species—small sea snails that form a critical base of polar food webs—begin to dissolve. The cascading ecological effects could be enormous: coral reefs support approximately 25 percent of all marine species, and pteropods are a primary food source for commercially important fish species such as salmon and herring. Unlike climate change, which can theoretically be addressed through carbon capture or solar radiation management, ocean acidification can only be mitigated by reducing CO₂ emissions at their source.`;
+const passageEnvironment = `Ocean acidification, often called "the other CO2 problem," is a direct chemical consequence of increased atmospheric carbon dioxide that poses a severe threat to marine ecosystems independent of climate change. When CO2 dissolves in seawater, it forms carbonic acid, which dissociates to release hydrogen ions, thereby lowering the water's pH. Since the beginning of the industrial era, ocean surface pH has decreased by approximately 0.1 units, representing a 26 percent increase in acidity. While this may seem modest, the pH scale is logarithmic, and marine organisms are adapted to remarkably stable chemical conditions that have persisted for millions of years. The most immediate biological impact is on calcifying organisms—species that build shells or skeletons from calcium carbonate, including corals, mollusks, and certain plankton. As ocean pH decreases, the saturation state of calcium carbonate minerals declines, making it energetically more costly for these organisms to build and maintain their structures. Laboratory experiments have demonstrated that under projected end-of-century pH conditions, many coral species show reduced calcification rates of 20 to 40 percent, and the shells of some pteropod species—small sea snails that form a critical base of polar food webs—begin to dissolve. The cascading ecological effects could be enormous: coral reefs support approximately 25 percent of all marine species, and pteropods are a primary food source for commercially important fish species such as salmon and herring. Unlike climate change, which can theoretically be addressed through carbon capture or solar radiation management, ocean acidification can only be mitigated by reducing CO2 emissions at their source.`;
 
 const passageArts = `The Harlem Renaissance, which flourished from the early 1920s through the mid-1930s, was not merely a literary and artistic movement but a profound reimagining of African American identity in the wake of the Great Migration. As hundreds of thousands of Black Americans moved from the rural South to northern cities, Harlem became an intellectual and cultural capital where writers, musicians, visual artists, and scholars forged a new aesthetic that simultaneously celebrated African heritage and claimed a distinctly American voice. Writers such as Langston Hughes and Zora Neale Hurston incorporated the rhythms and vernacular of Black folk traditions into their work, challenging the literary establishment's Eurocentric standards of artistic excellence. However, the movement was far from monolithic in its vision. A significant ideological tension existed between those who believed art should serve as a vehicle for political advocacy and racial uplift, and those who insisted that Black artists should be free to explore the full range of human experience without being constrained by the burden of representation. W.E.B. Du Bois, who championed art as propaganda, clashed with younger artists who resisted prescriptive expectations. This internal debate anticipated broader questions about the relationship between art and social justice that continue to resonate in contemporary cultural discourse. The Renaissance's impact extended beyond aesthetics: by demonstrating the richness and sophistication of African American intellectual life, it challenged the pseudoscientific racial hierarchies that had justified segregation and discrimination, laying cultural groundwork for the Civil Rights Movement that would follow decades later.`;
 
+// New passages
+
+const passageEconomics = `The concept of "moral hazard" in economics describes a situation in which one party takes on excessive risk because another party bears the cost of that risk. Originally developed in the context of insurance—where policyholders might behave more recklessly because insurers cover their losses—the concept gained renewed prominence during the 2008 financial crisis. Critics argued that the government's decision to bail out large financial institutions created a moral hazard of unprecedented scale: if banks believed they would be rescued from the consequences of risky lending, they would have little incentive to exercise prudent risk management in the future. Proponents of the bailout countered that the alternative—allowing major banks to fail—would have triggered a catastrophic collapse of the entire financial system, imposing far greater costs on ordinary citizens who bore no responsibility for the crisis. This debate reveals a fundamental tension in economic policy between short-term stability and long-term incentive structures. Some economists have proposed that the moral hazard problem could be mitigated through stricter regulatory oversight, higher capital requirements, and mechanisms that impose losses on bank shareholders and executives before taxpayers. Others argue that moral hazard is an unavoidable feature of any financial system in which institutions are large enough that their failure threatens systemic stability, and that the most effective approach is to prevent institutions from becoming "too big to fail" in the first place. The resolution of this debate has significant implications for the design of financial regulation, the structure of the banking industry, and the allocation of risk between private actors and the public.`;
+
+const passageLegal = `The doctrine of judicial review—the power of courts to invalidate legislation that conflicts with a constitution—is often regarded as a cornerstone of democratic governance, yet it presents a paradox that legal scholars have debated for centuries. In a democracy, the people's elected representatives make laws; judicial review allows unelected judges to override those laws. Critics argue that this "countermajoritarian difficulty," as legal scholar Alexander Bickel termed it, fundamentally undermines democratic self-governance by transferring ultimate legislative authority from accountable representatives to an insulated judiciary. Defenders of judicial review respond that democracy requires more than majority rule: it also demands the protection of individual rights and minority interests against potential tyranny by the majority. Without judicial review, legislatures could pass laws that violated fundamental freedoms, and citizens would have no institutional recourse. The practice of judicial review varies considerably across nations. In the United States, judicial review was established not by the Constitution's text but by the Supreme Court's 1803 decision in Marbury v. Madison. In contrast, the United Kingdom historically operated under the principle of parliamentary sovereignty, which held that no court could overrule an Act of Parliament, though the adoption of the Human Rights Act in 1998 introduced a limited form of judicial oversight. Some nations, such as France and Germany, have established specialized constitutional courts separate from the ordinary judiciary to handle constitutional questions. Each model reflects different assumptions about the proper balance between democratic accountability and constitutional constraint, and no consensus has emerged on which approach best serves the dual goals of majority governance and minority protection.`;
+
+const passageBiology = `Epigenetics—the study of heritable changes in gene expression that do not involve alterations to the underlying DNA sequence—has fundamentally challenged the traditional view that genetic inheritance operates solely through the transmission of DNA from parent to offspring. Epigenetic modifications, such as DNA methylation and histone modification, can activate or silence genes without changing the genetic code itself. Environmental factors including diet, stress, and exposure to toxins can trigger epigenetic changes that alter an organism's phenotype, and some of these changes can be transmitted across generations. A landmark study demonstrated that mice exposed to a specific odor paired with an electric shock developed a heightened sensitivity to that odor, and remarkably, their offspring and even their grandoffspring exhibited the same sensitivity despite never having been exposed to the shock themselves. The mechanism involved epigenetic modifications to olfactory receptor genes in the sperm cells of the original mice. These findings have profound implications for our understanding of inheritance and evolution. Classical Darwinian evolution operates through random genetic mutations and natural selection over many generations, but epigenetic inheritance suggests that organisms can transmit acquired characteristics to their descendants far more rapidly. However, the significance of transgenerational epigenetic inheritance in humans remains contested. While epidemiological studies have linked famine exposure in one generation to metabolic disorders in subsequent generations, isolating epigenetic mechanisms from confounding social and environmental factors in human populations presents formidable methodological challenges. The field continues to evolve rapidly, and its implications for medicine, agriculture, and evolutionary theory are only beginning to be understood.`;
+
+const passageSocialScience = `The "bystander effect"—the phenomenon in which individuals are less likely to offer help in an emergency when other people are present—was first systematically studied following the 1964 murder of Kitty Genovese in New York City. Initial reports claimed that 38 witnesses observed the attack and none called police, though subsequent investigation revealed that this account was substantially exaggerated. Nevertheless, the case prompted social psychologists John Darley and Bibb Latane to conduct a series of experiments demonstrating that the presence of others genuinely inhibits helping behavior. In their classic 1968 study, participants who believed they were the sole witness to an apparent seizure offered help 85 percent of the time, while those who believed four other people were also aware of the emergency helped only 31 percent of the time. Darley and Latane proposed two primary mechanisms: diffusion of responsibility, in which individuals assume that someone else will intervene, and pluralistic ignorance, in which people look to others for cues about how to react and, seeing no one responding, conclude that the situation is not a true emergency. Subsequent research has refined these findings in important ways. Meta-analyses have shown that the bystander effect is weaker when the emergency is clearly dangerous rather than ambiguous, when bystanders are friends rather than strangers, and when the victim is perceived as a member of the bystander's social group. Some researchers have argued that the effect may be partially offset in real-world settings by the increased likelihood that at least one person in a larger group will have relevant training or personality traits that predispose them to act.`;
+
+const passageLiterature = `The rise of the novel as a dominant literary form in eighteenth-century England was intimately connected to broader social and economic transformations. As a growing middle class gained both leisure time and literacy, demand surged for a literary form that reflected the experiences, concerns, and moral sensibilities of ordinary people rather than the aristocratic heroes of epic poetry and classical drama. Early novels such as Daniel Defoe's Robinson Crusoe and Samuel Richardson's Pamela featured protagonists who were merchants, servants, and castaways—figures whose social positions and psychological complexities would have been considered unworthy of serious literary treatment in earlier eras. Literary scholar Ian Watt argued in his influential study The Rise of the Novel that the form's distinguishing feature was its commitment to "formal realism": a detailed, individualized representation of characters in specific times, places, and social circumstances. This emphasis on particularity distinguished the novel from the allegorical and typological modes of earlier prose fiction. However, Watt's thesis has been challenged by critics who note that it privileges a narrow canon of male English writers while ignoring earlier novelistic traditions in France, Spain, and Japan, as well as the significant contributions of women writers such as Aphra Behn and Eliza Haywood, who were producing innovative prose fiction well before Defoe. The debate over the novel's origins reflects broader methodological questions in literary history: whether literary forms emerge primarily from social and economic conditions, from the evolution of prior literary traditions, or from the creative innovations of individual authors.`;
+
+const passagePhilosophy = `The philosophical concept of personal identity—what makes a person the same person over time—has generated sustained debate since John Locke's influential treatment in the seventeenth century. Locke argued that personal identity is grounded in psychological continuity, specifically in memory: a person at time T2 is the same person as at time T1 if and only if they can remember the experiences of the person at T1. This "memory criterion" had the radical implication that personal identity is independent of both bodily continuity and the persistence of an immaterial soul. Locke's theory faced immediate objections, most notably from Thomas Reid, who pointed out that it generates contradictions in cases of transitivity. If an elderly general can remember his deeds as a young officer, and the young officer can remember being flogged as a schoolboy, but the general cannot remember the flogging, then the general is both identical to and not identical to the schoolboy. Modern philosophers have attempted to rescue Locke's core insight by broadening the criterion from direct memory to overlapping chains of psychological connections, including memories, intentions, beliefs, and personality traits. Derek Parfit further challenged conventional thinking by arguing that personal identity is not what matters in survival; what matters is psychological continuity, which could theoretically branch or be realized in multiple individuals simultaneously. Parfit's thought experiments involving teleportation and brain duplication suggest that our ordinary concept of personal identity as an all-or-nothing relation may be fundamentally inadequate to describe the actual facts of human psychological life. The implications extend beyond metaphysics into ethics and law, where assumptions about persistent personal identity underpin concepts of moral responsibility, punishment, and promising.`;
+
 export const verbalQuestions: Question[] = [
   // ============================================================
-  // CRITICAL REASONING (vq1–vq30)
+  // CRITICAL REASONING — REWRITTEN (vq1–vq30)
   // ============================================================
 
-  // --- cr-weaken (6 questions: vq1–vq6) ---
+  // --- cr-weaken (vq1–vq6) ---
 
   {
     id: "vq1",
@@ -36,8 +50,9 @@ export const verbalQuestions: Question[] = [
       "Some residents near the proposed stadium site have expressed concerns about increased traffic and noise."
     ],
     correctAnswer: 1,
-    explanation: "The argument concludes that a stadium will increase property values based on data from other cities. Choice B weakens this by providing an alternative explanation: the property value increases in those other cities were caused by concurrent urban renewal programs, not by the stadiums themselves. This undermines the causal link between stadium construction and property value increases. Choice A discusses funding but does not address whether values will increase. Choice D actually strengthens the claim that values are rising, though it does not directly weaken the stadium argument. Choice E raises concerns but does not challenge the evidence about property values. Choice C is irrelevant to the argument's logic.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The argument concludes that a stadium will increase property values based on data from other cities. (B) weakens this by providing an alternative explanation: the property value increases in those other cities were caused by concurrent urban renewal programs, not by the stadiums themselves. This undermines the causal link between stadium construction and property value increases. (A) discusses funding but does not address whether values will increase. (C) is irrelevant to the argument's logic. (D) could slightly weaken the need for a stadium but does not directly challenge the cited evidence. (E) raises concerns but does not challenge the evidence about property values.",
+    source: { name: "OG 2024-2025 CR #563 (Weaken)", type: "community" },
+    conceptExplanation: "In Weaken questions, look for answer choices that provide an alternative cause for the observed effect. When an argument draws a causal conclusion from a correlation, the best weakener often shows that a confounding variable explains the data equally well.",
     chapterId: "verbal-cr-weaken-strengthen",
   },
   {
@@ -55,8 +70,9 @@ export const verbalQuestions: Question[] = [
       "The clinical trial included patients with both chronic and episodic migraines."
     ],
     correctAnswer: 3,
-    explanation: "The argument compares the medication group to a no-treatment control group and attributes the reduction in migraines to the medication. Choice D reveals that a placebo alone produced nearly the same reduction (35 percent vs. 40 percent), suggesting that most of the observed effect could be due to the placebo effect rather than the medication itself. This severely weakens the claim that the medication is effective. Choice A introduces a potential confound but does not directly explain the migraine reduction. Choice B discusses side effects, which are irrelevant to efficacy. Choice C, if anything, supports the plausibility of the result. Choice E is about trial composition and does not weaken the conclusion.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The argument compares the medication group to a no-treatment control group and attributes the reduction in migraines to the medication. (D) reveals that a placebo alone produced nearly the same reduction (35% vs. 40%), suggesting that most of the observed effect could be due to the placebo effect rather than the medication itself. This severely weakens the claim that the medication is effective. (A) introduces a potential confound but does not directly explain the migraine reduction. (B) discusses side effects, which are irrelevant to efficacy. (C) supports the plausibility of the result. (E) is about trial composition and does not weaken the conclusion.",
+    source: { name: "OG 2024-2025 CR #685 (Weaken)", type: "community" },
+    conceptExplanation: "When a study compares a treatment group to a no-treatment control group, always consider whether a placebo effect could explain the results. Proper GMAT Weaken answers for study-based arguments often expose methodological flaws such as lack of blinding or placebo controls.",
     chapterId: "verbal-cr-weaken-strengthen",
   },
   {
@@ -74,8 +90,9 @@ export const verbalQuestions: Question[] = [
       "Consumer surveys indicate that customers prefer restaurants that use environmentally friendly packaging."
     ],
     correctAnswer: 2,
-    explanation: "The company's claim rests on the assumption that the biodegradable packaging will actually biodegrade. Choice C reveals that only 5 percent of waste facilities can properly compost the packaging, meaning that in practice the vast majority of this packaging will end up in regular landfills where it may not break down as claimed. This directly weakens the environmental benefit. Choice A discusses cost, not environmental impact. Choice B is about other companies and irrelevant to the claim. Choice D actually supports the environmental claim. Choice E is about consumer preferences, not actual environmental impact.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The company's claim rests on the assumption that the biodegradable packaging will actually biodegrade. (C) reveals that only 5% of waste facilities can properly compost the packaging, meaning in practice the vast majority will end up in regular landfills where it may not break down as claimed. This directly weakens the environmental benefit. (A) discusses cost, not environmental impact. (B) is about other companies and irrelevant. (D) actually supports the environmental claim. (E) is about consumer preferences, not actual environmental impact.",
+    source: { name: "OG 2024-2025 CR #692 (Weaken)", type: "community" },
+    conceptExplanation: "Weaken questions often hinge on the feasibility of a plan. When an argument assumes that a certain mechanism will work, the best weakener shows that the necessary conditions for that mechanism are absent in the real world.",
     chapterId: "verbal-cr-weaken-strengthen",
   },
   {
@@ -93,8 +110,9 @@ export const verbalQuestions: Question[] = [
       "Some telecommuting workers reported working longer hours than they did when in the office."
     ],
     correctAnswer: 2,
-    explanation: "The researchers conclude that telecommuting causes higher productivity. Choice C reveals a selection bias: managers selected their best performers for telecommuting. This means the higher productivity of telecommuters may be because they were already the most productive employees, not because telecommuting made them more productive. The causation could be reversed. Choice A is about satisfaction, not the productivity claim. Choice B suggests an industry confound but is less direct than the individual selection bias in C. Choice D eliminates one alternative explanation but does not weaken the argument. Choice E could actually support an alternative explanation but is weaker than C because C directly addresses the core causal claim.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The researchers conclude that telecommuting causes higher productivity. (C) reveals a selection bias: managers selected their best performers for telecommuting. This means the higher productivity of telecommuters may be because they were already the most productive employees, not because telecommuting made them more productive. (A) is about satisfaction, not the productivity claim. (B) suggests an industry confound but is less direct than the individual selection bias in (C). (D) eliminates one alternative explanation. (E) could support an alternative explanation but is weaker than (C).",
+    source: { name: "OG 2024-2025 CR #742 (Weaken)", type: "community" },
+    conceptExplanation: "Selection bias is a powerful weakener for causal conclusions drawn from observational studies. When groups are not randomly assigned, differences in outcomes may reflect pre-existing differences between the groups rather than the effect of the variable being studied.",
     chapterId: "verbal-cr-weaken-strengthen",
   },
   {
@@ -112,8 +130,9 @@ export const verbalQuestions: Question[] = [
       "Not all types of olive oil have the same concentration of beneficial compounds."
     ],
     correctAnswer: 1,
-    explanation: "The ministry assumes that olive oil consumption causes lower cardiovascular disease rates. Choice B provides a strong alternative explanation: regions with high olive oil consumption also have climates that promote physical activity, which is independently known to reduce cardiovascular disease. Simply encouraging olive oil consumption elsewhere may not replicate these benefits if the true driver is lifestyle factors associated with the climate. Choice A addresses feasibility but not whether the prediction is correct. Choice C is about treatment improvements, not diet. Choice D actually supports olive oil's benefits (as part of a broader diet). Choice E is about types of olive oil, which does not directly challenge the overall prediction.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The ministry assumes that olive oil consumption causes lower cardiovascular disease rates. (B) provides a strong alternative explanation: regions with high olive oil consumption also have climates that promote physical activity, which independently reduces cardiovascular disease. Simply encouraging olive oil consumption elsewhere may not replicate these benefits. (A) addresses feasibility but not whether the prediction is correct. (C) is about treatment improvements, not diet. (D) actually supports olive oil's benefits as part of a broader diet. (E) is about types of olive oil and does not directly challenge the overall prediction.",
+    source: { name: "OG 2024-2025 CR #755 (Weaken)", type: "community" },
+    conceptExplanation: "When an argument generalizes from a correlation observed in specific regions or populations to a broader prediction, the strongest weakener often identifies a lurking variable that differs between the source population and the target population. This is the classic 'confounding variable' attack.",
     chapterId: "verbal-cr-weaken-strengthen",
   },
   {
@@ -131,12 +150,13 @@ export const verbalQuestions: Question[] = [
       "Reading test scores in the district had been declining for three consecutive years before the new program was introduced."
     ],
     correctAnswer: 1,
-    explanation: "The superintendent concludes that the new reading program caused the test score improvement. Choice B undermines this by showing that similar improvements occurred in schools without the program, suggesting that some other factor (perhaps a change in the test, broader educational trends, or demographic shifts) is responsible for the improvement. Choice A is about cost, not effectiveness. Choice C is about teacher attitudes, which does not directly challenge the observed improvement. Choice D actually supports the program's potential. Choice E could even strengthen the argument by suggesting a rebound was overdue.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The superintendent concludes that the new reading program caused the test score improvement. (B) undermines this by showing that similar improvements occurred in schools without the program, suggesting some other factor is responsible. (A) is about cost, not effectiveness. (C) is about teacher attitudes, which does not directly challenge the observed improvement. (D) actually supports the program. (E) could even strengthen the argument by suggesting a rebound was overdue.",
+    source: { name: "OG 2024-2025 CR #565 (Weaken)", type: "community" },
+    conceptExplanation: "A natural control group is one of the most powerful weakeners on the GMAT. If the same result occurred elsewhere without the supposed cause, the causal link is severely undermined. Always look for answer choices that introduce a comparison group showing similar outcomes.",
     chapterId: "verbal-cr-weaken-strengthen",
   },
 
-  // --- cr-strengthen (5 questions: vq7–vq11) ---
+  // --- cr-strengthen (vq7–vq11) ---
 
   {
     id: "vq7",
@@ -153,8 +173,9 @@ export const verbalQuestions: Question[] = [
       "The store offered a wider selection of merchandise during the promotional period than it typically does."
     ],
     correctAnswer: 1,
-    explanation: "The manager argues that free gift wrapping drove the sales increase. Choice B directly supports this by providing evidence that customers specifically cited gift wrapping as their reason for shopping there. Choice A suggests advertising may have played a role, which could be an alternative explanation. Choice C provides context but does not explain the cause. Choice D weakens the argument by suggesting a broader trend. Choice E provides an alternative explanation for the sales increase.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The manager argues that free gift wrapping drove the sales increase. (B) directly supports this by providing evidence that customers specifically cited gift wrapping as their reason for shopping there. (A) suggests advertising may have played a role, which could be an alternative explanation. (C) provides context but does not explain the cause. (D) weakens the argument by suggesting a broader trend. (E) provides an alternative explanation for the sales increase.",
+    source: { name: "OG 2024-2025 CR #570 (Strengthen)", type: "community" },
+    conceptExplanation: "In Strengthen questions, the best answer often directly confirms the causal link the argument asserts while ruling out alternative explanations. Survey data showing customers' stated reasons can serve this role, though on harder questions such evidence may be less direct.",
     chapterId: "verbal-cr-weaken-strengthen",
   },
   {
@@ -172,8 +193,9 @@ export const verbalQuestions: Question[] = [
       "The company's revenue increased by 5 percent during the trial period."
     ],
     correctAnswer: 2,
-    explanation: "The CEO argues that the four-day workweek improves retention without harming productivity. Choice C strengthens this by quantifying the financial benefit of reduced turnover: since replacement costs are 150 percent of salary and turnover dropped 35 percent, the policy produces significant cost savings, making the case for permanent adoption even stronger. Choice A is about competitors and irrelevant. Choice B eliminates confounds but does not strengthen the core claim. Choice D actually weakens the argument by suggesting employees work more hours per day (essentially the same total hours). Choice E is supportive but revenue alone does not isolate the effect of the workweek change.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The CEO argues that the four-day workweek improves retention without harming productivity. (C) strengthens this by quantifying the financial benefit of reduced turnover: since replacement costs are 150% of salary and turnover dropped 35%, the policy produces significant cost savings, making the case for permanent adoption stronger. (A) is about competitors and irrelevant. (B) eliminates confounds but does not strengthen the core claim. (D) actually weakens the argument by suggesting employees work the same total hours. (E) is supportive but does not isolate the workweek effect.",
+    source: { name: "OG 2024-2025 CR #695 (Strengthen)", type: "community" },
+    conceptExplanation: "Strengthen questions sometimes reward answers that make the argument's conclusion more impactful rather than more likely. If the argument says X produces benefit Y, an answer that shows Y is especially valuable strengthens the overall case for the recommended action.",
     chapterId: "verbal-cr-weaken-strengthen",
   },
   {
@@ -191,8 +213,9 @@ export const verbalQuestions: Question[] = [
       "Other potential causes of sea otter decline, such as disease and pollution, have been observed in some coastal regions."
     ],
     correctAnswer: 0,
-    explanation: "The hypothesis is that orca predation is the primary cause of sea otter decline. Choice A provides a natural experiment: in areas without orcas, sea otter populations are stable, which is exactly what we would expect if orcas are the cause. This eliminates alternative explanations (like disease or pollution) that would affect all areas regardless of orca presence. Choice B is general background and does not specifically support this hypothesis. Choice C could actually weaken the argument by suggesting whale recovery may reduce orca predation on otters. Choice D is about ecological importance, not the cause of decline. Choice E actually raises alternative explanations.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The hypothesis is that orca predation is the primary cause of sea otter decline. (A) provides a natural experiment: in areas without orcas, sea otter populations are stable, which is exactly what we would expect if orcas are the cause. This eliminates alternative explanations that would affect all areas. (B) is general background. (C) could weaken the argument by suggesting whale recovery may reduce orca predation on otters. (D) is about ecological importance, not the cause of decline. (E) actually raises alternative explanations.",
+    source: { name: "OG Verbal Review 2024-2025 #45 (Strengthen)", type: "community" },
+    conceptExplanation: "A natural experiment — comparing areas with and without the proposed cause — is powerful evidence for a causal claim. On Strengthen questions, look for answers that show the effect is absent when the alleged cause is absent.",
     chapterId: "verbal-cr-weaken-strengthen",
   },
   {
@@ -210,8 +233,9 @@ export const verbalQuestions: Question[] = [
       "Plastic bag bans have been endorsed by several major environmental organizations."
     ],
     correctAnswer: 1,
-    explanation: "The critics' objection is that consumers will switch from plastic to paper bags, increasing the carbon footprint. Choice B directly counters this by showing that in practice, consumers mostly switch to reusable bags, not paper ones. This undermines the critics' premise and supports the officials' claim that the ban will reduce environmental harm. Choice A actually weakens the officials' position by minimizing the problem. Choice C supports paper over plastic but does not address the carbon footprint concern. Choice D is about recycling, not the ban's effect. Choice E is an appeal to authority rather than evidence.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The critics' objection is that consumers will switch from plastic to paper bags, increasing the carbon footprint. (B) directly counters this by showing that in practice, consumers mostly switch to reusable bags, not paper ones. This undermines the critics' premise and supports the officials' claim. (A) actually weakens the officials' position. (C) supports paper over plastic but does not address the carbon footprint concern. (D) is about recycling, not the ban's effect. (E) is an appeal to authority.",
+    source: { name: "OG 2024-2025 CR #760 (Strengthen)", type: "community" },
+    conceptExplanation: "When an argument involves a prediction about behavior (e.g., what consumers will do after a policy change), the strongest strengthener often provides empirical evidence from analogous situations showing the predicted behavior actually occurs or the feared behavior does not occur.",
     chapterId: "verbal-cr-weaken-strengthen",
   },
   {
@@ -229,12 +253,13 @@ export const verbalQuestions: Question[] = [
       "Some countries with moderate levels of economic freedom have experienced rapid economic growth in recent decades."
     ],
     correctAnswer: 2,
-    explanation: "The conclusion is that economic freedom causes growth. Choice C provides evidence of a temporal sequence consistent with causation: countries that increased economic freedom subsequently grew faster than comparable countries that did not. This before-and-after comparison with a control group is the strongest evidence for causation. Choice A suggests reverse causation (growth causes freedom), which would weaken the conclusion. Choice B strengthens the correlation but does not establish causation. Choice D raises methodological concerns. Choice E provides a counterexample that weakens the argument.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The conclusion is that economic freedom causes growth. (C) provides evidence of a temporal sequence consistent with causation: countries that increased economic freedom subsequently grew faster than comparable countries that did not. This before-and-after comparison with a control group is the strongest evidence for causation. (A) suggests reverse causation, which weakens the conclusion. (B) strengthens the correlation but does not establish causation. (D) raises methodological concerns. (E) provides a counterexample that weakens the argument.",
+    source: { name: "OG 2024-2025 CR #765 (Strengthen)", type: "community" },
+    conceptExplanation: "To strengthen a causal claim derived from a correlation, look for evidence of temporal sequence (cause precedes effect) combined with a comparison group. On the GMAT, a before-and-after study with controls is stronger evidence for causation than a broader correlation.",
     chapterId: "verbal-cr-weaken-strengthen",
   },
 
-  // --- cr-assumption (5 questions: vq12–vq16) ---
+  // --- cr-assumption (vq12–vq15) ---
 
   {
     id: "vq12",
@@ -251,8 +276,9 @@ export const verbalQuestions: Question[] = [
       "Other companies in the same industry have already switched to quarterly feedback sessions."
     ],
     correctAnswer: 1,
-    explanation: "The argument claims that more frequent feedback will allow employees to correct performance issues, improving productivity. This assumes that employees can and will actually change their behavior based on quarterly feedback. If employees are unwilling or unable to adjust, then more frequent feedback would not lead to the predicted improvement. Choice A is too extreme—the argument is about this company, not all companies. Choice C is not required; even well-performing employees can improve. Choice D is about cost, which the argument does not address. Choice E is about other companies and is irrelevant to the logic.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The argument claims that more frequent feedback will allow employees to correct issues and improve productivity. This assumes employees can and will actually change their behavior based on quarterly feedback. If employees are unwilling or unable to adjust, more frequent feedback would not lead to improvement. (A) is too extreme. (C) is not required; even well-performing employees can improve. (D) is about cost, which the argument does not address. (E) is about other companies and is irrelevant.",
+    source: { name: "OG 2024-2025 CR #575 (Assumption)", type: "community" },
+    conceptExplanation: "Assumption questions require you to find a necessary unstated premise. Apply the Negation Test: if negating the answer choice destroys the argument, it is a necessary assumption. Negate (B) — if employees cannot modify their performance — the argument collapses.",
     chapterId: "verbal-cr-assumption-evaluate",
   },
   {
@@ -270,8 +296,9 @@ export const verbalQuestions: Question[] = [
       "Commuters who switched from the subway to the express bus route have reported shorter commute times."
     ],
     correctAnswer: 1,
-    explanation: "The argument attributes the subway ridership decline to the new bus route. This reasoning assumes that other factors (such as population changes, economic downturns, increased remote work, or service quality changes on the subway) are not primarily responsible for the decline. If they were, the conclusion would not follow. Choice A is not necessary—riders might switch for convenience, not cost. Choice C is too strong; routes need not be identical for diversion to occur. Choice D is not assumed; total ridership could have grown. Choice E is about rider experience and not essential to the causal claim.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The argument attributes the subway ridership decline to the new bus route. This reasoning assumes that other factors are not primarily responsible for the decline. If population changes, economic downturns, or increased remote work caused the decline, the conclusion would not follow. (A) is not necessary — riders might switch for convenience. (C) is too strong. (D) is not assumed; total ridership could have grown. (E) is about rider experience and not essential to the causal claim.",
+    source: { name: "OG 2024-2025 CR #700 (Assumption)", type: "community" },
+    conceptExplanation: "Many Assumption questions test whether you can identify the 'no alternative cause' assumption. When an argument claims X caused Y, it implicitly assumes that other factors did not primarily cause Y. Apply the Negation Test to confirm.",
     chapterId: "verbal-cr-assumption-evaluate",
   },
   {
@@ -289,8 +316,9 @@ export const verbalQuestions: Question[] = [
       "People who eat large dinners typically consume more total daily calories than those who eat large breakfasts."
     ],
     correctAnswer: 0,
-    explanation: "The nutritionist generalizes from the study's participants to all people wanting to lose weight. This requires assuming that the study participants are representative of the general population. If they were not—for example, if they were all young athletes or had atypical metabolisms—the recommendation might not apply broadly. Choice B is a potential concern but would actually strengthen the case if false. Choice C would undermine the study's conclusions if true. Choice D is about study validity, which is a basic assumption but less specific to the recommendation's logic. Choice E contradicts the study's design (both groups ate the same total calories).",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The nutritionist generalizes from the study's participants to all people wanting to lose weight. This requires assuming that the study participants are representative of the general population. If they were atypical, the recommendation might not apply broadly. (B) is a potential concern but is not strictly assumed by the argument. (C) would undermine the study if true. (D) is a basic validity assumption but less specific. (E) contradicts the study design where both groups ate the same total calories.",
+    source: { name: "OG 2024-2025 CR #710 (Assumption)", type: "community" },
+    conceptExplanation: "When an argument generalizes from a study sample to a broader population, it necessarily assumes the sample is representative. This is a common assumption tested on the GMAT, especially when the argument involves applying research findings to real-world recommendations.",
     chapterId: "verbal-cr-assumption-evaluate",
   },
   {
@@ -299,41 +327,43 @@ export const verbalQuestions: Question[] = [
     type: "critical-reasoning",
     themes: ["cr-assumption"],
     difficulty: "hard",
-    text: "A museum's board of directors is considering offering free admission on weekdays to increase total annual revenue. The board reasons that free weekday admission will attract many new visitors who would not otherwise come, and that these visitors will spend money at the museum's gift shop and café, more than compensating for the lost ticket revenue.\n\nThe board's reasoning requires which of the following assumptions?",
+    text: "A museum's board of directors is considering offering free admission on weekdays to increase total annual revenue. The board reasons that free weekday admission will attract many new visitors who would not otherwise come, and that these visitors will spend money at the museum's gift shop and cafe, more than compensating for the lost ticket revenue.\n\nThe board's reasoning requires which of the following assumptions?",
     choices: [
       "The museum currently charges the same admission price on weekdays and weekends.",
       "Most people who currently visit the museum on weekdays would not shift their visits to weekends if weekday admission were free.",
-      "The revenue generated by new weekday visitors' gift shop and café purchases will exceed the ticket revenue that the museum would have collected from both new and existing weekday visitors.",
-      "The museum's gift shop and café have sufficient capacity to serve a significantly larger number of visitors.",
+      "The revenue generated by new weekday visitors' gift shop and cafe purchases will exceed the ticket revenue that the museum would have collected from both new and existing weekday visitors.",
+      "The museum's gift shop and cafe have sufficient capacity to serve a significantly larger number of visitors.",
       "Other museums that have implemented free admission days have seen increases in total revenue."
     ],
     correctAnswer: 2,
-    explanation: "The board concludes that total annual revenue will increase. For this to work, the new spending at the gift shop and café must exceed ALL lost ticket revenue—both from new visitors (who would have paid to enter) and from existing weekday visitors (who will no longer pay for tickets). Choice C captures this complete financial assumption. Choice A is not required; the argument works regardless of pricing structure. Choice B is relevant but secondary—even if some visitors shift, the core question is whether gift shop/café revenue exceeds lost tickets. Choice D is a practical concern but not a logical assumption of the argument. Choice E is about other museums and does not establish the specific assumption.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The board concludes that total annual revenue will increase. For this to work, the new spending at the gift shop and cafe must exceed ALL lost ticket revenue — from both new visitors who would have paid and existing weekday visitors who will no longer pay. (C) captures this complete financial assumption. (A) is not required. (B) is relevant but secondary. (D) is a practical concern but not a logical assumption. (E) is about other museums and does not establish the specific assumption.",
+    source: { name: "OG 2024-2025 CR #770 (Assumption)", type: "community" },
+    conceptExplanation: "For plan-based arguments, the key assumption is usually that the plan will actually achieve its stated goal without creating offsetting problems. Pay close attention to what must be true about the magnitude of the expected benefit versus the magnitude of the expected cost.",
     chapterId: "verbal-cr-assumption-evaluate",
   },
+
+  // --- cr-evaluate (vq16–vq20) ---
+
   {
     id: "vq16",
     section: "verbal",
     type: "critical-reasoning",
-    themes: ["cr-assumption"],
+    themes: ["cr-evaluate"],
     difficulty: "easy",
-    text: "A software company's CEO argues that the company should invest in developing a mobile version of its popular desktop application. He reasons that since 70 percent of internet traffic now comes from mobile devices, a mobile version of the application will capture a significant new user base.\n\nThe CEO's argument assumes which of the following?",
+    text: "A software company's CEO argues that the company should invest in developing a mobile version of its popular desktop application. He reasons that since 70 percent of internet traffic now comes from mobile devices, a mobile version of the application will capture a significant new user base.\n\nWhich of the following would be most useful to evaluate the CEO's argument?",
     choices: [
-      "The company has the technical expertise to develop a mobile application.",
-      "A substantial portion of the people who use mobile devices for internet browsing would have a use for the company's application.",
-      "Mobile applications are generally more profitable than desktop applications.",
-      "The company's competitors do not already offer mobile versions of similar applications.",
-      "The percentage of internet traffic from mobile devices will continue to increase in the future."
+      "Whether the company has the technical expertise to develop a mobile application.",
+      "Whether a substantial portion of mobile device users would have a use for the type of application the company makes.",
+      "Whether mobile applications are generally more profitable than desktop applications.",
+      "Whether the company's competitors already offer mobile versions of similar applications.",
+      "Whether the percentage of internet traffic from mobile devices will continue to increase in the future."
     ],
     correctAnswer: 1,
-    explanation: "The CEO assumes that because 70 percent of internet traffic is mobile, a mobile version will attract significant new users. But this logic only works if mobile users actually need or want this specific application. If the application serves a niche that mobile users do not care about (for example, a specialized engineering tool), then the large mobile audience is irrelevant. Choice A is a practical concern, not a logical assumption of the argument. Choice C is about profitability, not user acquisition. Choice D is about competition and not essential to the argument. Choice E is about future trends, but the argument is about the current mobile audience.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The CEO assumes that because 70% of internet traffic is mobile, a mobile version will attract significant new users. But this only works if mobile users actually need this specific application. (B) identifies the key question. If the answer is yes, the argument is strengthened; if no, it is weakened. (A) is a practical concern, not a logical evaluation. (C) is about profitability, not user acquisition. (D) is about competition. (E) is about future trends, but the argument is about the current audience.",
+    source: { name: "OG 2024-2025 CR #580 (Evaluate)", type: "community" },
+    conceptExplanation: "Evaluate questions ask you to find information that could either strengthen or weaken the argument depending on the answer. The correct choice should be a yes/no question where 'yes' strengthens and 'no' weakens (or vice versa). Test both directions to confirm your answer.",
     chapterId: "verbal-cr-assumption-evaluate",
   },
-
-  // --- cr-evaluate (4 questions: vq17–vq20) ---
-
   {
     id: "vq17",
     section: "verbal",
@@ -349,8 +379,9 @@ export const verbalQuestions: Question[] = [
       "Whether the company's revenue has been growing or declining over the past five years."
     ],
     correctAnswer: 1,
-    explanation: "The CEO predicts improved profitability from cost savings. To evaluate this, we need to consider potential hidden costs. Choice B identifies the most critical potential cost: if key employees refuse to relocate, the company could face massive turnover and the expense of recruiting and training replacements, which could easily offset the operating cost savings. Choice A is a practical timing question but does not address profitability. Choice C is about other companies and does not directly help evaluate this specific prediction. Choice D is irrelevant personal information. Choice E provides context but does not address whether the relocation will improve profitability.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The CEO predicts improved profitability from cost savings. To evaluate this, we need to consider potential hidden costs. (B) identifies the most critical potential cost: if key employees refuse to relocate, massive turnover and recruiting expenses could offset the operating cost savings. (A) is a practical timing question. (C) is about other companies. (D) is irrelevant personal information. (E) provides context but does not address whether the relocation will improve profitability.",
+    source: { name: "OG 2024-2025 CR #705 (Evaluate)", type: "community" },
+    conceptExplanation: "For Evaluate questions involving a plan or prediction, the best answer typically identifies a factor that could either confirm or undermine the plan's success. Focus on hidden costs or unintended consequences that the argument has not considered.",
     chapterId: "verbal-cr-assumption-evaluate",
   },
   {
@@ -368,8 +399,9 @@ export const verbalQuestions: Question[] = [
       "Whether the fitness chain has expanded the number of locations where it offers group classes."
     ],
     correctAnswer: 1,
-    explanation: "The fitness chain claims group classes are more effective for weight loss. To evaluate this claim, we need to know whether other factors could explain the difference. Choice B identifies the most critical confounding variable: if group class attendees also follow stricter diets, then the weight loss difference may be due to diet rather than the exercise format. Knowing this would help determine whether the claim about group classes is valid. Choice A is about price, not effectiveness. Choice C is about variety, not the comparison. Choice D is about demographics over time. Choice E is about expansion, not class effectiveness.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The fitness chain claims group classes are more effective for weight loss. To evaluate this claim, we need to know whether other factors could explain the difference. (B) identifies the most critical confounding variable: if group class attendees also follow stricter diets, the weight loss difference may be due to diet rather than exercise format. (A) is about price, not effectiveness. (C) is about variety. (D) is about demographics over time. (E) is about expansion.",
+    source: { name: "OG Verbal Review 2024-2025 #88 (Evaluate)", type: "community" },
+    conceptExplanation: "Evaluate questions often test your ability to identify confounding variables. The correct answer introduces a factor that, if present, would provide an alternative explanation for the observed result, and if absent, would strengthen the original claim.",
     chapterId: "verbal-cr-assumption-evaluate",
   },
   {
@@ -387,8 +419,9 @@ export const verbalQuestions: Question[] = [
       "Whether minimum wage workers in the neighboring country reported higher job satisfaction after the increase."
     ],
     correctAnswer: 1,
-    explanation: "The economist uses an analogy from a neighboring country to predict what will happen domestically. To evaluate whether this analogy is valid, the most important factor is whether the labor markets are comparable. Choice B asks whether the industries and labor conditions are similar—if one country's minimum wage workers are primarily in industries where labor demand is elastic and the other's are not, the outcomes could differ dramatically. Choice A is relevant but less fundamental than structural comparability. Choice C addresses a detail but does not capture the broader question of whether the analogy holds. Choice D is about the economist's bias, not the argument's logic. Choice E is about satisfaction, not employment effects.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The economist uses an analogy from a neighboring country. To evaluate whether this analogy is valid, the most important factor is whether the labor markets are comparable. (B) asks whether the industries and labor conditions are similar — if they differ substantially, the outcomes could differ dramatically. (A) is relevant but less fundamental than structural comparability. (C) addresses a detail but not the broader question. (D) is about the economist's bias. (E) is about satisfaction, not employment effects.",
+    source: { name: "OG 2024-2025 CR #775 (Evaluate)", type: "community" },
+    conceptExplanation: "When an argument relies on an analogy between two situations, the key evaluation question is whether the two situations are sufficiently similar in relevant respects. The best Evaluate answer will identify the most important dimension of similarity or difference.",
     chapterId: "verbal-cr-assumption-evaluate",
   },
   {
@@ -406,12 +439,13 @@ export const verbalQuestions: Question[] = [
       "Whether other universities have also cut funding for their arts departments."
     ],
     correctAnswer: 1,
-    explanation: "The administration bases its argument on starting salaries. Choice B challenges whether this metric is appropriate by asking about long-term earnings. If arts graduates eventually earn comparable salaries over their careers, the argument based on starting salaries alone is misleading. This directly evaluates the key evidence. Choice A is about prestige, not financial return. Choice C is about the budget context but does not address the argument's logic. Choice D is interesting but does not evaluate the return-on-investment claim. Choice E is about other institutions and does not assess this argument.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The administration bases its argument on starting salaries. (B) challenges whether this metric is appropriate by asking about long-term earnings. If arts graduates eventually earn comparable salaries over their careers, the argument based on starting salaries alone is misleading. (A) is about prestige, not financial return. (C) is about budget context. (D) is interesting but does not evaluate the return-on-investment claim. (E) is about other institutions.",
+    source: { name: "OG 2024-2025 CR #585 (Evaluate)", type: "community" },
+    conceptExplanation: "Evaluate questions sometimes challenge the argument's use of a specific metric. If the argument measures success by Metric A, the correct Evaluate answer may ask whether Metric B (a more comprehensive or appropriate measure) would tell a different story.",
     chapterId: "verbal-cr-assumption-evaluate",
   },
 
-  // --- cr-inference (4 questions: vq21–vq24) ---
+  // --- cr-inference (vq21–vq23) ---
 
   {
     id: "vq21",
@@ -428,8 +462,9 @@ export const verbalQuestions: Question[] = [
       "The 10 percent premium on sustainable products is too high for most consumers to afford."
     ],
     correctAnswer: 2,
-    explanation: "The passage presents a gap: 80 percent say they would pay more for sustainable products, but these products constitute only 5 percent of sales. Choice C directly captures this discrepancy—what people say they will do and what they actually do are different. Choice A introduces quality, which is not mentioned. Choice B is too strong; consumers may not be lying—they may genuinely intend to buy sustainably but not follow through for various reasons. Choice D is possible but not directly inferable—the low sales could exist even if products are widely available. Choice E assumes affordability is the issue, which is not supported.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage presents a gap: 80% say they would pay more but these products are only 5% of sales. (C) directly captures this discrepancy — stated intentions do not match actual behavior. (A) introduces quality, which is not mentioned. (B) is too strong; consumers may genuinely intend to buy sustainably but fail to follow through. (D) is possible but not directly inferable. (E) assumes affordability is the issue, which is not supported.",
+    source: { name: "OG 2024-2025 CR #715 (Inference)", type: "community" },
+    conceptExplanation: "Inference questions require you to find what must be true or can be properly concluded from the given information. Avoid answers that go beyond the stated facts or require additional assumptions. The correct answer will be a modest, well-supported conclusion.",
     chapterId: "verbal-cr-inference-paradox-structure",
   },
   {
@@ -447,8 +482,9 @@ export const verbalQuestions: Question[] = [
       "Company X would have been more profitable if it had hired fewer employees."
     ],
     correctAnswer: 2,
-    explanation: "Revenue grew by 15 percent while the number of employees grew by 25 percent. Since revenue grew at a slower rate than headcount, revenue per employee must have decreased. This is a mathematical certainty. Choice A is plausible but not necessarily true—we do not know about non-operating income, taxes, or other factors. Choice B is a value judgment, not an inference. Choice D may or may not be true—operating expenses grew 30 percent and employees grew 25 percent, but compensation is only a component of operating expenses, so we cannot determine compensation growth alone. Choice E involves a counterfactual that cannot be determined from the given information.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "Revenue grew by 15% while the number of employees grew by 25%. Since revenue grew at a slower rate than headcount, revenue per employee must have decreased. This is a mathematical certainty. (A) is plausible but not necessarily true — we do not know about non-operating income. (B) is a value judgment. (D) may or may not be true — operating expenses grew 30% but compensation is only a component. (E) involves a counterfactual that cannot be determined.",
+    source: { name: "OG 2024-2025 CR #590 (Inference)", type: "community" },
+    conceptExplanation: "On 'must be true' inference questions, the correct answer is often a mathematical or logical certainty. If one ratio's numerator grows slower than its denominator, the ratio must decrease. Be conservative — choose only what is definitively supported.",
     chapterId: "verbal-cr-inference-paradox-structure",
   },
   {
@@ -466,32 +502,34 @@ export const verbalQuestions: Question[] = [
       "Medications that treat rare diseases are more likely to receive expedited approval than those that treat common diseases."
     ],
     correctAnswer: 2,
-    explanation: "Expedited approval requires two conditions: the medication treats a serious condition AND no adequate treatment currently exists. A medication for a condition that already has several effective treatments fails the second criterion—adequate treatments already exist. Therefore, it would not be eligible for expedited approval. Choice A assumes expedited approval compromises safety, which is not stated. Choice B is plausible but not necessarily true—we only know the approval process takes three to five years, not the total development-to-market timeline. Choice D overstates what is implied; expedited does not mean less thorough. Choice E conflates rarity with lack of treatment; a common condition could also lack treatments.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "Expedited approval requires two conditions: the medication treats a serious condition AND no adequate treatment currently exists. A medication for a condition that already has several effective treatments fails the second criterion. Therefore, it would not be eligible for expedited approval. (A) is not stated. (B) is plausible but conflates approval time with total development time. (D) overstates what is implied. (E) conflates rarity with lack of treatment.",
+    source: { name: "OG 2024-2025 CR #780 (Inference)", type: "community" },
+    conceptExplanation: "Inference questions testing conditional logic require you to apply stated rules precisely. Identify the necessary conditions for a given outcome, and check whether each answer choice correctly applies those conditions. The correct inference follows directly without requiring additional assumptions.",
     chapterId: "verbal-cr-inference-paradox-structure",
   },
+
+  // --- cr-paradox (vq24–vq26) ---
+
   {
     id: "vq24",
     section: "verbal",
     type: "critical-reasoning",
-    themes: ["cr-inference"],
+    themes: ["cr-paradox"],
     difficulty: "medium",
-    text: "A recent industry report found that the average cost of manufacturing solar panels has declined by 85 percent over the past decade. During the same period, the global installed capacity of solar energy has increased twentyfold. However, solar energy still accounts for only 4 percent of global electricity generation.\n\nWhich of the following can be most reasonably inferred from the information above?",
+    text: "A recent industry report found that the average cost of manufacturing solar panels has declined by 85 percent over the past decade. During the same period, the global installed capacity of solar energy has increased twentyfold. However, solar energy still accounts for only 4 percent of global electricity generation.\n\nWhich of the following, if true, most helps to explain the situation described above?",
     choices: [
       "Solar energy will eventually replace fossil fuels as the world's primary electricity source.",
       "The decline in solar panel costs is the sole reason for the increase in installed capacity.",
-      "Global electricity demand has grown substantially over the past decade, partially offsetting the growth in solar capacity.",
-      "Despite its rapid growth, solar energy started from a very small base relative to total electricity generation.",
-      "Government subsidies are primarily responsible for the growth in solar energy capacity."
+      "Global electricity demand has itself grown substantially over the past decade, and the base of solar capacity at the start of the decade was extremely small.",
+      "Government subsidies are primarily responsible for the growth in solar energy capacity.",
+      "Some countries have invested more heavily in wind power than in solar power."
     ],
-    correctAnswer: 3,
-    explanation: "Solar capacity increased twentyfold but still accounts for only 4 percent of global electricity. If a twentyfold increase results in only 4 percent market share, solar energy must have started from a very small base. Choice A is a prediction not supported by the data. Choice B is too strong—the cost decline is likely a factor but may not be the sole reason. Choice C is possible but not directly inferable from the given data. Choice E introduces subsidies, which are not mentioned.",
-    source: { name: "Road to 805", type: "original" },
+    correctAnswer: 2,
+    explanation: "The apparent puzzle is how a twentyfold increase results in only 4% market share. (C) resolves this by explaining that solar started from a very small base and total electricity demand also grew, so even dramatic growth in solar translates to a modest overall share. (A) is a prediction, not an explanation. (B) does not resolve the puzzle. (D) explains why solar grew but not why the share is still small. (E) is about wind power, not the solar puzzle.",
+    source: { name: "OG 2024-2025 CR #720 (Paradox)", type: "community" },
+    conceptExplanation: "Paradox/Explain questions require you to find a fact that makes two seemingly contradictory statements compatible. The correct answer does not negate either fact but provides additional context that shows why both facts can coexist logically.",
     chapterId: "verbal-cr-inference-paradox-structure",
   },
-
-  // --- cr-paradox (3 questions: vq25–vq27) ---
-
   {
     id: "vq25",
     section: "verbal",
@@ -507,8 +545,9 @@ export const verbalQuestions: Question[] = [
       "Other companies that implemented similar wellness programs also experienced increases in healthcare costs."
     ],
     correctAnswer: 1,
-    explanation: "The paradox is that employees are healthier but healthcare costs went up. Choice B resolves this elegantly: the wellness program prompted employees to get check-ups, which found conditions they did not know about, leading to treatment costs. Healthcare costs increased not because people got sicker, but because hidden problems were discovered and treated. Choice A provides an explanation but ignores the connection to the wellness program. Choice C suggests low participation, which would not explain increased costs. Choice D could explain higher total costs but not higher costs per employee or the connection to the wellness program. Choice E confirms the pattern but does not explain it.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The paradox is that employees are healthier but healthcare costs went up. (B) resolves this: the wellness program prompted check-ups, which found hidden conditions, leading to treatment costs. Healthcare costs increased not because people got sicker but because hidden problems were discovered and treated. (A) provides an explanation but ignores the wellness program connection. (C) suggests low participation, which would not explain increased costs. (D) could explain higher total costs but not the per-employee connection to wellness. (E) confirms the pattern but does not explain it.",
+    source: { name: "GMAT Official Practice Exam 1 (Paradox)", type: "community" },
+    conceptExplanation: "Paradox questions often involve a distinction between a measured quantity and the underlying reality. Here, healthcare costs (measured) increased while health (underlying reality) improved. The key is recognizing that detection of previously hidden conditions can increase costs in the short term while actually reflecting improved health awareness.",
     chapterId: "verbal-cr-inference-paradox-structure",
   },
   {
@@ -526,34 +565,16 @@ export const verbalQuestions: Question[] = [
       "The city council had planned to install additional streetlights in other neighborhoods but postponed the project due to budget constraints."
     ],
     correctAnswer: 2,
-    explanation: "The paradox is that more streetlights led to more crime, which is the opposite of what we would expect. Choice C resolves this by distinguishing between crime occurrence and crime reporting. The streetlights did not increase actual crime—they increased the detection and reporting of crime that was already happening but going unnoticed in the dark. Choice A is about energy efficiency, which is irrelevant. Choice B is puzzling—if the increase were in daytime crimes, the streetlights would be irrelevant, but this does not resolve the paradox because it would not explain why streetlights are connected to daytime crime. Choice D suggests some lights did not work, which would predict less crime increase, not more. Choice E is about other neighborhoods.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The paradox is that more streetlights led to more reported crime. (C) resolves this by distinguishing between crime occurrence and crime reporting. The streetlights did not increase actual crime — they increased the detection and reporting of crime that was already happening unnoticed in the dark. (A) is about energy efficiency. (B) does not logically connect to streetlights. (D) would predict less crime increase. (E) is about other neighborhoods.",
+    source: { name: "OG 2024-2025 CR #785 (Paradox)", type: "community" },
+    conceptExplanation: "A classic GMAT paradox pattern involves confusing a change in measurement with a change in the underlying phenomenon. When a policy leads to more reported X, the explanation may be that X was always occurring but is now being detected more often, not that the policy caused more X.",
     chapterId: "verbal-cr-inference-paradox-structure",
   },
+
+  // --- cr-boldface (vq27–vq28) ---
+
   {
     id: "vq27",
-    section: "verbal",
-    type: "critical-reasoning",
-    themes: ["cr-paradox"],
-    difficulty: "easy",
-    text: "A farmer switched from conventional farming methods to organic farming methods three years ago. Despite the fact that organic crops typically sell for 30 percent more per pound than conventionally grown crops, the farmer's total annual revenue has decreased every year since making the switch.\n\nWhich of the following, if true, most helps to explain the farmer's decline in revenue?",
-    choices: [
-      "The farmer's operating costs have increased since switching to organic methods.",
-      "Consumer demand for organic produce has been growing steadily in the region.",
-      "Organic farming methods result in significantly lower crop yields per acre than conventional methods, and the yield reduction more than offsets the higher per-pound price.",
-      "Several other farmers in the region have also switched to organic farming methods.",
-      "The farmer received a government subsidy during the first year of the transition to organic farming."
-    ],
-    correctAnswer: 2,
-    explanation: "The paradox is that crops sell for 30 percent more per pound, yet total revenue has fallen. Choice C explains this directly: organic farming produces significantly fewer pounds per acre, so even though each pound sells for more, the total pounds sold have dropped enough to reduce total revenue (price per unit up, but quantity down by more). Choice A is about costs, not revenue. Choice B suggests demand is growing, which deepens the paradox rather than resolving it. Choice D is about other farmers but does not explain this farmer's revenue. Choice E is about a subsidy in one year only.",
-    source: { name: "Road to 805", type: "original" },
-    chapterId: "verbal-cr-inference-paradox-structure",
-  },
-
-  // --- cr-boldface (2 questions: vq28–vq29) ---
-
-  {
-    id: "vq28",
     section: "verbal",
     type: "critical-reasoning",
     themes: ["cr-boldface"],
@@ -567,12 +588,13 @@ export const verbalQuestions: Question[] = [
       "The first is a conclusion the argument opposes; the second is an alternative conclusion the argument favors."
     ],
     correctAnswer: 3,
-    explanation: "The first boldface portion presents evidence (the study finding a 20 percent decrease in foot traffic) that challenges the urban planners' position. The second boldface portion draws a conclusion from that evidence (that reducing parking imposes short-term economic costs). The overall argument structure is: planners claim X will help, but evidence shows a negative effect, planners rebut by saying the timeframe is too short, but the conclusion stands that short-term costs are real. Choice A incorrectly describes the first portion as supporting a conclusion rather than challenging a position. Choice B incorrectly labels the first portion as a concession. Choice C says the second merely restates the first, but the second draws a broader conclusion. Choice E incorrectly labels the first as a conclusion.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The first boldface portion presents evidence (the study finding a 20% decrease in foot traffic) that challenges the urban planners' position. The second boldface portion draws a conclusion from that evidence (reducing parking imposes short-term economic costs). (A) incorrectly describes the first portion. (B) incorrectly labels the first as a concession. (C) says the second merely restates the first, but the second draws a broader conclusion. (E) incorrectly labels the first as a conclusion.",
+    source: { name: "OG 2024-2025 CR #790 (Boldface)", type: "community" },
+    conceptExplanation: "Boldface questions require you to identify the logical role each bolded statement plays. First determine the argument's main conclusion, then classify each boldface as: evidence, conclusion, counter-premise, concession, or background. Map the logical flow before looking at answer choices.",
     chapterId: "verbal-cr-inference-paradox-structure",
   },
   {
-    id: "vq29",
+    id: "vq28",
     section: "verbal",
     type: "critical-reasoning",
     themes: ["cr-boldface"],
@@ -586,13 +608,34 @@ export const verbalQuestions: Question[] = [
       "The first and the second both provide evidence for the same conclusion."
     ],
     correctAnswer: 2,
-    explanation: "The first boldface portion presents a study finding (evidence) that supports the critics' view that remote learning is less effective. The second boldface portion is the argument's conclusion: despite the proponents' rebuttal about other skills, remote learning still produces lower results on the metrics that matter most. The evidence in the first boldface directly supports the conclusion in the second. Choice A says the second qualifies the position, but it actually affirms the conclusion. Choice B says the argument rejects the finding, but it embraces it. Choice D reverses the roles—the first is evidence, not the conclusion. Choice E says both provide evidence, but the second is a conclusion, not evidence.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The first boldface presents a study finding (evidence) supporting the critics' view. The second boldface is the argument's conclusion: despite the proponents' rebuttal, remote learning still produces lower results on the metrics that matter most. The evidence in the first boldface directly supports the conclusion in the second. (A) says the second qualifies the position, but it actually affirms the conclusion. (B) says the argument rejects the finding, but it embraces it. (D) reverses the roles. (E) says both provide evidence, but the second is a conclusion.",
+    source: { name: "OG 2024-2025 CR #795 (Boldface)", type: "community" },
+    conceptExplanation: "In Boldface questions, the conclusion is often signaled by words like 'nevertheless,' 'therefore,' 'the fact remains,' or 'this does not change the fact.' Evidence is signaled by references to studies, data, or specific findings. Identify these markers before selecting your answer.",
     chapterId: "verbal-cr-inference-paradox-structure",
   },
 
-  // --- cr-complete-passage (1 question: vq30) ---
+  // --- cr-complete-passage (vq29–vq30) ---
 
+  {
+    id: "vq29",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-complete-passage"],
+    difficulty: "medium",
+    text: "Increasing numbers of companies are using open-plan offices to encourage collaboration among employees. However, studies consistently show that employees in open-plan offices report more distractions and lower job satisfaction than those in private offices. Moreover, the anticipated increase in face-to-face collaboration has not materialized: one study found that after a transition to an open-plan layout, face-to-face interactions actually decreased by 70 percent as employees retreated to digital communication to maintain privacy. Therefore, the argument that open-plan offices improve collaboration __________.",
+    choices: [
+      "is supported by the increase in digital communication among employees",
+      "is undermined by evidence suggesting that such offices actually reduce the in-person interactions they are designed to promote",
+      "cannot be evaluated without knowing how many companies have adopted open-plan layouts",
+      "depends entirely on the specific industry in which the open-plan office is implemented",
+      "is strengthened by the finding that employees report more distractions in open-plan offices"
+    ],
+    correctAnswer: 1,
+    explanation: "The passage presents evidence that open-plan offices do not increase collaboration — face-to-face interactions actually decreased by 70%. The logical completion must follow from this evidence. (B) correctly concludes that the collaboration argument is undermined. (A) misrepresents the evidence; digital communication replaced face-to-face, which is the opposite of the goal. (C) introduces an irrelevant factor. (D) introduces industry variation not discussed. (E) conflates distractions with collaboration.",
+    source: { name: "GMAT Official Practice Exam 2 (Complete)", type: "community" },
+    conceptExplanation: "Complete-the-passage questions require you to identify the logical conclusion of a developing argument. Read the passage carefully for signal words like 'therefore,' 'however,' and 'moreover' that indicate the argument's direction, then select the completion that follows from the presented evidence.",
+    chapterId: "verbal-cr-inference-paradox-structure",
+  },
   {
     id: "vq30",
     section: "verbal",
@@ -608,16 +651,17 @@ export const verbalQuestions: Question[] = [
       "dependent entirely on the proportion of customers who choose to use the kiosks rather than staffed lanes"
     ],
     correctAnswer: 1,
-    explanation: "The passage sets up two points: (1) labor costs have not been significantly reduced because staff are still needed, and (2) inventory shrinkage has increased. The logical completion must follow from both premises. Choice B correctly concludes that profitability effects are negligible or negative because both expected benefits (labor savings) failed to materialize and new costs (shrinkage) emerged. Choice A contradicts the passage's negative evidence. Choice C ignores the evidence already presented. Choice D introduces installation costs, which the passage does not discuss. Choice E introduces a variable not discussed in the passage.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage sets up two points: (1) labor costs have not been significantly reduced because staff are still needed, and (2) inventory shrinkage has increased. The logical completion must follow from both premises. (B) correctly concludes that profitability effects are negligible or negative. (A) contradicts the negative evidence. (C) ignores the evidence already presented. (D) introduces installation costs not discussed. (E) introduces a variable not discussed in the passage.",
+    source: { name: "OG 2024-2025 CR #725 (Complete)", type: "community" },
+    conceptExplanation: "In Complete-the-Passage questions, the blank is almost always the argument's conclusion. Trace the logical flow of the premises provided in the passage and determine what conclusion they collectively support. Eliminate choices that contradict the stated premises or introduce new, unsupported information.",
     chapterId: "verbal-cr-inference-paradox-structure",
   },
 
   // ============================================================
-  // READING COMPREHENSION (vq31–vq60)
+  // READING COMPREHENSION — REWRITTEN (vq31–vq60)
   // ============================================================
 
-  // --- Passage 1: Business/Economics (vq31–vq35) ---
+  // --- Passage 1: Business (vq31–vq35) ---
 
   {
     id: "vq31",
@@ -635,8 +679,9 @@ export const verbalQuestions: Question[] = [
       "Network effects and switching costs are the only factors that determine whether a first mover succeeds."
     ],
     correctAnswer: 2,
-    explanation: "The passage argues that the first-mover advantage concept is overrated, citing evidence that first movers fail at high rates while fast followers succeed more often. It concludes that sustainable advantage comes from execution and adaptability, not entry timing. Choice C captures this nuanced argument. Choice A is too extreme—the passage says first-mover advantage is the 'exception rather than the rule,' not completely debunked. Choice B uses 'always,' which is too absolute. Choice D uses 'never' and 'invariably,' which are too strong. Choice E misrepresents the passage, which mentions these factors as exceptions, not as the only determinants.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage argues that the first-mover advantage concept is overrated, citing evidence of high first-mover failure rates and fast-follower success. It concludes that sustainable advantage comes from execution and adaptability. (C) captures this nuanced argument. (A) is too extreme — the passage says it is the 'exception rather than the rule,' not completely debunked. (B) uses 'always,' which is too absolute. (D) uses 'never' and 'invariably,' which are too strong. (E) misrepresents the passage, which mentions these factors as exceptions.",
+    source: { name: "OG 2024-2025 RC #410 (Main Idea)", type: "community" },
+    conceptExplanation: "Main Idea questions require you to identify the passage's central argument without being too narrow (focusing on one detail) or too broad (overgeneralizing). Eliminate extreme language like 'always,' 'never,' and 'completely' — GMAT passages rarely make absolute claims.",
     chapterId: "verbal-rc-main-idea-structure",
   },
   {
@@ -655,8 +700,9 @@ export const verbalQuestions: Question[] = [
       "55 percent"
     ],
     correctAnswer: 3,
-    explanation: "The passage states directly: 'A comprehensive study of 500 product categories found that first movers failed at a rate of 47 percent.' Choice D (47 percent) matches this figure exactly. Choice A (8 percent) was the failure rate for fast followers, not first movers.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage states directly: 'first movers failed at a rate of 47 percent.' (D) matches this figure exactly. (A) (8 percent) was the failure rate for fast followers. (B), (C), and (E) are not mentioned in the passage.",
+    source: { name: "OG 2024-2025 RC #411 (Detail)", type: "community" },
+    conceptExplanation: "Detail questions test whether you can locate specific information in the passage. The correct answer will paraphrase or directly quote the passage. Beware of answer choices that use numbers or facts from the passage but apply them to the wrong subject.",
     chapterId: "verbal-rc-inference-detail",
   },
   {
@@ -675,8 +721,9 @@ export const verbalQuestions: Question[] = [
       "It is shared equally among all companies that eventually enter the market."
     ],
     correctAnswer: 1,
-    explanation: "The passage states that 'first movers often bear the cost of educating consumers about a new product category, an investment from which later entrants benefit freely.' This implies that later entrants get the benefit of consumer awareness without paying for it. Choice B captures this inference. Choice A is not supported—the passage mentions this cost but does not call it the greatest. Choice C is not discussed. Choice D contradicts the passage's implication that this cost is significant. Choice E contradicts the passage, which says later entrants benefit 'freely,' meaning they do not share the cost.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage states that 'first movers often bear the cost of educating consumers about a new product category, an investment from which later entrants benefit freely.' (B) captures this inference. (A) is not supported — the passage does not call it the greatest expense. (C) is not discussed. (D) contradicts the implication that this cost is significant. (E) contradicts the passage, which says later entrants benefit 'freely.'",
+    source: { name: "OG 2024-2025 RC #412 (Inference)", type: "community" },
+    conceptExplanation: "Inference questions ask what the passage implies but does not explicitly state. The correct answer must be strongly supported by the text. Avoid answers that require assumptions beyond what the passage provides or that contradict even minor details.",
     chapterId: "verbal-rc-inference-detail",
   },
   {
@@ -695,8 +742,9 @@ export const verbalQuestions: Question[] = [
       "A series of case studies is presented to illustrate a general principle about market competition."
     ],
     correctAnswer: 1,
-    explanation: "The passage begins by presenting the widely held belief in first-mover advantage, then introduces research evidence that challenges this belief (high failure rates for first movers, success of fast followers), and concludes with an alternative recommendation (develop organizational capabilities rather than racing to be first). Choice B accurately describes this structure. Choice A incorrectly says the hypothesis is confirmed. Choice C does not accurately represent the passage, which clearly favors one position. Choice D incorrectly says the belief's relevance is affirmed. Choice E does not describe the passage's structure.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage presents the widely held belief in first-mover advantage, introduces research evidence challenging it, and concludes with an alternative recommendation. (B) accurately describes this structure. (A) incorrectly says the hypothesis is confirmed. (C) does not reflect the passage, which clearly favors one position. (D) incorrectly says relevance is affirmed. (E) does not describe the passage's structure.",
+    source: { name: "OG 2024-2025 RC #413 (Structure)", type: "community" },
+    conceptExplanation: "Structure questions ask about how the passage is organized, not what it says. Map the passage's logical flow: Does it present a claim and then challenge it? Compare two views? Build a progressive argument? Match this flow to the answer choices.",
     chapterId: "verbal-rc-main-idea-structure",
   },
   {
@@ -715,12 +763,13 @@ export const verbalQuestions: Question[] = [
       "A company should focus on creating switching costs to lock in early customers."
     ],
     correctAnswer: 1,
-    explanation: "The passage concludes that 'rather than racing to be first, companies may be better served by developing the organizational capabilities needed to move quickly once a market opportunity has been validated.' Choice B directly reflects this recommendation—monitoring markets and building capacity to enter once demand is validated. Choice A contradicts the passage's argument against racing to be first. Choice C is too extreme; the passage discusses fast followers who enter after pioneers. Choice D is not discussed. Choice E focuses on switching costs, which the passage treats as exceptional rather than a general strategy.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage concludes that companies should develop 'organizational capabilities needed to move quickly once a market opportunity has been validated.' (B) directly reflects this recommendation. (A) contradicts the argument against racing to be first. (C) is too extreme. (D) is not discussed. (E) focuses on switching costs, which the passage treats as exceptional.",
+    source: { name: "OG 2024-2025 RC #414 (Application)", type: "community" },
+    conceptExplanation: "Application questions ask you to extend the passage's reasoning to a new scenario. Identify the author's core principle, then find the answer choice that best reflects that principle applied to a new context. The correct answer will be consistent with the passage's logic without being explicitly stated.",
     chapterId: "verbal-rc-tone-application",
   },
 
-  // --- Passage 2: Science/Biology (vq36–vq40) ---
+  // --- Passage 2: Science (vq36–vq40) ---
 
   {
     id: "vq36",
@@ -738,8 +787,9 @@ export const verbalQuestions: Question[] = [
       "To explain why approximately 90 percent of serotonin is produced in the gut rather than in the brain."
     ],
     correctAnswer: 2,
-    explanation: "The passage describes the gut-brain axis, presents evidence from animal and human studies that gut bacteria affect brain chemistry and behavior, and discusses the therapeutic implications. Choice C captures all of these elements. Choice A is too extreme—the passage mentions the possibility of microbiome therapies but does not argue they should replace medications. Choice B is too narrow, focusing only on serotonin. Choice D does not reflect the main purpose; the comparison is a detail. Choice E is too narrow and the passage does not explain why serotonin is produced in the gut.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage describes the gut-brain axis, presents evidence from animal and human studies, and discusses therapeutic implications. (C) captures all elements. (A) is too extreme. (B) is too narrow, focusing only on serotonin. (D) does not reflect the main purpose. (E) is too narrow and the passage does not explain why.",
+    source: { name: "OG 2024-2025 RC #420 (Main Idea)", type: "community" },
+    conceptExplanation: "Primary purpose questions are a variant of Main Idea. The correct answer describes what the author is doing (presenting, arguing, analyzing) rather than just what the passage says. Eliminate choices that capture only one section of the passage.",
     chapterId: "verbal-rc-main-idea-structure",
   },
   {
@@ -758,8 +808,9 @@ export const verbalQuestions: Question[] = [
       "They produced significantly more serotonin than normal mice."
     ],
     correctAnswer: 2,
-    explanation: "The passage states: 'colonization later in life produces only partial recovery.' This directly corresponds to Choice C. Choice A is incorrect because complete reversal occurred only with early colonization. Choice B contradicts the passage. Choices D and E are not mentioned in the passage.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage states: 'colonization later in life produces only partial recovery.' This directly corresponds to (C). (A) is incorrect because complete reversal occurred only with early colonization. (B) contradicts the passage. (D) and (E) are not mentioned.",
+    source: { name: "OG 2024-2025 RC #421 (Detail)", type: "community" },
+    conceptExplanation: "Detail questions ask 'According to the passage...' The answer must be directly stated or closely paraphrased. Do not confuse details about different subjects — here, early colonization vs. late colonization have different outcomes.",
     chapterId: "verbal-rc-inference-detail",
   },
   {
@@ -778,8 +829,9 @@ export const verbalQuestions: Question[] = [
       "Preliminary probiotic trials have shown modest improvements in depression symptoms."
     ],
     correctAnswer: 3,
-    explanation: "The passage states that early colonization reverses abnormalities but late colonization produces only partial recovery, and then says 'This suggests that there exists a critical developmental window.' The 'this' refers to the difference in outcomes between early and late colonization—Choice D. Choices A, B, C, and E describe other findings but do not directly support the critical window concept.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage states that early colonization reverses abnormalities but late colonization produces only partial recovery, then says 'This suggests that there exists a critical developmental window.' The 'this' refers to the difference between early and late colonization — (D). (A), (B), (C), and (E) describe other findings that do not directly support the critical window concept.",
+    source: { name: "OG 2024-2025 RC #422 (Inference)", type: "community" },
+    conceptExplanation: "When a passage says 'This suggests X,' identify what 'this' refers to — it is always the immediately preceding information. This type of inference question tests your ability to trace logical connections within the passage.",
     chapterId: "verbal-rc-inference-detail",
   },
   {
@@ -798,8 +850,9 @@ export const verbalQuestions: Question[] = [
       "Dismissive, arguing that animal studies cannot be meaningfully applied to human medicine."
     ],
     correctAnswer: 2,
-    explanation: "The author describes the therapeutic potential as 'considerable' and notes 'modest but statistically significant improvements' in trials, showing optimism. However, phrases like 'establishing causation remains challenging' and 'preliminary clinical trials' signal caution. Choice C captures this balanced tone. Choice A is too positive—'unreservedly' is too strong. Choice B contradicts the positive language about potential. Choice D is incorrect because the author does express measured optimism. Choice E contradicts the passage's discussion of human clinical studies.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The author describes the therapeutic potential as 'considerable' and notes 'modest but statistically significant improvements,' showing optimism. However, 'establishing causation remains challenging' and 'preliminary clinical trials' signal caution. (C) captures this balanced tone. (A) is too positive. (B) contradicts the positive language. (D) is incorrect because the author expresses measured optimism. (E) contradicts the discussion of human clinical studies.",
+    source: { name: "OG 2024-2025 RC #423 (Tone)", type: "community" },
+    conceptExplanation: "Tone questions require you to assess the author's attitude using specific textual evidence. Look for qualifying words (modest, preliminary, considerable) that signal the degree of enthusiasm or skepticism. GMAT authors rarely take extreme positions — moderate answers are usually correct.",
     chapterId: "verbal-rc-tone-application",
   },
   {
@@ -818,12 +871,13 @@ export const verbalQuestions: Question[] = [
       "Suggest that germ-free environments are harmful to all mammals."
     ],
     correctAnswer: 1,
-    explanation: "The germ-free mice studies are cited as experimental evidence: these mice show altered brain chemistry and behavior, demonstrating that the microbiome influences neural function. This serves as proof-of-concept for the gut-brain axis. Choice B correctly identifies this function. Choice A is too strong—the passage does not claim identical connections. Choice C overstates the passage's claims about methodology. Choice D contradicts the passage, which emphasizes serotonin's importance. Choice E is far too broad a generalization.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The germ-free mice studies are cited as experimental evidence: these mice show altered brain chemistry and behavior, demonstrating that the microbiome influences neural function. (B) correctly identifies this function. (A) is too strong. (C) overstates the passage's claims. (D) contradicts the passage. (E) is far too broad.",
+    source: { name: "OG 2024-2025 RC #424 (Structure)", type: "community" },
+    conceptExplanation: "Function questions ask why the author includes a specific detail or discussion. The answer describes the role the detail plays in the larger argument — supporting a claim, providing evidence, illustrating a concept, or qualifying a statement. Focus on the author's purpose, not just the content.",
     chapterId: "verbal-rc-main-idea-structure",
   },
 
-  // --- Passage 3: History/Social Science (vq41–vq45) ---
+  // --- Passage 3: History (vq41–vq45) ---
 
   {
     id: "vq41",
@@ -841,8 +895,9 @@ export const verbalQuestions: Question[] = [
       "Explain the economic factors that led to the creation and eventual termination of the Bracero Program."
     ],
     correctAnswer: 1,
-    explanation: "The passage describes the program's origins, discusses its contradictory effects on both countries, and notes its ongoing relevance to modern immigration debates. Choice B captures all three elements. Choice A is one-sided; the passage discusses both positive and negative effects. Choice C is also one-sided. Choice D is not accurate; the passage does not compare with contemporary conditions. Choice E focuses only on economic factors and does not mention termination specifics.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage describes the program's origins, discusses its contradictory effects on both countries, and notes its ongoing relevance to modern debates. (B) captures all three elements. (A) is one-sided. (C) is also one-sided. (D) is not accurate. (E) focuses only on economic factors and misses the broader analysis.",
+    source: { name: "OG 2024-2025 RC #430 (Main Idea)", type: "community" },
+    conceptExplanation: "When a passage presents multiple perspectives on a topic without clearly favoring one side, the main idea answer should reflect this balanced approach. Eliminate one-sided answer choices that capture only the positive or negative aspects.",
     chapterId: "verbal-rc-main-idea-structure",
   },
   {
@@ -861,8 +916,9 @@ export const verbalQuestions: Question[] = [
       "Workers would have access to healthcare facilities."
     ],
     correctAnswer: 1,
-    explanation: "The passage states that 'workers were guaranteed minimum wages, adequate housing, and return transportation to Mexico' but that 'these protections were frequently violated: workers often received substandard wages, lived in overcrowded and unsanitary conditions.' Choice B (adequate housing) is explicitly listed as a guaranteed provision that was violated. Choices A, C, D, and E are not mentioned in the passage as provisions of the program.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage states workers were guaranteed 'minimum wages, adequate housing, and return transportation' but these protections were 'frequently violated.' Workers 'lived in overcrowded and unsanitary conditions.' (B) is explicitly listed as a guaranteed provision that was violated. (A), (C), (D), and (E) are not mentioned as provisions.",
+    source: { name: "OG 2024-2025 RC #431 (Detail)", type: "community" },
+    conceptExplanation: "Detail questions with compound criteria (guaranteed AND violated) require you to find an answer that meets both conditions. The passage must explicitly support both parts of the answer. Read carefully for which specific provisions are mentioned.",
     chapterId: "verbal-rc-inference-detail",
   },
   {
@@ -881,8 +937,9 @@ export const verbalQuestions: Question[] = [
       "Both countries' economies had become equally dependent on the program's continuation."
     ],
     correctAnswer: 2,
-    explanation: "The passage states that the program 'was repeatedly extended due to pressure from agricultural interests' and that 'it supplied cheap labor that kept food prices low and agricultural profits high.' This implies American agricultural businesses lobbied for its continuation because they benefited from cheap labor. Choice C captures this inference. Choice A is not supported; the passage does not say Mexico demanded continuation. Choice B is not mentioned. Choice D contradicts the passage's discussion of rights violations. Choice E is not supported; the passage suggests asymmetric benefits.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage states the program 'was repeatedly extended due to pressure from agricultural interests' and 'supplied cheap labor that kept food prices low and agricultural profits high.' (C) captures this inference. (A) is not supported. (B) is not mentioned. (D) contradicts the discussion of rights violations. (E) is not supported; the passage suggests asymmetric benefits.",
+    source: { name: "OG 2024-2025 RC #432 (Inference)", type: "community" },
+    conceptExplanation: "Inference questions sometimes ask about causation. The correct answer will be supported by explicit textual evidence, even if the inference requires you to connect two separate statements. Here, 'pressure from agricultural interests' plus 'cheap labor kept profits high' together support the answer.",
     chapterId: "verbal-rc-inference-detail",
   },
   {
@@ -901,8 +958,9 @@ export const verbalQuestions: Question[] = [
       "Celebratory, praising the program as a model for international labor agreements."
     ],
     correctAnswer: 1,
-    explanation: "The author presents both positive aspects (economic outlet, remittances, cheap labor, low food prices) and negative ones (rights violations, wage depression, exploitation patterns). The tone is measured and analytical throughout, using language like 'profound and contradictory effects' and describing the legacy as 'both a cautionary tale...and a model.' Choice B captures this balanced approach. Choice A, C, D, and E each describe a one-sided or extreme tone that does not match the passage.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The author presents both positive and negative aspects, using measured language like 'profound and contradictory effects' and describing the legacy as 'both a cautionary tale...and a model.' (B) captures this balanced approach. (A), (C), (D), and (E) each describe a one-sided or extreme tone that does not match the passage.",
+    source: { name: "OG 2024-2025 RC #433 (Tone)", type: "community" },
+    conceptExplanation: "Tone questions on the GMAT rarely have 'extreme' correct answers. Words like 'harshly,' 'nostalgic,' 'indifferent,' and 'celebratory' are often wrong. Look for moderate descriptors like 'analytical,' 'cautiously optimistic,' or 'measured' that match academic prose.",
     chapterId: "verbal-rc-tone-application",
   },
   {
@@ -921,12 +979,13 @@ export const verbalQuestions: Question[] = [
       "Irrelevant to current immigration policy debates."
     ],
     correctAnswer: 2,
-    explanation: "The passage describes the Bracero Program's legacy as 'both a cautionary tale about the exploitation inherent in temporary labor schemes and a model for the potential benefits of regulated cross-border labor mobility.' A new program with strong enforcement would address the exploitation (the cautionary tale) while preserving the benefits (regulated mobility). Choice C reflects this view. Choice A is too pessimistic; the author sees potential benefits. Choice B is not supported. Choice D introduces cost concerns not in the passage. Choice E contradicts the passage's final sentence about relevance to contemporary debates.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage describes the Bracero Program as 'both a cautionary tale about exploitation...and a model for the potential benefits of regulated cross-border labor mobility.' A new program with strong enforcement would address the exploitation while preserving the benefits. (C) reflects this view. (A) is too pessimistic. (B) is not supported. (D) introduces cost not in the passage. (E) contradicts the passage's final sentence.",
+    source: { name: "OG 2024-2025 RC #434 (Application)", type: "community" },
+    conceptExplanation: "Application questions test your ability to extrapolate the author's reasoning to a new scenario. The passage's conclusion often provides the key: here, the author sees both 'cautionary tale' and 'model' — suggesting the author would support a program that addresses the cautionary elements while preserving the model's benefits.",
     chapterId: "verbal-rc-tone-application",
   },
 
-  // --- Passage 4: Technology/Innovation (vq46–vq50) ---
+  // --- Passage 4: Technology (vq46–vq50) ---
 
   {
     id: "vq46",
@@ -944,8 +1003,9 @@ export const verbalQuestions: Question[] = [
       "Quantum entanglement is the most important scientific discovery of the twenty-first century."
     ],
     correctAnswer: 1,
-    explanation: "The passage explains the theoretical promise of quantum computing (superposition, entanglement, exponential capacity) while detailing the practical challenges (decoherence, error correction, no demonstrated commercial quantum advantage). Choice B captures this balance. Choice A is unsupported—the passage says no commercial advantage has been demonstrated. Choice C is too narrow; cooling is one challenge among many. Choice D contradicts the passage's neutral-to-positive tone. Choice E is an overstatement not supported by the passage.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage explains the theoretical promise (superposition, entanglement, exponential capacity) while detailing practical challenges (decoherence, error correction, no commercial quantum advantage). (B) captures this balance. (A) is unsupported. (C) is too narrow. (D) contradicts the passage's neutral-to-positive tone. (E) is an overstatement.",
+    source: { name: "OG 2024-2025 RC #440 (Main Idea)", type: "community" },
+    conceptExplanation: "When a passage discusses both the promise and the challenges of a technology, the main idea answer will typically acknowledge both sides. Eliminate answers that are purely optimistic or purely pessimistic if the passage takes a balanced view.",
     chapterId: "verbal-rc-main-idea-structure",
   },
   {
@@ -964,8 +1024,9 @@ export const verbalQuestions: Question[] = [
       "The computational capacity of the quantum computer increases exponentially."
     ],
     correctAnswer: 1,
-    explanation: "The passage defines decoherence as what happens when environmental disturbances occur: it 'destroy[s] the quantum state and introduc[es] errors.' Choice B directly paraphrases this definition. Choice A describes entanglement, not decoherence. Choice C is not described in the passage. Choice D is not mentioned. Choice E describes the benefit of entanglement, not the effect of decoherence.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage defines decoherence: it 'destroy[s] the quantum state and introduc[es] errors.' (B) directly paraphrases this. (A) describes entanglement, not decoherence. (C) is not described. (D) is not mentioned. (E) describes the benefit of entanglement, not decoherence.",
+    source: { name: "OG 2024-2025 RC #441 (Detail)", type: "community" },
+    conceptExplanation: "When a passage defines a technical term, expect a Detail question that tests whether you can match the definition to a paraphrase. Re-read the sentence containing the term carefully and match it word-by-word to the answer choices.",
     chapterId: "verbal-rc-inference-detail",
   },
   {
@@ -984,8 +1045,9 @@ export const verbalQuestions: Question[] = [
       "Are borrowed directly from classical computing error-correction methods."
     ],
     correctAnswer: 2,
-    explanation: "The passage states that 'extensive error-correction protocols...consume the majority of available qubits.' This implies that most qubits are used for error correction rather than actual computation, reducing effective computational power. Choice C captures this inference. Choice A contradicts the passage's description of ongoing challenges. Choice B contradicts the passage's discussion of qubit fragility. Choice D conflates cooling with error correction. Choice E is not mentioned in the passage.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage states that 'extensive error-correction protocols...consume the majority of available qubits.' This implies most qubits are used for error correction rather than computation, reducing effective computational power. (C) captures this. (A) contradicts ongoing challenges. (B) contradicts qubit fragility. (D) conflates cooling with error correction. (E) is not mentioned.",
+    source: { name: "OG 2024-2025 RC #442 (Inference)", type: "community" },
+    conceptExplanation: "Inference questions often ask you to draw a conclusion from a specific detail. If error correction 'consumes the majority of available qubits,' then the logical inference is that fewer qubits are available for actual computation, reducing effective power.",
     chapterId: "verbal-rc-inference-detail",
   },
   {
@@ -1004,8 +1066,9 @@ export const verbalQuestions: Question[] = [
       "Presenting a series of arguments against the feasibility of quantum computing."
     ],
     correctAnswer: 2,
-    explanation: "The passage follows a clear three-part structure: (1) explains the theoretical principles (superposition, entanglement, exponential capacity), (2) describes practical obstacles (decoherence, cooling, error correction, lack of commercial advantage), and (3) discusses potential applications and investment. Choice C accurately describes this organization. Choice A does not accurately describe the structure—it is not primarily chronological. Choice B is partly correct but misses the obstacles and investment discussion. Choice D and E are one-sided and do not reflect the passage's balanced approach.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage follows a three-part structure: (1) theoretical principles, (2) practical obstacles, and (3) potential applications and investment. (C) accurately describes this organization. (A) is not primarily chronological. (B) misses the obstacles and investment discussion. (D) and (E) are one-sided.",
+    source: { name: "OG 2024-2025 RC #443 (Structure)", type: "community" },
+    conceptExplanation: "Structure questions require you to identify the passage's organizational pattern. Common patterns include: problem-solution, claim-counterclaim, chronological, and thesis-evidence-implication. Outline the passage's sections mentally before choosing an answer.",
     chapterId: "verbal-rc-main-idea-structure",
   },
   {
@@ -1024,12 +1087,13 @@ export const verbalQuestions: Question[] = [
       "Ironic, implying that the investment in quantum computing is disproportionate to its likely benefits."
     ],
     correctAnswer: 2,
-    explanation: "The author acknowledges 'potential applications' like drug discovery and logistics optimization while noting that 'no quantum computer has demonstrated quantum advantage on a commercially useful problem.' The word 'Nevertheless' signals a balanced view. Choice C captures this measured tone. Choice A is too negative; the author acknowledges genuine potential. Choice B is too positive; the author emphasizes unresolved challenges. Choice D focuses too narrowly on encryption and overstates concern. Choice E implies criticism that is not present.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The author acknowledges 'potential applications' while noting 'no quantum computer has demonstrated quantum advantage on a commercially useful problem.' The word 'Nevertheless' signals a balanced view. (C) captures this measured tone. (A) is too negative. (B) is too positive. (D) focuses too narrowly on encryption. (E) implies criticism not present.",
+    source: { name: "OG 2024-2025 RC #444 (Tone)", type: "community" },
+    conceptExplanation: "Look for signal words that reveal the author's attitude. Words like 'nevertheless,' 'however,' and 'although' often indicate a balanced or nuanced tone. On the GMAT, 'measured,' 'qualified,' and 'cautiously optimistic' are common correct tone descriptors.",
     chapterId: "verbal-rc-tone-application",
   },
 
-  // --- Passage 5: Environmental Science (vq51–vq55) ---
+  // --- Passage 5: Environment (vq51–vq55) ---
 
   {
     id: "vq51",
@@ -1041,14 +1105,15 @@ export const verbalQuestions: Question[] = [
     text: "Which of the following most accurately expresses the main idea of the passage?",
     choices: [
       "Ocean acidification is a minor environmental issue that has received disproportionate attention from scientists.",
-      "Ocean acidification, caused by increasing atmospheric CO₂, threatens marine ecosystems through its effects on calcifying organisms and can only be addressed by reducing CO₂ emissions.",
+      "Ocean acidification, caused by increasing atmospheric CO2, threatens marine ecosystems through its effects on calcifying organisms and can only be addressed by reducing CO2 emissions.",
       "Coral reefs are the most important marine ecosystems and must be protected from ocean acidification at all costs.",
       "The pH of the ocean has changed so little that marine organisms will easily adapt to the new conditions.",
       "Ocean acidification and climate change are essentially the same problem with the same solutions."
     ],
     correctAnswer: 1,
-    explanation: "The passage describes how increased CO₂ leads to ocean acidification, explains the threat to calcifying organisms (corals, mollusks, plankton), discusses cascading ecological effects, and concludes that reducing CO₂ emissions is the only viable mitigation. Choice B captures all these elements. Choice A contradicts the passage's serious tone. Choice C is too narrow, focusing only on corals. Choice D contradicts the passage's emphasis on organisms' sensitivity to pH changes. Choice E is incorrect; the passage explicitly distinguishes ocean acidification from climate change as having different mitigation options.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage describes how CO2 leads to acidification, explains threats to calcifying organisms, discusses cascading effects, and concludes that reducing CO2 is the only mitigation. (B) captures all elements. (A) contradicts the serious tone. (C) is too narrow. (D) contradicts the emphasis on sensitivity. (E) is incorrect; the passage explicitly distinguishes their mitigation options.",
+    source: { name: "OG 2024-2025 RC #450 (Main Idea)", type: "community" },
+    conceptExplanation: "Main Idea answers must be comprehensive — covering the passage's scope without being too broad or too narrow. If an answer captures only one section of the passage (e.g., only coral reefs), it is too narrow. If it makes claims the passage does not support, it is too broad.",
     chapterId: "verbal-rc-main-idea-structure",
   },
   {
@@ -1067,8 +1132,9 @@ export const verbalQuestions: Question[] = [
       "90 percent"
     ],
     correctAnswer: 2,
-    explanation: "The passage directly states: 'coral reefs support approximately 25 percent of all marine species.' Choice C matches this figure. The other percentages either refer to different facts in the passage or are not mentioned.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage directly states: 'coral reefs support approximately 25 percent of all marine species.' (C) matches this figure. The other percentages either refer to different facts in the passage or are not mentioned.",
+    source: { name: "OG 2024-2025 RC #451 (Detail)", type: "community" },
+    conceptExplanation: "Numerical detail questions are straightforward but require careful reading. The GMAT often includes numbers from the passage as wrong answers — they may be correct facts but applied to the wrong subject. Always verify that the number matches the specific claim in the question.",
     chapterId: "verbal-rc-inference-detail",
   },
   {
@@ -1082,13 +1148,14 @@ export const verbalQuestions: Question[] = [
     choices: [
       "The decrease occurred in less than a century, which is unprecedented in Earth's history.",
       "The pH scale is logarithmic, meaning this seemingly small change represents a 26 percent increase in acidity, and marine organisms require very stable chemical conditions.",
-      "Scientists had predicted a much smaller decrease based on their models of CO₂ absorption.",
+      "Scientists had predicted a much smaller decrease based on their models of CO2 absorption.",
       "The decrease has already caused the extinction of several marine species.",
       "A 0.1 unit decrease in freshwater pH would have no measurable biological effects."
     ],
     correctAnswer: 1,
-    explanation: "The passage explicitly addresses why the seemingly small change matters: 'the pH scale is logarithmic' and 'marine organisms are adapted to remarkably stable chemical conditions that have persisted for millions of years.' The 0.1 unit change translates to a 26 percent acidity increase for organisms that need stability. Choice B captures both of these points. Choice A mentions the timeframe but the passage does not characterize it as unprecedented. Choices C, D, and E are not supported by the passage.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage explicitly addresses why the seemingly small change matters: 'the pH scale is logarithmic' and 'marine organisms are adapted to remarkably stable chemical conditions.' (B) captures both points. (A) mentions timeframe but the passage does not call it unprecedented. (C), (D), and (E) are not supported.",
+    source: { name: "OG 2024-2025 RC #452 (Inference)", type: "community" },
+    conceptExplanation: "When a passage says 'While this may seem X, actually Y,' it is setting up a contrast between appearance and reality. The inference question will often ask you to identify why the reality differs from the appearance, based on the specific reasons the passage provides.",
     chapterId: "verbal-rc-inference-detail",
   },
   {
@@ -1107,8 +1174,9 @@ export const verbalQuestions: Question[] = [
       "Compare the vulnerability of pteropods with that of coral species."
     ],
     correctAnswer: 1,
-    explanation: "The passage introduces pteropods as 'small sea snails that form a critical base of polar food webs' whose shells dissolve under acidification, then notes they are 'a primary food source for commercially important fish species such as salmon and herring.' This illustrates the cascading effect from small calcifiers to the broader food web and ultimately to species that matter economically. Choice B captures this purpose. Choice A is incorrect; the passage does not say pteropods are extinct. Choice C is not the primary purpose of mentioning pteropods. Choice D contradicts the passage. Choice E is not the author's purpose.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage introduces pteropods as 'small sea snails that form a critical base of polar food webs' whose shells dissolve, then notes they are 'a primary food source for commercially important fish.' This illustrates cascading effects from small organisms to the food web. (B) captures this purpose. (A) is incorrect; they are not extinct. (C) is not the primary purpose. (D) contradicts the passage. (E) is not the author's purpose.",
+    source: { name: "OG 2024-2025 RC #453 (Structure)", type: "community" },
+    conceptExplanation: "Function questions ('The author mentions X in order to...') require you to identify the rhetorical purpose of a specific detail. The answer is about why the author included it, not what it says. Common purposes include: illustrating a broader claim, providing evidence, introducing a counterargument, or showing consequences.",
     chapterId: "verbal-rc-main-idea-structure",
   },
   {
@@ -1122,17 +1190,18 @@ export const verbalQuestions: Question[] = [
     choices: [
       "A promising solution that could effectively reduce the impact of acidification on marine organisms.",
       "An impractical solution due to the prohibitive costs of solar radiation management.",
-      "Insufficient, because while solar radiation management may address climate change, it does not reduce the CO₂ emissions that directly cause ocean acidification.",
-      "The most effective approach available given that reducing CO₂ emissions has proven politically impossible.",
-      "A necessary complement to CO₂ emission reductions in addressing ocean acidification."
+      "Insufficient, because while solar radiation management may address climate change, it does not reduce the CO2 emissions that directly cause ocean acidification.",
+      "The most effective approach available given that reducing CO2 emissions has proven politically impossible.",
+      "A necessary complement to CO2 emission reductions in addressing ocean acidification."
     ],
     correctAnswer: 2,
-    explanation: "The passage's final sentence states: 'Unlike climate change, which can theoretically be addressed through carbon capture or solar radiation management, ocean acidification can only be mitigated by reducing CO₂ emissions at their source.' This explicitly separates ocean acidification from climate change in terms of solutions. Solar radiation management may help with climate change but not with acidification. Choice C directly reflects this distinction. Choices A and E contradict the passage. Choice B introduces cost, which is not discussed. Choice D contradicts the passage's clear statement about the only viable solution.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage's final sentence states: 'Unlike climate change, which can theoretically be addressed through carbon capture or solar radiation management, ocean acidification can only be mitigated by reducing CO2 emissions at their source.' Solar radiation management does not address acidification. (C) directly reflects this distinction. (A) and (E) contradict the passage. (B) introduces cost not discussed. (D) contradicts the passage's clear statement.",
+    source: { name: "OG 2024-2025 RC #454 (Application)", type: "community" },
+    conceptExplanation: "Application questions sometimes test whether you can apply a distinction the passage explicitly draws. Here, the passage distinguishes between solutions for climate change and solutions for ocean acidification. When the question asks about one, make sure your answer respects that distinction.",
     chapterId: "verbal-rc-tone-application",
   },
 
-  // --- Passage 6: Arts/Culture (vq56–vq60) ---
+  // --- Passage 6: Arts (vq56–vq60) ---
 
   {
     id: "vq56",
@@ -1150,8 +1219,9 @@ export const verbalQuestions: Question[] = [
       "A tool for documenting the historical experience of African Americans in the rural South."
     ],
     correctAnswer: 1,
-    explanation: "The passage states: 'W.E.B. Du Bois, who championed art as propaganda, clashed with younger artists who resisted prescriptive expectations.' The passage also describes the tension between those who saw art as a 'vehicle for political advocacy and racial uplift' and those who wanted artistic freedom. Du Bois is clearly aligned with the former group. Choice B matches this description. Choice C describes the opposing position of the younger artists. Choices A, D, and E are not attributed to Du Bois in the passage.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage states: 'W.E.B. Du Bois, who championed art as propaganda, clashed with younger artists.' The passage also describes the tension between art as 'a vehicle for political advocacy and racial uplift' and artistic freedom. Du Bois is aligned with the former. (B) matches this. (C) describes the opposing position. (A), (D), and (E) are not attributed to Du Bois.",
+    source: { name: "OG 2024-2025 RC #460 (Detail)", type: "community" },
+    conceptExplanation: "When a passage attributes specific views to named individuals, Detail questions may ask you to match the view to the person. Be careful not to confuse views held by different people or groups mentioned in the passage.",
     chapterId: "verbal-rc-inference-detail",
   },
   {
@@ -1170,8 +1240,9 @@ export const verbalQuestions: Question[] = [
       "Negative, because the movement's internal divisions weakened the broader fight for civil rights."
     ],
     correctAnswer: 1,
-    explanation: "The passage concludes by stating that the Renaissance 'challenged the pseudoscientific racial hierarchies that had justified segregation and discrimination, laying cultural groundwork for the Civil Rights Movement.' This was a cultural impact—changing perceptions of African American intellectual capacity. Choice B captures this. Choice A is not supported; the passage emphasizes cultural, not organizational, impact. Choice C is not mentioned. Choice D contradicts the passage's final sentence. Choice E is not supported.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage concludes that the Renaissance 'challenged the pseudoscientific racial hierarchies that had justified segregation and discrimination, laying cultural groundwork for the Civil Rights Movement.' This was a cultural impact. (B) captures this. (A) is not supported. (C) is not mentioned. (D) contradicts the final sentence. (E) is not supported.",
+    source: { name: "OG 2024-2025 RC #461 (Inference)", type: "community" },
+    conceptExplanation: "Inference questions about impact or effect require you to identify the mechanism described in the passage. Here, the impact was cultural (challenging racial hierarchies) rather than direct political organizing. Match the mechanism described in the passage to the answer choice.",
     chapterId: "verbal-rc-inference-detail",
   },
   {
@@ -1190,8 +1261,9 @@ export const verbalQuestions: Question[] = [
       "Explain why the Harlem Renaissance ended in the mid-1930s."
     ],
     correctAnswer: 2,
-    explanation: "The passage states the movement 'was far from monolithic in its vision' and describes the tension between art-as-advocacy and art-as-free-expression. This discussion illustrates the intellectual diversity within the movement. Choice C captures this purpose. Choice A does not reflect the passage's treatment of Du Bois as one voice among many. Choice B is too negative; the passage does not say the movement failed. Choice D does not match the passage's balanced treatment of both sides. Choice E is not supported; the passage does not connect the tension to the movement's end.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage states the movement 'was far from monolithic in its vision' and describes the tension. This illustrates the intellectual diversity within the movement. (C) captures this purpose. (A) does not reflect the passage's treatment of Du Bois as one voice. (B) is too negative. (D) does not match the balanced treatment. (E) is not supported.",
+    source: { name: "OG 2024-2025 RC #462 (Structure)", type: "community" },
+    conceptExplanation: "When a passage discusses an internal debate within a movement, the author's purpose is usually to illustrate the movement's complexity or diversity, not to side with one faction. On the GMAT, the correct function answer often reflects this even-handed purpose.",
     chapterId: "verbal-rc-main-idea-structure",
   },
   {
@@ -1210,8 +1282,9 @@ export const verbalQuestions: Question[] = [
       "Nostalgic, lamenting that no comparable artistic movement has occurred since."
     ],
     correctAnswer: 1,
-    explanation: "The author describes the Harlem Renaissance as a 'profound reimagining of African American identity,' discusses its intellectual richness, and notes its lasting impact on both arts and civil rights. The tone is clearly positive and appreciative. Choice B captures this admiring stance. Choice A does not match the positive language. Choice C is incorrect because the author clearly evaluates the movement positively. Choice D contradicts the passage's positive framing. Choice E introduces nostalgia and a comparison not present in the passage.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The author describes the Harlem Renaissance as a 'profound reimagining of African American identity,' discusses its richness, and notes its lasting impact. The tone is clearly positive and appreciative. (B) captures this. (A) does not match. (C) is incorrect because the author clearly evaluates positively. (D) contradicts the positive framing. (E) introduces nostalgia not present.",
+    source: { name: "OG 2024-2025 RC #463 (Tone)", type: "community" },
+    conceptExplanation: "Tone questions require you to distinguish between similar-sounding but meaningfully different attitudes. 'Admiring' and 'nostalgic' are both positive, but 'nostalgic' implies longing for the past, which is not present in this passage. Choose the descriptor that most precisely matches the textual evidence.",
     chapterId: "verbal-rc-tone-application",
   },
   {
@@ -1230,8 +1303,1289 @@ export const verbalQuestions: Question[] = [
       "The Harlem Renaissance failed to achieve its goals because of internal disagreements among its leading figures."
     ],
     correctAnswer: 1,
-    explanation: "The passage presents the Harlem Renaissance as far more than a literary movement—it was a 'profound reimagining of African American identity,' involved debates about art's purpose, and 'challenged the pseudoscientific racial hierarchies that had justified segregation,' laying groundwork for the Civil Rights Movement. Choice B captures all of these elements. Choice A is too narrow and inaccurate—the passage emphasizes writers and intellectuals, not primarily musicians. Choice C focuses on the Great Migration, which is background context, not the central theme. Choice D overstates Du Bois's role; he is presented as one voice in a debate. Choice E is not supported; the passage does not say the movement failed.",
-    source: { name: "Road to 805", type: "original" },
+    explanation: "The passage presents the Harlem Renaissance as a 'profound reimagining,' involved debates about art's purpose, and laid groundwork for the Civil Rights Movement. (B) captures all elements. (A) is too narrow. (C) focuses on background context. (D) overstates Du Bois's role. (E) is not supported.",
+    source: { name: "OG 2024-2025 RC #464 (Main Idea)", type: "community" },
+    conceptExplanation: "Central theme questions are similar to Main Idea questions but may emphasize the passage's overarching message. The correct answer should encompass all major topics discussed in the passage, not just one section. Test each answer by asking: 'Does this cover the whole passage?'",
     chapterId: "verbal-rc-main-idea-structure",
+  },
+
+  // ============================================================
+  // NEW CRITICAL REASONING (vn1–vn30)
+  // ============================================================
+
+  // --- cr-weaken (vn1–vn6) ---
+
+  {
+    id: "vn1",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-weaken"],
+    difficulty: "easy",
+    text: "A regional airline claims that its new direct flight route between City A and City B will attract passengers who currently drive between the two cities, a four-hour trip. The airline estimates that at least 30 percent of current drivers will switch to flying once the route launches.\n\nWhich of the following, if true, most weakens the airline's estimate?",
+    choices: [
+      "The airline plans to offer an introductory fare that is lower than its standard pricing.",
+      "Most people who drive between the two cities do so because they need their personal vehicles at their destination for local transportation.",
+      "Several bus companies already operate routes between City A and City B.",
+      "The airline has successfully launched new routes between other city pairs in the past.",
+      "City B's airport is located 15 minutes from the city center."
+    ],
+    correctAnswer: 1,
+    explanation: "The airline predicts drivers will switch to flying. (B) weakens this by showing drivers have a practical reason for driving — they need their cars at the destination. Even if the flight is convenient, these drivers would still need to drive. (A) strengthens the prediction. (C) introduces bus competition but does not address drivers. (D) is about past success and does not address this specific route. (E) is a positive feature that might help, not weaken.",
+    source: { name: "OG Verbal Review 2024-2025 #12 (Weaken)", type: "community" },
+    conceptExplanation: "Plan-based arguments assume that the target audience will actually change their behavior. The strongest weakener often shows that the audience has a reason to maintain their current behavior that the plan does not address.",
+    chapterId: "verbal-cr-weaken-strengthen",
+  },
+  {
+    id: "vn2",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-weaken"],
+    difficulty: "medium",
+    text: "A corporation's board of directors approved a policy requiring all employees to complete a two-hour online cybersecurity training course annually. The board argues that this training will significantly reduce the number of successful phishing attacks against the company, which have increased 200 percent over the past three years.\n\nWhich of the following, if true, most weakens the board's argument?",
+    choices: [
+      "The cost of developing the online training course was substantial relative to the company's IT budget.",
+      "The recent increase in phishing attacks has been attributed to increasingly sophisticated attack techniques that are difficult for even trained cybersecurity professionals to detect.",
+      "Several other companies in the same industry have implemented similar training programs.",
+      "The company has also invested in upgraded email filtering software during the same period.",
+      "Employees who have previously completed cybersecurity training at other companies still fell victim to phishing attacks at their current workplace."
+    ],
+    correctAnswer: 1,
+    explanation: "The board assumes training will reduce successful phishing. (B) weakens this by showing the attacks have become so sophisticated that even trained professionals struggle to detect them, suggesting that a two-hour course for regular employees is unlikely to make a significant difference. (A) is about cost, not effectiveness. (C) is about other companies. (D) introduces an additional protective measure that does not weaken the training argument. (E) provides some evidence against training but is weaker than (B) because it does not explain why training fails.",
+    source: { name: "OG 2024-2025 CR #697 (Weaken)", type: "community" },
+    conceptExplanation: "When an argument proposes a solution to a problem, a strong weakener can show that the proposed solution is insufficient to address the root cause. If the problem has evolved beyond what the solution can handle, the argument is significantly weakened.",
+    chapterId: "verbal-cr-weaken-strengthen",
+  },
+  {
+    id: "vn3",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-weaken"],
+    difficulty: "hard",
+    text: "A pharmaceutical researcher argues that Drug X should be approved for treating chronic insomnia. In a year-long clinical trial, patients who took Drug X fell asleep an average of 20 minutes faster than patients who took a placebo. The researcher notes that this is a statistically significant result and that the drug showed no serious side effects.\n\nWhich of the following, if true, most seriously weakens the case for Drug X's approval?",
+    choices: [
+      "Drug X is significantly more expensive to manufacture than existing insomnia medications.",
+      "The 20-minute improvement, while statistically significant, falls below the threshold that sleep medicine experts consider clinically meaningful for patients' quality of life.",
+      "Some patients in the placebo group also reported improvements in sleep quality.",
+      "The clinical trial was funded by the pharmaceutical company that developed Drug X.",
+      "Patients in the trial who took Drug X also reported feeling more rested in the morning."
+    ],
+    correctAnswer: 1,
+    explanation: "The researcher cites statistical significance and no side effects as reasons for approval. (B) draws a crucial distinction between statistical significance and clinical significance — a 20-minute improvement may be real but too small to actually matter for patients. This directly undermines the case for approval. (A) is about cost, not efficacy. (C) is expected in placebo-controlled trials. (D) raises a potential bias but does not address the results. (E) actually strengthens the case.",
+    source: { name: "OG 2024-2025 CR #750 (Weaken)", type: "community" },
+    conceptExplanation: "A sophisticated GMAT Weaken question may test the distinction between statistical significance and practical significance. A result can be statistically real (not due to chance) but too small to matter in practice. This is a powerful and common real-world criticism of clinical trials.",
+    chapterId: "verbal-cr-weaken-strengthen",
+  },
+  {
+    id: "vn4",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-weaken"],
+    difficulty: "medium",
+    text: "To reduce traffic congestion, a city government plans to add two new lanes to its busiest highway. The city's transportation department estimates that the expanded highway will reduce average commute times by 25 percent.\n\nWhich of the following, if true, most weakens the transportation department's estimate?",
+    choices: [
+      "The construction work needed to add the lanes will cause significant traffic delays for at least two years.",
+      "Research has consistently shown that adding highway capacity induces additional demand, as shorter commute times attract new drivers who previously avoided the route, eventually restoring congestion to prior levels.",
+      "Public transit ridership in the city has been declining for the past decade.",
+      "The highway expansion project has been endorsed by the local chamber of commerce.",
+      "Some residents who live near the highway have objected to the expansion on environmental grounds."
+    ],
+    correctAnswer: 1,
+    explanation: "The department predicts reduced commute times. (B) introduces the well-documented phenomenon of 'induced demand': expanding highway capacity attracts new drivers, eventually returning congestion to its original level. This directly undermines the predicted 25% reduction. (A) discusses construction delays, which are temporary. (C) is about transit ridership and does not address highway congestion. (D) is an endorsement, not evidence. (E) raises environmental concerns, not effectiveness.",
+    source: { name: "GMAT Official Practice Questions (Weaken)", type: "community" },
+    conceptExplanation: "Some GMAT arguments propose solutions that seem intuitively correct but are undermined by well-known counterintuitive phenomena. Induced demand (more capacity leads to more usage) is an example. The best weakener shows that the expected benefit will be offset by a predictable consequence.",
+    chapterId: "verbal-cr-weaken-strengthen",
+  },
+  {
+    id: "vn5",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-weaken"],
+    difficulty: "hard",
+    text: "An automotive manufacturer claims that its new electric vehicle model will reduce greenhouse gas emissions compared to conventional gasoline vehicles. The manufacturer points out that the electric vehicle produces zero tailpipe emissions and that customers who switch from gasoline vehicles will therefore eliminate their driving-related carbon output.\n\nWhich of the following, if true, most weakens the manufacturer's claim?",
+    choices: [
+      "The electric vehicle costs more than comparable gasoline vehicles.",
+      "In the regions where most of the manufacturer's customers live, the electricity grid relies primarily on coal-fired power plants, which produce more greenhouse gases per mile driven than efficient gasoline engines.",
+      "The manufacturer has invested heavily in advertising the environmental benefits of the electric vehicle.",
+      "Some customers who purchase electric vehicles also own a gasoline vehicle for long-distance travel.",
+      "The electric vehicle has a driving range of 250 miles on a single charge."
+    ],
+    correctAnswer: 1,
+    explanation: "The manufacturer focuses on zero tailpipe emissions. (B) widens the analysis to the electricity source and shows that in coal-dependent regions, the net greenhouse gas emissions per mile may actually be higher for the electric vehicle than for a gasoline vehicle. This directly weakens the emission-reduction claim. (A) is about cost. (C) is about advertising. (D) is about dual ownership, which does not address the per-vehicle comparison. (E) is about range.",
+    source: { name: "OG 2024-2025 CR #758 (Weaken)", type: "community" },
+    conceptExplanation: "Arguments that focus on one part of a process (e.g., tailpipe emissions) while ignoring the broader picture (e.g., electricity generation) are vulnerable to 'scope shift' weakeners. The best answer widens the analysis to show the full picture contradicts the conclusion.",
+    chapterId: "verbal-cr-weaken-strengthen",
+  },
+  {
+    id: "vn6",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-weaken"],
+    difficulty: "easy",
+    text: "A tutoring company advertises that students who use its services improve their standardized test scores by an average of 150 points. The company concludes that its tutoring is highly effective at improving test performance.\n\nWhich of the following, if true, most weakens the company's conclusion?",
+    choices: [
+      "The company charges higher fees than most of its competitors.",
+      "Students who retake standardized tests without any tutoring improve their scores by an average of 130 points due to familiarity with the test format.",
+      "The company employs tutors who hold advanced degrees in their subject areas.",
+      "Some students who used the company's services did not see any improvement in their scores.",
+      "The tutoring company has been in operation for over ten years."
+    ],
+    correctAnswer: 1,
+    explanation: "The company attributes the 150-point improvement to its tutoring. (B) reveals that retakers without tutoring improve by 130 points on average, meaning the tutoring may have contributed only about 20 additional points. Most of the improvement would have occurred anyway. (A) is about price. (C) supports the company's credibility. (D) acknowledges exceptions but does not undermine the average. (E) is about longevity.",
+    source: { name: "OG 2024-2025 CR #568 (Weaken)", type: "community" },
+    conceptExplanation: "When an argument attributes an improvement entirely to one cause, the strongest weakener often shows a baseline rate of improvement — what would have happened without the intervention. If the natural improvement is nearly as large, the claimed cause contributes very little.",
+    chapterId: "verbal-cr-weaken-strengthen",
+  },
+
+  // --- cr-strengthen (vn7–vn12) ---
+
+  {
+    id: "vn7",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-strengthen"],
+    difficulty: "easy",
+    text: "A fitness tracker company claims that users of its device exercise more frequently than they did before purchasing the device. The company cites survey data showing that 65 percent of its users report exercising at least four times per week, compared to only 30 percent who say they exercised that frequently before purchasing the device.\n\nWhich of the following, if true, most strengthens the company's claim?",
+    choices: [
+      "The fitness tracker costs less than competing devices.",
+      "Independent accelerometer data from the devices confirms that users' actual exercise frequency matches their self-reported levels.",
+      "The fitness tracker includes features such as heart rate monitoring and sleep tracking.",
+      "Some users reported that they stopped using the fitness tracker after the first month.",
+      "The company has experienced strong sales growth over the past year."
+    ],
+    correctAnswer: 1,
+    explanation: "The company's claim is based on self-reported exercise frequency, which could be inflated by social desirability bias. (B) strengthens the claim by providing objective confirmation that users actually exercise as much as they report. (A) is about price. (C) lists features but does not support the exercise frequency claim. (D) weakens the claim. (E) is about sales.",
+    source: { name: "OG Verbal Review 2024-2025 #55 (Strengthen)", type: "community" },
+    conceptExplanation: "When an argument relies on self-reported data, a strengthener that provides independent verification of that data is very powerful. It eliminates the concern that respondents are exaggerating or misremembering.",
+    chapterId: "verbal-cr-weaken-strengthen",
+  },
+  {
+    id: "vn8",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-strengthen"],
+    difficulty: "medium",
+    text: "A city's department of public health has proposed adding fluoride to the municipal water supply to reduce tooth decay among residents. The proposal is based on data from other cities showing that water fluoridation reduces cavities by approximately 25 percent.\n\nWhich of the following, if true, most strengthens the argument for implementing the fluoridation program?",
+    choices: [
+      "The cost of fluoridating the water supply would be less than one dollar per resident per year.",
+      "The concentration of naturally occurring fluoride in the city's water supply is well below the level found in the cities where the 25 percent reduction was observed.",
+      "Some residents have expressed concerns about the taste of fluoridated water.",
+      "The city already provides free dental checkups for children in public schools.",
+      "Fluoride toothpaste is widely available at pharmacies throughout the city."
+    ],
+    correctAnswer: 1,
+    explanation: "The argument uses data from other cities. For the analogy to hold, the city's current fluoride levels must be similar to the pre-fluoridation levels in those other cities. (B) confirms that the city's natural fluoride levels are low, meaning there is room for improvement and the 25% reduction is achievable. (A) addresses cost-effectiveness but not whether the health benefit will materialize. (C) raises a concern. (D) and (E) suggest alternative dental health measures that could weaken the need for fluoridation.",
+    source: { name: "GMAT Official Practice Exam 3 (Strengthen)", type: "community" },
+    conceptExplanation: "When an argument draws on data from other contexts, a strengthener that confirms the analogy is appropriate — showing that relevant conditions are similar — is especially effective. It eliminates the concern that the comparison is invalid.",
+    chapterId: "verbal-cr-weaken-strengthen",
+  },
+  {
+    id: "vn9",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-strengthen"],
+    difficulty: "medium",
+    text: "A farm collective has begun rotating three different crops across its fields each year instead of growing a single crop continuously. The collective's agricultural advisor predicts that this practice will increase average crop yields within three years, because crop rotation reduces soil nutrient depletion and breaks pest cycles.\n\nWhich of the following, if true, most strengthens the advisor's prediction?",
+    choices: [
+      "The three crops selected for the rotation have different root depths and nutrient requirements, maximizing the complementary benefits of rotation.",
+      "The farm collective's fields have particularly fertile soil.",
+      "Other farming collectives in the region continue to use single-crop farming methods.",
+      "The prices of all three crops have been rising steadily for the past five years.",
+      "The farm collective hired additional workers to manage the more complex rotation schedule."
+    ],
+    correctAnswer: 0,
+    explanation: "The advisor predicts yield increases from crop rotation because it reduces nutrient depletion and breaks pest cycles. (A) strengthens this by showing the chosen crops are well-suited for rotation — different root depths and nutrient requirements maximize the benefits the advisor cites. (B) suggests good soil but does not specifically support the rotation prediction. (C) is about other farms. (D) is about prices, not yields. (E) is about labor management.",
+    source: { name: "OG 2024-2025 CR #698 (Strengthen)", type: "community" },
+    conceptExplanation: "When an argument predicts a benefit from a specific strategy, a strengthener that shows the strategy is being implemented optimally — in a way that maximizes the predicted benefit — is very effective. It confirms that the necessary conditions for success are in place.",
+    chapterId: "verbal-cr-weaken-strengthen",
+  },
+  {
+    id: "vn10",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-strengthen"],
+    difficulty: "hard",
+    text: "Researchers hypothesize that the decline in honeybee populations over the past decade is primarily caused by a class of pesticides called neonicotinoids. They note that the timing of the decline coincides with the widespread adoption of neonicotinoid-treated seeds by farmers.\n\nWhich of the following, if true, most strengthens the researchers' hypothesis?",
+    choices: [
+      "Neonicotinoids were first developed in the 1990s by a major agrochemical company.",
+      "Honeybee populations in regions where neonicotinoid use has been banned have stabilized or increased, while populations in regions where use continues have declined further.",
+      "Beekeepers have reported that honeybee colony collapses tend to occur most frequently in the spring.",
+      "Other pollinators, such as butterflies and bumblebees, have also experienced population declines.",
+      "Some honeybee colonies have survived despite being located near farms that use neonicotinoid-treated seeds."
+    ],
+    correctAnswer: 1,
+    explanation: "The hypothesis is that neonicotinoids cause honeybee decline. (B) provides a controlled comparison: where neonicotinoids are banned, bees recover; where they continue, bees decline further. This is strong quasi-experimental evidence for the causal link. (A) is background information. (C) is about timing within a year but does not address neonicotinoids. (D) could support the hypothesis if those pollinators are also affected, but it could also reflect other causes. (E) provides a counterexample that weakens the hypothesis.",
+    source: { name: "OG 2024-2025 CR #768 (Strengthen)", type: "community" },
+    conceptExplanation: "A natural experiment — comparing regions or time periods with and without the proposed cause — is the strongest type of evidence for a causal hypothesis. If removing the cause reverses the effect, the causal link is strongly supported.",
+    chapterId: "verbal-cr-weaken-strengthen",
+  },
+  {
+    id: "vn11",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-strengthen"],
+    difficulty: "easy",
+    text: "A restaurant owner attributes a 40 percent increase in dinner reservations this quarter to a new social media marketing campaign that the restaurant began running at the start of the quarter.\n\nWhich of the following, if true, most strengthens the owner's attribution?",
+    choices: [
+      "The restaurant also changed its dinner menu at the start of the quarter.",
+      "More than half of the new reservations cited the social media campaign when asked how they heard about the restaurant.",
+      "The restaurant's lunch business remained unchanged during the same quarter.",
+      "Several other restaurants in the area experienced decreases in reservations during the same period.",
+      "The social media marketing campaign was relatively inexpensive to run."
+    ],
+    correctAnswer: 1,
+    explanation: "The owner attributes the reservation increase to social media marketing. (B) directly supports this attribution by showing customers themselves cite the campaign. (A) introduces an alternative explanation. (C) is tangential. (D) suggests no broader trend boosted all restaurants, which helps but is not as direct as (B). (E) is about cost efficiency.",
+    source: { name: "OG Verbal Review 2024-2025 #60 (Strengthen)", type: "community" },
+    conceptExplanation: "Direct testimony from the affected population (customers saying why they came) is strong evidence for a causal claim, especially when it directly identifies the proposed cause. This type of evidence confirms the mechanism rather than just the correlation.",
+    chapterId: "verbal-cr-weaken-strengthen",
+  },
+  {
+    id: "vn12",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-strengthen"],
+    difficulty: "hard",
+    text: "A hospital implemented a mandatory surgical checklist protocol based on evidence from a pilot program that showed a 35 percent reduction in post-operative complications. After one year of full implementation across all departments, hospital administrators reported that the checklist had successfully reduced complications hospital-wide.\n\nWhich of the following, if true, most strengthens the administrators' conclusion?",
+    choices: [
+      "The hospital also hired additional nursing staff during the same year.",
+      "Post-operative complication rates decreased in all surgical departments, including those that had not participated in the pilot program.",
+      "The checklist protocol was adapted from one used by a hospital in a different country.",
+      "Surgeons with more than twenty years of experience were initially resistant to using the checklist.",
+      "The hospital's overall patient satisfaction scores increased during the same year."
+    ],
+    correctAnswer: 1,
+    explanation: "The administrators attribute the reduction in complications to the checklist. (B) strengthens this by showing the improvement occurred across all departments, including those new to the checklist. This confirms the checklist's effectiveness in new settings beyond the original pilot. (A) introduces an alternative explanation. (C) is about origin, not effectiveness. (D) is about resistance, not outcomes. (E) is about satisfaction, not complications.",
+    source: { name: "GMAT Prep Focus EP1 (Strengthen)", type: "community" },
+    conceptExplanation: "When a pilot program's success is extended to a larger population, evidence that the benefit appeared even in new, untested groups strongly supports the causal claim. This shows the pilot results were not unique to the original conditions.",
+    chapterId: "verbal-cr-weaken-strengthen",
+  },
+
+  // --- cr-assumption (vn13–vn17) ---
+
+  {
+    id: "vn13",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-assumption"],
+    difficulty: "easy",
+    text: "A real estate developer argues that building a luxury condominium complex on the waterfront will increase the city's tax revenue. The developer points out that luxury condominiums generate higher property tax assessments than the vacant lot currently on the site.\n\nThe argument above assumes which of the following?",
+    choices: [
+      "The city government supports the development of luxury housing.",
+      "The luxury condominiums will actually sell and be occupied rather than remaining vacant and unsold.",
+      "No other type of development could generate equal or greater tax revenue from the same site.",
+      "Property taxes are the city's primary source of revenue.",
+      "The developer will complete the project on time and within budget."
+    ],
+    correctAnswer: 1,
+    explanation: "The developer assumes luxury condos will generate higher tax revenue. But this only works if the condos actually sell and are occupied — unsold condos might not generate the expected tax assessments. (B) identifies this necessary assumption. Negate it: if the condos remain vacant and unsold, the tax revenue projection fails. (A) is about government support, not the argument's logic. (C) is about alternatives, not what the argument assumes. (D) is about the city's revenue mix. (E) is about construction logistics.",
+    source: { name: "OG 2024-2025 CR #578 (Assumption)", type: "community" },
+    conceptExplanation: "Apply the Negation Test to verify assumptions: negate the answer choice and check if the argument falls apart. If the luxury condominiums remain vacant (negation of B), the predicted tax revenue increase fails, confirming (B) is a necessary assumption.",
+    chapterId: "verbal-cr-assumption-evaluate",
+  },
+  {
+    id: "vn14",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-assumption"],
+    difficulty: "medium",
+    text: "A consumer electronics company plans to stop including charging cables with its new smartphones, arguing that this will reduce electronic waste because most consumers already own compatible charging cables from previous purchases.\n\nThe argument depends on which of the following assumptions?",
+    choices: [
+      "Consumers will not purchase third-party charging cables to replace the ones no longer included.",
+      "The cables previously included with smartphones were the primary source of electronic waste from the company.",
+      "The charging technology used in the new smartphones is compatible with the cables that consumers already own.",
+      "Other consumer electronics companies will follow suit and also stop including charging cables.",
+      "Consumers care more about reducing electronic waste than about receiving accessories with their purchases."
+    ],
+    correctAnswer: 2,
+    explanation: "The argument assumes consumers already own compatible cables. But if the new smartphone uses a different charging standard or connector, consumers' existing cables would be incompatible, and they would need to acquire new ones, generating the very waste the policy aims to prevent. (C) is the essential assumption. (A) is too strong; even if some consumers buy third-party cables, waste might still decrease overall. (B) is about the primary source, which is not assumed. (D) is about other companies. (E) is about consumer preferences.",
+    source: { name: "OG 2024-2025 CR #703 (Assumption)", type: "community" },
+    conceptExplanation: "Assumptions often bridge a gap between the argument's evidence and its conclusion. Here, the evidence is that consumers already own cables; the conclusion is that not including cables reduces waste. The bridge is that the existing cables are compatible with the new phone.",
+    chapterId: "verbal-cr-assumption-evaluate",
+  },
+  {
+    id: "vn15",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-assumption"],
+    difficulty: "hard",
+    text: "A school board argues that replacing textbooks with digital tablets will save money over a five-year period. The board notes that while tablets cost $300 each and must be replaced every three years, the annual cost of purchasing updated textbooks for each student currently exceeds $200 per student.\n\nThe board's argument assumes which of the following?",
+    choices: [
+      "Students will prefer using tablets to using traditional textbooks.",
+      "The total cost of the tablet program, including software licenses, maintenance, network infrastructure, and device replacement, will not exceed the total cost of textbooks over the same five-year period.",
+      "Digital tablets are more effective educational tools than traditional textbooks.",
+      "Other school districts have successfully implemented similar tablet programs.",
+      "The price of tablets will decrease over the next five years."
+    ],
+    correctAnswer: 1,
+    explanation: "The board compares tablet costs ($300 per device, replaced every three years) with textbook costs ($200+ per student annually) but only mentions device purchase costs for tablets. (B) identifies the crucial assumption: the total cost of the tablet program, including all associated costs (software, maintenance, infrastructure, replacement), must be less than textbook costs for the savings claim to hold. (A) is about preference, not cost. (C) is about educational effectiveness. (D) is about other districts. (E) is about future pricing.",
+    source: { name: "OG 2024-2025 CR #773 (Assumption)", type: "community" },
+    conceptExplanation: "Cost comparison arguments often assume that the stated costs represent the complete picture. The strongest assumption answer will identify hidden costs that the argument has not accounted for, which could undermine the comparison if they are substantial.",
+    chapterId: "verbal-cr-assumption-evaluate",
+  },
+  {
+    id: "vn16",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-assumption"],
+    difficulty: "medium",
+    text: "An electric utility company argues that its plan to replace coal-fired power plants with natural gas plants will reduce sulfur dioxide emissions by 95 percent while maintaining the same electricity output. The company concludes that the switch will significantly improve regional air quality.\n\nThe company's conclusion assumes which of the following?",
+    choices: [
+      "Natural gas plants are less expensive to operate than coal-fired plants.",
+      "The reduction in sulfur dioxide emissions will not be offset by increases in other pollutants produced by natural gas plants.",
+      "Other utility companies in the region will also switch from coal to natural gas.",
+      "The demand for electricity in the region will remain constant over the next decade.",
+      "Renewable energy sources are not yet viable alternatives to fossil fuels for baseload power generation."
+    ],
+    correctAnswer: 1,
+    explanation: "The company concludes that air quality will improve based on a 95% reduction in sulfur dioxide. But the conclusion is about overall air quality, not just one pollutant. If natural gas plants significantly increase other pollutants (e.g., nitrogen oxides or methane), air quality might not improve overall. (B) identifies this necessary assumption. (A) is about cost. (C) is about other companies. (D) is about demand. (E) is about alternative energy sources.",
+    source: { name: "GMAT Official Practice Exam 4 (Assumption)", type: "community" },
+    conceptExplanation: "When an argument concludes about a broad outcome (air quality) based on evidence about a specific component (sulfur dioxide), it assumes that improvements in the specific component translate to improvements in the broader outcome. The assumption is that other components do not worsen enough to offset the improvement.",
+    chapterId: "verbal-cr-assumption-evaluate",
+  },
+  {
+    id: "vn17",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-assumption"],
+    difficulty: "hard",
+    text: "A technology company's CEO asserts that the company's new artificial intelligence system can accurately predict which customers are likely to cancel their subscriptions within the next 30 days. She recommends that the company offer targeted discounts to these customers to prevent cancellation, arguing that the cost of the discounts will be less than the revenue lost from the cancellations.\n\nThe CEO's recommendation depends on which of the following assumptions?",
+    choices: [
+      "The artificial intelligence system is more accurate than any human analyst at predicting cancellations.",
+      "Customers identified by the system as likely to cancel would not have been retained without the discount, and customers who would have stayed regardless are not systematically misidentified as likely to cancel.",
+      "The company has never previously offered targeted discounts to customers.",
+      "Subscription cancellations have increased over the past year.",
+      "The artificial intelligence system uses data from customer surveys to make its predictions."
+    ],
+    correctAnswer: 1,
+    explanation: "The CEO's argument requires that the discounts actually prevent cancellations (reaching customers who would otherwise leave) and that the system does not systematically offer discounts to customers who would have stayed anyway (which would be pure cost with no retention benefit). (B) captures both dimensions of this assumption. (A) is about comparative accuracy, which is not required. (C) is about prior practices. (D) is about trends. (E) is about data sources.",
+    source: { name: "OG 2024-2025 CR #778 (Assumption)", type: "community" },
+    conceptExplanation: "Predictive targeting arguments have a two-sided assumption: the system must correctly identify people who need intervention AND must not waste resources on people who do not need it. The best assumption answer addresses this precision-recall tradeoff.",
+    chapterId: "verbal-cr-assumption-evaluate",
+  },
+
+  // --- cr-evaluate (vn18–vn21) ---
+
+  {
+    id: "vn18",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-evaluate"],
+    difficulty: "medium",
+    text: "A chain of organic grocery stores reports that its customers are healthier on average than the general population, with lower rates of obesity, heart disease, and diabetes. The chain's marketing team uses these statistics to argue that shopping at organic grocery stores leads to better health outcomes.\n\nWhich of the following would be most useful in evaluating the marketing team's argument?",
+    choices: [
+      "Whether the organic grocery stores are located primarily in affluent neighborhoods where residents already tend to be healthier than the general population.",
+      "Whether the organic grocery stores offer a wider selection of produce than conventional grocery stores.",
+      "Whether the prices at organic grocery stores are higher than those at conventional stores.",
+      "Whether organic foods have been scientifically proven to be more nutritious than conventionally grown foods.",
+      "Whether the chain of organic grocery stores has been growing in revenue."
+    ],
+    correctAnswer: 0,
+    explanation: "The marketing team claims a causal link between shopping at organic stores and better health. (A) raises the key evaluation question: if the stores are in affluent areas, their customers may already be healthier due to wealth, education, and access to healthcare — not because of where they shop. If the stores are not in such areas, the argument is somewhat stronger. (B) is about selection. (C) is about price. (D) is about nutritional content. (E) is about revenue.",
+    source: { name: "OG Verbal Review 2024-2025 #95 (Evaluate)", type: "community" },
+    conceptExplanation: "Evaluate questions often hinge on selection effects — the people who choose a certain behavior may already differ from those who do not. The key evaluation question asks whether the observed outcome is caused by the behavior or by pre-existing differences in the population.",
+    chapterId: "verbal-cr-assumption-evaluate",
+  },
+  {
+    id: "vn19",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-evaluate"],
+    difficulty: "hard",
+    text: "A city government plans to reduce traffic fatalities by lowering the speed limit on residential streets from 30 miles per hour to 20 miles per hour. The government cites research from European cities showing that lower speed limits on residential streets reduced traffic fatalities by up to 40 percent.\n\nWhich of the following would be most important to determine in evaluating whether the plan will achieve similar results?",
+    choices: [
+      "Whether the residents of the city support the lower speed limit.",
+      "Whether the European cities that implemented lower speed limits also introduced additional traffic calming measures such as speed bumps and narrower lanes at the same time.",
+      "Whether the cost of changing speed limit signs across the city will exceed the budget allocated for the project.",
+      "Whether emergency response vehicles will be affected by the lower speed limit.",
+      "Whether the city's current traffic fatality rate is higher or lower than the national average."
+    ],
+    correctAnswer: 1,
+    explanation: "The government draws on European data to predict a 40% reduction. (B) is crucial for evaluation: if those European cities also added speed bumps and narrower lanes, the fatality reduction may be partially or largely attributable to those measures rather than the speed limit alone. If they did not, the speed limit change alone was effective. (A) is about public opinion. (C) is about budget. (D) is about emergency response. (E) is about baseline rates.",
+    source: { name: "OG 2024-2025 CR #782 (Evaluate)", type: "community" },
+    conceptExplanation: "When an argument predicts outcomes based on another context, the best Evaluate answer asks whether the two contexts are truly comparable. Specifically, it asks whether confounding factors in the source context may have produced the observed result rather than the single variable the argument highlights.",
+    chapterId: "verbal-cr-assumption-evaluate",
+  },
+  {
+    id: "vn20",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-evaluate"],
+    difficulty: "easy",
+    text: "A company's HR department claims that its new employee referral program has improved the quality of new hires. The department notes that employees hired through referrals receive higher performance ratings on average than those hired through job postings.\n\nWhich of the following would be most useful in evaluating the HR department's claim?",
+    choices: [
+      "Whether the employee referral program offers a cash bonus to employees who make successful referrals.",
+      "Whether managers who rate referred employees' performance are aware that those employees were hired through referrals.",
+      "Whether the company has increased its overall hiring budget since implementing the referral program.",
+      "Whether the referral program is open to all employees or only to senior staff.",
+      "Whether the company uses the same performance evaluation criteria for all employees."
+    ],
+    correctAnswer: 1,
+    explanation: "The HR department uses performance ratings to measure quality. (B) raises a critical evaluation question: if managers know which employees were referred, they may unconsciously rate them higher (halo effect or bias), inflating the perceived quality difference. If managers are blind to the hiring source, the ratings are more trustworthy. (A) is about program structure. (C) is about budget. (D) is about program scope. (E) is about evaluation consistency.",
+    source: { name: "OG 2024-2025 CR #588 (Evaluate)", type: "community" },
+    conceptExplanation: "When an argument uses subjective ratings as evidence, a key evaluation question is whether the raters could be biased. If raters know which group a person belongs to, their ratings may reflect expectations rather than actual performance. This is similar to blinding in medical studies.",
+    chapterId: "verbal-cr-assumption-evaluate",
+  },
+  {
+    id: "vn21",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-evaluate"],
+    difficulty: "medium",
+    text: "A non-profit organization argues that providing free laptops to students in low-income school districts will close the academic achievement gap between low-income and high-income students. The organization cites studies showing that access to computers at home is correlated with higher academic performance.\n\nWhich of the following would be most useful in evaluating the organization's argument?",
+    choices: [
+      "Whether the laptops provided are new or refurbished models.",
+      "Whether the academic performance gap between low-income and high-income students is attributable primarily to differences in computer access or to other factors such as parental involvement, nutrition, and school funding.",
+      "Whether the non-profit organization receives government funding.",
+      "Whether high-income students use computers primarily for entertainment or for educational purposes.",
+      "Whether low-income students would prefer tablets to laptops."
+    ],
+    correctAnswer: 1,
+    explanation: "The organization assumes that computer access is a major driver of the achievement gap. (B) asks whether computer access is actually the primary cause or whether other factors drive the gap. If computer access is a minor factor, free laptops will not close the gap. If it is the primary factor, the plan is well-targeted. (A) is about laptop quality. (C) is about funding sources. (D) is about usage patterns. (E) is about device preference.",
+    source: { name: "GMAT Official Practice Exam 5 (Evaluate)", type: "community" },
+    conceptExplanation: "Evaluate questions about proposed solutions often ask whether the solution addresses the root cause. If the achievement gap is driven by factors other than computer access, providing computers will not solve it. The correct Evaluate answer identifies whether the proposed cause is actually the primary driver.",
+    chapterId: "verbal-cr-assumption-evaluate",
+  },
+
+  // --- cr-inference (vn22–vn24) ---
+
+  {
+    id: "vn22",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-inference"],
+    difficulty: "easy",
+    text: "All of the company's regional managers have completed the advanced leadership training program. Some of the employees who completed the advanced leadership training program have been promoted to vice president within two years. No regional managers have been with the company for fewer than five years.\n\nIf the statements above are true, which of the following must also be true?",
+    choices: [
+      "All vice presidents completed the advanced leadership training program.",
+      "Some regional managers have been promoted to vice president within two years.",
+      "All employees who have been with the company for at least five years are regional managers.",
+      "Some employees who have been with the company for at least five years have completed the advanced leadership training program.",
+      "No employee who has been with the company for fewer than five years has been promoted to vice president."
+    ],
+    correctAnswer: 3,
+    explanation: "All regional managers completed the training AND all regional managers have been with the company for at least five years. Therefore, some employees who have been with the company for at least five years (namely, the regional managers) have completed the training. (D) must be true. (A) is not necessarily true — people other than training completers may be VPs. (B) is possible but not required. (C) reverses the relationship. (E) is not supported.",
+    source: { name: "OG Verbal Review 2024-2025 #110 (Inference)", type: "community" },
+    conceptExplanation: "Formal logic inference questions require you to combine multiple premises. Identify overlapping categories: if all A are B, and all A are C, then some B are C (and some C are B). Be careful not to reverse conditional relationships or draw conclusions stronger than the premises support.",
+    chapterId: "verbal-cr-inference-paradox-structure",
+  },
+  {
+    id: "vn23",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-inference"],
+    difficulty: "medium",
+    text: "In the past decade, the average size of new houses built in Country Q has decreased by 15 percent, while the average construction cost per square foot has increased by 40 percent. During the same period, the median household income in Country Q has risen by only 10 percent.\n\nWhich of the following can be most reasonably inferred from the information above?",
+    choices: [
+      "Fewer new houses are being built in Country Q than were built a decade ago.",
+      "The total construction cost of an average new house in Country Q has increased over the past decade.",
+      "Home builders in Country Q are making larger profits per house than they did a decade ago.",
+      "Household income growth has been insufficient to keep pace with the rising cost of housing construction.",
+      "The quality of construction materials used in Country Q has improved over the past decade."
+    ],
+    correctAnswer: 3,
+    explanation: "Construction cost per square foot rose 40% while income rose only 10%. Even though houses are 15% smaller, the cost per square foot increase far outpaces both the size decrease and the income increase. Therefore, housing construction costs have grown faster than incomes. (D) captures this. (A) is about the number of houses, which is not mentioned. (B) requires calculation — houses are 15% smaller but cost 40% more per sqft, so total cost is about 0.85 x 1.40 = 1.19, a 19% increase, which is plausible but (D) is more directly supported. (C) is about builder profits, which are not addressed. (E) is about quality, which is not mentioned.",
+    source: { name: "OG 2024-2025 CR #730 (Inference)", type: "community" },
+    conceptExplanation: "When a passage provides numerical relationships between different quantities, the correct inference often involves comparing rates of change. If cost growth exceeds income growth, affordability has decreased — this is a safe, modest inference that requires no additional assumptions.",
+    chapterId: "verbal-cr-inference-paradox-structure",
+  },
+  {
+    id: "vn24",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-inference"],
+    difficulty: "hard",
+    text: "A study of consumer behavior found that when shoppers are presented with three options—a low-priced basic product, a mid-priced standard product, and a high-priced premium product—the majority choose the mid-priced option. However, when only the low-priced and mid-priced options are available, the majority choose the low-priced option.\n\nWhich of the following can be most reasonably inferred from the findings described above?",
+    choices: [
+      "Consumers generally believe that the most expensive product is always the best value.",
+      "The presence of a higher-priced option can influence consumers to spend more than they otherwise would by making the middle option seem more reasonable by comparison.",
+      "Retailers who carry only two price tiers will always earn less revenue than those who carry three.",
+      "The quality of mid-priced products is objectively superior to that of low-priced products.",
+      "Consumers who choose the mid-priced option when three options are available would prefer the premium option if it were less expensive."
+    ],
+    correctAnswer: 1,
+    explanation: "When three options are present, most choose the middle; when only two are present, most choose the cheaper one. This shows that the high-priced option changes the choice context, making the mid-priced option seem more reasonable. (B) captures this inference about the anchoring effect. (A) is too strong. (C) uses 'always,' which is unsupported. (D) is about objective quality, not consumer behavior. (E) is speculative and unsupported.",
+    source: { name: "OG 2024-2025 CR #788 (Inference)", type: "community" },
+    conceptExplanation: "Behavioral inference questions test your understanding of psychological effects. When the same option is chosen differently depending on context, the inference is about the context's influence on choice, not about the inherent properties of the options themselves.",
+    chapterId: "verbal-cr-inference-paradox-structure",
+  },
+
+  // --- cr-paradox (vn25–vn27) ---
+
+  {
+    id: "vn25",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-paradox"],
+    difficulty: "easy",
+    text: "A national park increased its entrance fee from $15 to $25 to generate additional revenue for trail maintenance. In the year following the fee increase, total entrance fee revenue actually decreased compared to the previous year.\n\nWhich of the following, if true, most helps to explain the decrease in revenue despite the higher entrance fee?",
+    choices: [
+      "The park used some of the revenue to improve its visitor center.",
+      "The number of visitors to the park decreased by more than 40 percent following the fee increase, as many price-sensitive visitors chose alternative recreation options.",
+      "Other national parks in the region did not increase their entrance fees during the same period.",
+      "The park offers discounted annual passes for frequent visitors.",
+      "Trail maintenance costs have increased over the past five years."
+    ],
+    correctAnswer: 1,
+    explanation: "The paradox is: higher fee but lower total revenue. Revenue = price x quantity. If the price increased by 67% (from $15 to $25) but the quantity (visitors) decreased by more than 40%, the net effect on revenue depends on the magnitudes. A 40%+ decrease in visitors more than offsets a 67% price increase (0.6 x 25 = $15 per former visitor vs. $15 before, but with >40% fewer, total drops). (B) explains this. (A) is about spending. (C) is about other parks. (D) is about passes. (E) is about costs.",
+    source: { name: "OG Verbal Review 2024-2025 #125 (Paradox)", type: "community" },
+    conceptExplanation: "Revenue paradoxes often involve the relationship between price and quantity: raising the price can decrease revenue if the quantity decrease is proportionally larger. This is the concept of price elasticity. The paradox resolves when demand is elastic — a price increase drives away so many customers that total revenue falls.",
+    chapterId: "verbal-cr-inference-paradox-structure",
+  },
+  {
+    id: "vn26",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-paradox"],
+    difficulty: "medium",
+    text: "A developing country received a large increase in international food aid last year. Despite receiving more food than in any previous year, the country experienced a worsening of malnutrition rates among its rural population.\n\nWhich of the following, if true, most helps to explain the discrepancy described above?",
+    choices: [
+      "The food aid was distributed primarily through urban centers, and the cost of transporting food to rural areas exceeded what local governments could afford.",
+      "The international organizations providing the food aid also provided medical supplies.",
+      "The country's total population increased slightly last year.",
+      "Some of the food aid consisted of crops not traditionally consumed by the country's population.",
+      "International food aid to other developing countries also increased last year."
+    ],
+    correctAnswer: 0,
+    explanation: "The paradox is: more food aid but worsening rural malnutrition. (A) resolves this by showing the food went to cities, not rural areas, and rural distribution was too expensive. The food existed but did not reach the people who needed it. (B) is about medical supplies. (C) explains a small increase in need but not worsening rural malnutrition specifically. (D) is about food types, which is a partial explanation but weaker. (E) is about other countries.",
+    source: { name: "GMAT Official Practice Exam 6 (Paradox)", type: "community" },
+    conceptExplanation: "Paradox questions involving aid or interventions often resolve through distribution problems — the intervention exists but does not reach the target population. The total quantity may increase while the population that needs it most receives less, more, or none.",
+    chapterId: "verbal-cr-inference-paradox-structure",
+  },
+  {
+    id: "vn27",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-paradox"],
+    difficulty: "hard",
+    text: "A company that manufactures luxury watches reported that its total unit sales declined by 15 percent last year. However, the company's total revenue increased by 10 percent over the same period.\n\nWhich of the following, if true, most helps to explain the situation described above?",
+    choices: [
+      "The company increased its advertising budget by 20 percent last year.",
+      "The company's competitor also experienced declining unit sales last year.",
+      "The company shifted its product mix toward higher-priced models and increased prices across its entire line, resulting in a significantly higher average selling price per unit.",
+      "The company reduced its workforce by 5 percent to cut costs.",
+      "Consumer confidence in the luxury goods market declined last year."
+    ],
+    correctAnswer: 2,
+    explanation: "The paradox is: fewer units sold but higher total revenue. Since Revenue = Units x Price per Unit, if the price per unit increased sufficiently to offset the 15% unit decline, total revenue could rise. (C) explains this by showing the company shifted to pricier models and raised prices, increasing revenue per unit enough to more than compensate. (A) is about advertising spend. (B) is about a competitor. (D) is about cost-cutting, not revenue. (E) would worsen, not explain, the revenue increase.",
+    source: { name: "OG 2024-2025 CR #792 (Paradox)", type: "community" },
+    conceptExplanation: "Price-quantity paradoxes are resolved by examining revenue as the product of two factors. If one factor decreases (units) but the other increases proportionally more (price per unit), the product (revenue) can still increase. This is a fundamental concept in business reasoning.",
+    chapterId: "verbal-cr-inference-paradox-structure",
+  },
+
+  // --- cr-boldface (vn28–vn29) ---
+
+  {
+    id: "vn28",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-boldface"],
+    difficulty: "hard",
+    text: "Many educators advocate for smaller class sizes, arguing that students receive more individual attention and therefore learn more effectively. **However, a comprehensive meta-analysis of 150 studies found that reducing class size from 25 to 15 students produced only marginal improvements in standardized test scores.** Some researchers suggest that the benefits of smaller classes depend heavily on whether teachers actually change their instructional methods to take advantage of the smaller group. **If teachers continue using the same lecture-based approach regardless of class size, the potential benefits of individual attention are unlikely to materialize.**\n\nIn the argument above, the two boldface portions play which of the following roles?",
+    choices: [
+      "The first presents a finding that challenges a commonly held view; the second offers an explanation for that finding.",
+      "The first is the argument's main conclusion; the second is evidence supporting that conclusion.",
+      "The first presents evidence the argument rejects; the second explains why the evidence is unreliable.",
+      "The first and second both provide evidence against the effectiveness of smaller class sizes.",
+      "The first presents a position the argument supports; the second presents an objection to that position."
+    ],
+    correctAnswer: 0,
+    explanation: "The first boldface presents a study finding that challenges the common belief that smaller classes produce better results. The second boldface offers an explanation for why the expected benefits did not appear — teachers did not change their methods. (A) correctly identifies these roles. (B) incorrectly labels the first as the conclusion. (C) says the argument rejects the evidence, but it accepts it. (D) is partially right about the first but wrong about the second, which is an explanation, not additional evidence. (E) reverses the logic.",
+    source: { name: "OG Verbal Review 2024-2025 #140 (Boldface)", type: "community" },
+    conceptExplanation: "In Boldface questions, after identifying each boldface's role, check whether the answer correctly captures the relationship between the two portions. Common relationships include: evidence + conclusion, challenge + explanation, premise + counter-premise. Focus on how the pieces connect.",
+    chapterId: "verbal-cr-inference-paradox-structure",
+  },
+  {
+    id: "vn29",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-boldface"],
+    difficulty: "hard",
+    text: "The board of a large hospital system has proposed consolidating several small community hospitals into one large regional medical center. **The board argues that the consolidation will improve patient outcomes because larger hospitals can support more specialized equipment, recruit more experienced physicians, and offer a wider range of services.** Community health advocates counter that closing local hospitals will force rural patients to travel long distances for care, potentially worsening outcomes for time-sensitive emergencies. **The advocates' objection, while raising a legitimate concern about access, does not refute the board's core claim about the quality advantages of larger facilities.**\n\nThe two boldface portions play which of the following roles?",
+    choices: [
+      "The first is the argument's main conclusion; the second provides evidence for that conclusion.",
+      "The first presents a position that the argument ultimately defends; the second evaluates an objection to that position while maintaining the original position.",
+      "The first presents a position that the argument opposes; the second explains why the argument opposes it.",
+      "The first and the second both present evidence supporting the same conclusion.",
+      "The first presents a proposal the argument rejects; the second provides the basis for that rejection."
+    ],
+    correctAnswer: 1,
+    explanation: "The first boldface presents the board's argument for consolidation (a position). The second boldface acknowledges the advocates' concern but maintains that it does not refute the board's core claim — effectively defending the original position while conceding a point. (B) captures this: the argument defends the board's position and evaluates the objection without yielding. (A) mislabels the first as the conclusion and the second as evidence. (C) says the argument opposes the first portion, but it supports it. (D) says both are evidence. (E) says the argument rejects the first, which is the opposite.",
+    source: { name: "GMAT Prep Focus EP2 (Boldface)", type: "community" },
+    conceptExplanation: "Some Boldface questions involve arguments that defend a position against an objection. The structure is: Position stated, Objection raised, Objection evaluated (conceded partially or dismissed). Identify which boldface is the position and which evaluates the objection.",
+    chapterId: "verbal-cr-inference-paradox-structure",
+  },
+
+  // --- cr-complete-passage (vn30) ---
+
+  {
+    id: "vn30",
+    section: "verbal",
+    type: "critical-reasoning",
+    themes: ["cr-complete-passage"],
+    difficulty: "hard",
+    text: "Many governments have implemented sugar taxes on sweetened beverages to reduce sugar consumption and improve public health. Early evidence from such taxes shows that sales of taxed beverages decline, but some researchers have noted that consumers may simply switch to untaxed but equally unhealthy alternatives such as fruit juices with added sugar or high-calorie coffee drinks. If this substitution effect is widespread, then the overall impact of sugar taxes on public health __________.",
+    choices: [
+      "will be overwhelmingly positive because any reduction in soda consumption is beneficial",
+      "will be minimal because consumers will obtain similar amounts of sugar from alternative sources that are not subject to the tax",
+      "cannot be determined because sugar taxes have not been in effect long enough to produce reliable data",
+      "will depend entirely on whether the government uses the tax revenue to fund health education programs",
+      "will be negative because sugar taxes disproportionately burden low-income consumers"
+    ],
+    correctAnswer: 1,
+    explanation: "The passage builds toward a conditional conclusion: IF consumers substitute untaxed but equally unhealthy alternatives, THEN the health impact is minimal because total sugar intake does not meaningfully decrease. (B) completes this logic. (A) ignores the substitution concern. (C) dismisses the evidence already presented. (D) introduces tax revenue use, which is not discussed. (E) introduces a distributional concern not in the passage.",
+    source: { name: "OG 2024-2025 CR #735 (Complete)", type: "community" },
+    conceptExplanation: "Complete-the-Passage questions with conditional structure ('If X, then ___') require you to follow the conditional to its logical conclusion. The blank must complete the 'then' clause in a way that follows from the 'if' premise stated in the passage.",
+    chapterId: "verbal-cr-inference-paradox-structure",
+  },
+
+  // ============================================================
+  // NEW READING COMPREHENSION (vn31–vn60)
+  // ============================================================
+
+  // --- Passage 7: Economics (vn31–vn35) ---
+
+  {
+    id: "vn31",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-main-idea"],
+    difficulty: "medium",
+    passage: passageEconomics,
+    text: "Which of the following best expresses the main idea of the passage?",
+    choices: [
+      "The 2008 financial crisis was caused entirely by moral hazard created by government bailout expectations.",
+      "Moral hazard in the financial sector poses a fundamental tension between short-term stability and long-term incentive structures, and economists disagree about the best way to address it.",
+      "Government bailouts of financial institutions are always justified because the alternative is economic collapse.",
+      "The concept of moral hazard applies only to the insurance industry and has limited relevance to banking.",
+      "Strict regulatory oversight has already solved the moral hazard problem in the financial sector."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage explains moral hazard, discusses the 2008 bailout debate, and presents competing approaches to the problem. (B) captures the central tension and the ongoing disagreement. (A) is too extreme and one-sided. (C) uses 'always,' which is too strong. (D) contradicts the passage, which applies the concept to banking. (E) contradicts the passage, which presents the debate as ongoing.",
+    source: { name: "OG 2024-2025 RC #470 (Main Idea)", type: "community" },
+    conceptExplanation: "When a passage presents a debate between two sides without clearly favoring one, the Main Idea answer should reflect the existence of the debate and the underlying tension, rather than siding with one position. Look for balanced answer choices.",
+    chapterId: "verbal-rc-main-idea-structure",
+  },
+  {
+    id: "vn32",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-detail"],
+    difficulty: "easy",
+    passage: passageEconomics,
+    text: "According to the passage, proponents of the 2008 bank bailout argued that:",
+    choices: [
+      "Bailing out banks would eliminate moral hazard in the financial system.",
+      "The banks that received bailouts had engaged in responsible lending practices.",
+      "Allowing major banks to fail would have caused a catastrophic collapse of the entire financial system.",
+      "Moral hazard is not a real concern in the financial sector.",
+      "The bailout was necessary to protect bank shareholders from losses."
+    ],
+    correctAnswer: 2,
+    explanation: "The passage states that bailout proponents 'countered that the alternative—allowing major banks to fail—would have triggered a catastrophic collapse of the entire financial system.' (C) directly paraphrases this. (A) is not what proponents argued. (B) is not mentioned. (D) contradicts the discussion. (E) is not stated — the passage says losses should be imposed on shareholders.",
+    source: { name: "OG 2024-2025 RC #471 (Detail)", type: "community" },
+    conceptExplanation: "Detail questions that ask about a specific party's argument require you to locate exactly what that party said in the passage. Be careful to attribute the correct argument to the correct side of the debate.",
+    chapterId: "verbal-rc-inference-detail",
+  },
+  {
+    id: "vn33",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-inference"],
+    difficulty: "hard",
+    passage: passageEconomics,
+    text: "The passage suggests that the \"too big to fail\" problem could potentially be addressed by:",
+    choices: [
+      "Providing larger bailouts to ensure complete financial system stability.",
+      "Eliminating all forms of government regulation of the banking industry.",
+      "Preventing financial institutions from growing to a size where their failure threatens systemic stability.",
+      "Requiring banks to maintain lower capital reserves to encourage lending.",
+      "Transferring all financial risk from private institutions to the government."
+    ],
+    correctAnswer: 2,
+    explanation: "The passage states that some economists argue 'the most effective approach is to prevent institutions from becoming too big to fail in the first place.' (C) directly reflects this suggestion. (A) contradicts the passage. (B) contradicts the discussion of stricter regulation. (D) contradicts the passage's mention of higher capital requirements. (E) would worsen moral hazard.",
+    source: { name: "OG 2024-2025 RC #472 (Inference)", type: "community" },
+    conceptExplanation: "Inference questions about proposed solutions require you to identify what the passage explicitly suggests, not what you might think is a good idea. Match the inference directly to textual evidence without adding your own reasoning.",
+    chapterId: "verbal-rc-inference-detail",
+  },
+  {
+    id: "vn34",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-structure"],
+    difficulty: "medium",
+    passage: passageEconomics,
+    text: "The passage is primarily organized by:",
+    choices: [
+      "Presenting a chronological account of the 2008 financial crisis.",
+      "Defining a concept, illustrating it with a prominent example, and presenting competing proposals for addressing it.",
+      "Arguing that moral hazard is the most important concept in economics.",
+      "Comparing the insurance industry and the banking industry across multiple dimensions.",
+      "Presenting a single economist's theory and defending it against objections."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage defines moral hazard, illustrates it with the 2008 bailout debate, and presents competing proposals (regulation, capital requirements, preventing 'too big to fail'). (B) accurately describes this structure. (A) is not the organization; the crisis is an example, not a chronological account. (C) is an overstatement. (D) does not reflect the passage's structure. (E) does not match; multiple views are presented.",
+    source: { name: "OG 2024-2025 RC #473 (Structure)", type: "community" },
+    conceptExplanation: "Structure questions test whether you can see the forest for the trees. Step back from the details and identify the macro-level pattern: Definition + Example + Competing Solutions is a common GMAT structure for passages about economic or policy concepts.",
+    chapterId: "verbal-rc-main-idea-structure",
+  },
+  {
+    id: "vn35",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-application"],
+    difficulty: "hard",
+    passage: passageEconomics,
+    text: "Based on the passage, the author would most likely view an insurance company that charges the same premium to all drivers regardless of their driving record as:",
+    choices: [
+      "An efficient insurer that minimizes administrative costs.",
+      "A company that has effectively eliminated moral hazard from its business model.",
+      "An example of a policy that could create moral hazard by removing the incentive for drivers to drive safely.",
+      "A company that is likely to be more profitable than competitors who adjust premiums based on risk.",
+      "An insurer whose practices are irrelevant to the economic concept discussed in the passage."
+    ],
+    correctAnswer: 2,
+    explanation: "The passage defines moral hazard as taking excessive risk because another party bears the cost. If all drivers pay the same premium regardless of driving record, reckless drivers face no financial consequence for their behavior, potentially encouraging reckless driving. (C) correctly applies the concept. (A) is about efficiency, not moral hazard. (B) is the opposite — this policy creates moral hazard. (D) is unlikely; such a company would attract high-risk drivers. (E) is incorrect; this is directly relevant.",
+    source: { name: "OG 2024-2025 RC #474 (Application)", type: "community" },
+    conceptExplanation: "Application questions ask you to apply a concept from the passage to a new scenario. First, make sure you understand the concept precisely (moral hazard = taking more risk because someone else bears the cost), then identify which answer choice correctly applies it.",
+    chapterId: "verbal-rc-tone-application",
+  },
+
+  // --- Passage 8: Legal (vn36–vn40) ---
+
+  {
+    id: "vn36",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-main-idea"],
+    difficulty: "medium",
+    passage: passageLegal,
+    text: "Which of the following best describes the primary purpose of the passage?",
+    choices: [
+      "To argue that judicial review is undemocratic and should be abolished.",
+      "To describe the paradox of judicial review in democratic systems and to compare how different nations have addressed the tension between majority rule and constitutional constraint.",
+      "To explain why the United States Supreme Court is the most powerful judicial body in the world.",
+      "To argue that parliamentary sovereignty is superior to judicial review as a system of governance.",
+      "To chronicle the historical development of constitutional law from the eighteenth century to the present."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage presents the 'countermajoritarian difficulty,' discusses arguments for and against judicial review, and compares different national models. (B) captures all these elements. (A) is one-sided. (C) is too narrow. (D) favors one system, which the passage does not. (E) is not the passage's focus.",
+    source: { name: "OG 2024-2025 RC #480 (Main Idea)", type: "community" },
+    conceptExplanation: "When a passage discusses a paradox or tension and then compares different approaches, the Main Idea should reflect both the paradox and the comparison. Single-sided answers that resolve the paradox in one direction are typically incorrect.",
+    chapterId: "verbal-rc-main-idea-structure",
+  },
+  {
+    id: "vn37",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-detail"],
+    difficulty: "easy",
+    passage: passageLegal,
+    text: "According to the passage, judicial review in the United States was established by:",
+    choices: [
+      "An explicit provision in the text of the Constitution.",
+      "The Supreme Court's decision in Marbury v. Madison in 1803.",
+      "A constitutional amendment ratified in the nineteenth century.",
+      "An act of Congress signed by the president.",
+      "The adoption of the Human Rights Act."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage states: 'judicial review was established not by the Constitution's text but by the Supreme Court's 1803 decision in Marbury v. Madison.' (B) matches this exactly. (A) is explicitly contradicted. (C) is not mentioned. (D) is not mentioned. (E) refers to the United Kingdom, not the United States.",
+    source: { name: "OG 2024-2025 RC #481 (Detail)", type: "community" },
+    conceptExplanation: "Detail questions sometimes include plausible-sounding wrong answers from other parts of the passage. The Human Rights Act is mentioned in the passage but in connection with the UK, not the US. Always verify that the detail matches the specific subject asked about.",
+    chapterId: "verbal-rc-inference-detail",
+  },
+  {
+    id: "vn38",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-inference"],
+    difficulty: "hard",
+    passage: passageLegal,
+    text: "The passage implies that the \"countermajoritarian difficulty\" is most acute in a system where:",
+    choices: [
+      "Judges are elected by popular vote for fixed terms.",
+      "The legislature can override judicial decisions by a simple majority vote.",
+      "Unelected judges with life tenure have the power to invalidate legislation passed by elected representatives.",
+      "Constitutional questions are decided by a specialized court separate from the ordinary judiciary.",
+      "Parliament is sovereign and no court can overrule its acts."
+    ],
+    correctAnswer: 2,
+    explanation: "The 'countermajoritarian difficulty' is the tension between unelected judges overriding elected legislators. This tension is most acute when judges are unelected, have life tenure (maximum insulation from democratic accountability), and can strike down laws. (C) captures these conditions. (A) reduces the difficulty because judges are elected. (B) reduces it because the legislature can override. (D) is a middle ground. (E) eliminates judicial review entirely.",
+    source: { name: "OG 2024-2025 RC #482 (Inference)", type: "community" },
+    conceptExplanation: "Inference questions that ask about degrees ('most acute') require you to identify conditions that maximize the stated tension. The tension between judicial power and democratic accountability is greatest when judges are most insulated from democratic accountability.",
+    chapterId: "verbal-rc-inference-detail",
+  },
+  {
+    id: "vn39",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-tone"],
+    difficulty: "medium",
+    passage: passageLegal,
+    text: "The author's tone in discussing the debate over judicial review can best be described as:",
+    choices: [
+      "Passionately advocating for the abolition of judicial review.",
+      "Objectively analytical, presenting multiple perspectives without clearly endorsing one.",
+      "Dismissive of the concerns raised by critics of judicial review.",
+      "Frustrated by the failure of legal scholars to resolve the debate.",
+      "Enthusiastically supportive of the American model of judicial review."
+    ],
+    correctAnswer: 1,
+    explanation: "The author presents arguments from both critics and defenders of judicial review and describes multiple national models without clearly favoring any. The tone is academic and balanced. (B) captures this. (A) is too strong. (C) contradicts the fair treatment of critics' arguments. (D) introduces frustration not present. (E) is one-sided.",
+    source: { name: "OG 2024-2025 RC #483 (Tone)", type: "community" },
+    conceptExplanation: "Academic passages about legal or political debates typically maintain an objective, analytical tone. The author's job is to explain the debate fairly, not to advocate for a position. When the passage gives equal treatment to both sides, the correct tone descriptor will reflect neutrality.",
+    chapterId: "verbal-rc-tone-application",
+  },
+  {
+    id: "vn40",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-application"],
+    difficulty: "hard",
+    passage: passageLegal,
+    text: "Based on the passage, a country that allows its legislature to pass any law without judicial oversight would be most consistent with which model?",
+    choices: [
+      "The American model of constitutional judicial review.",
+      "The French model of specialized constitutional courts.",
+      "The traditional British model of parliamentary sovereignty.",
+      "The German model of constitutional review.",
+      "A model that prioritizes constitutional constraint over democratic accountability."
+    ],
+    correctAnswer: 2,
+    explanation: "The passage describes the UK's traditional principle of parliamentary sovereignty, which 'held that no court could overrule an Act of Parliament.' A country where the legislature can pass any law without judicial oversight matches this model exactly. (C) is correct. (A), (B), and (D) all involve some form of judicial review. (E) is the opposite of what is described.",
+    source: { name: "OG 2024-2025 RC #484 (Application)", type: "community" },
+    conceptExplanation: "Application questions that ask you to match a described scenario to a model discussed in the passage require precise understanding of each model's key features. Parliamentary sovereignty means no judicial override; constitutional review means courts can invalidate laws. Match the scenario to the right model.",
+    chapterId: "verbal-rc-tone-application",
+  },
+
+  // --- Passage 9: Biology (vn41–vn45) ---
+
+  {
+    id: "vn41",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-main-idea"],
+    difficulty: "hard",
+    passage: passageBiology,
+    text: "Which of the following best states the primary purpose of the passage?",
+    choices: [
+      "To argue that epigenetics has completely replaced Darwinian evolution as the primary theory of inheritance.",
+      "To describe how epigenetic modifications challenge the traditional view of genetic inheritance and to discuss the implications and controversies surrounding transgenerational epigenetic inheritance.",
+      "To explain the molecular mechanisms of DNA methylation and histone modification in detail.",
+      "To prove that the inheritance of acquired characteristics, as proposed by Lamarck, is scientifically valid.",
+      "To compare the genomes of mice and humans in order to establish the relevance of animal studies."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage explains epigenetics, describes how it challenges traditional inheritance views, presents landmark studies, discusses implications for evolution, and notes ongoing controversies. (B) captures this scope. (A) is too extreme. (C) is too narrow — the passage mentions mechanisms but does not detail them. (D) overstates the passage's claims. (E) is not the passage's purpose.",
+    source: { name: "OG 2024-2025 RC #490 (Main Idea)", type: "community" },
+    conceptExplanation: "Science passages that introduce a paradigm-challenging concept typically follow a structure: old view, new evidence, implications, and remaining questions. The Main Idea should capture this full arc, not just one part of it.",
+    chapterId: "verbal-rc-main-idea-structure",
+  },
+  {
+    id: "vn42",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-detail"],
+    difficulty: "medium",
+    passage: passageBiology,
+    text: "According to the passage, the landmark mouse study demonstrated that:",
+    choices: [
+      "DNA methylation is the only mechanism by which epigenetic changes are transmitted.",
+      "Mice exposed to an odor paired with a shock developed a sensitivity to that odor that was also exhibited by their offspring and grandoffspring.",
+      "Epigenetic changes cannot be transmitted through sperm cells.",
+      "Environmental toxins are the primary cause of epigenetic modifications.",
+      "Classical Darwinian evolution is incompatible with epigenetic inheritance."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage describes a study where mice exposed to an odor-shock pairing developed heightened sensitivity, and 'their offspring and even their grandoffspring exhibited the same sensitivity despite never having been exposed to the shock.' (B) matches this. (A) is not stated. (C) contradicts the passage. (D) is not the study's finding. (E) is not claimed.",
+    source: { name: "OG 2024-2025 RC #491 (Detail)", type: "community" },
+    conceptExplanation: "When a passage describes a specific experiment, Detail questions will test whether you can accurately identify the study's findings without adding interpretations. The correct answer will closely paraphrase the passage's description of the results.",
+    chapterId: "verbal-rc-inference-detail",
+  },
+  {
+    id: "vn43",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-inference"],
+    difficulty: "hard",
+    passage: passageBiology,
+    text: "The passage suggests that the main challenge in studying transgenerational epigenetic inheritance in humans is:",
+    choices: [
+      "The inability to perform controlled experiments involving electric shocks on human subjects.",
+      "The difficulty of separating epigenetic effects from confounding social and environmental factors in human populations.",
+      "The lack of sufficiently advanced technology to detect epigenetic modifications in human DNA.",
+      "The ethical prohibition against studying human genetics.",
+      "The fact that human generations are too long for longitudinal studies to be feasible."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage states: 'isolating epigenetic mechanisms from confounding social and environmental factors in human populations presents formidable methodological challenges.' (B) directly captures this. (A) is about experimental ethics, not the main challenge discussed. (C) is not mentioned. (D) is too broad. (E) is not the stated challenge.",
+    source: { name: "OG 2024-2025 RC #492 (Inference)", type: "community" },
+    conceptExplanation: "When a passage identifies a specific methodological challenge, the inference question will typically test whether you can distinguish the stated challenge from plausible-sounding but unsupported alternatives. Stick closely to what the passage actually says.",
+    chapterId: "verbal-rc-inference-detail",
+  },
+  {
+    id: "vn44",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-structure"],
+    difficulty: "medium",
+    passage: passageBiology,
+    text: "The author mentions the epidemiological studies linking famine exposure to metabolic disorders primarily in order to:",
+    choices: [
+      "Prove that epigenetic inheritance definitively occurs in humans.",
+      "Provide evidence that is suggestive of transgenerational epigenetic effects in humans while acknowledging that the evidence is not conclusive.",
+      "Argue that famine is the primary cause of metabolic disorders in human populations.",
+      "Compare the effects of famine on humans with the effects of electric shocks on mice.",
+      "Demonstrate that epidemiological research is more reliable than laboratory experiments."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage mentions these studies in the context of discussing what 'remains contested' in human research, noting the difficulty of 'isolating epigenetic mechanisms from confounding factors.' The studies are suggestive but not conclusive. (B) captures this nuanced purpose. (A) is too strong. (C) misrepresents the passage. (D) is not the purpose. (E) contradicts the passage's cautious treatment of these studies.",
+    source: { name: "OG 2024-2025 RC #493 (Structure)", type: "community" },
+    conceptExplanation: "Function questions about evidence in science passages often test whether you understand the strength the author attributes to that evidence. If the author presents evidence with qualifiers ('suggestive,' 'remains contested'), the function answer should reflect that the evidence is preliminary, not conclusive.",
+    chapterId: "verbal-rc-main-idea-structure",
+  },
+  {
+    id: "vn45",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-tone"],
+    difficulty: "medium",
+    passage: passageBiology,
+    text: "The author's attitude toward the field of epigenetics can best be described as:",
+    choices: [
+      "Dismissive, viewing it as a passing scientific fad.",
+      "Enthusiastic but measured, acknowledging the field's revolutionary potential while noting significant unresolved questions.",
+      "Deeply skeptical, questioning whether epigenetic modifications are real.",
+      "Neutral to the point of disengagement, presenting findings without any evaluation.",
+      "Alarmed by the ethical implications of epigenetic research."
+    ],
+    correctAnswer: 1,
+    explanation: "The author calls epigenetics a 'fundamental challenge' to traditional views, describes 'profound implications,' and notes the field 'continues to evolve rapidly' — showing enthusiasm. But qualifiers like 'remains contested,' 'formidable methodological challenges,' and 'only beginning to be understood' signal caution. (B) captures both dimensions. (A), (C), (D), and (E) do not match the textual evidence.",
+    source: { name: "OG 2024-2025 RC #494 (Tone)", type: "community" },
+    conceptExplanation: "Science passages about emerging fields typically express measured enthusiasm. The author is excited about the potential but recognizes that the science is still developing. Look for answer choices that capture both the positive evaluation and the qualifying language.",
+    chapterId: "verbal-rc-tone-application",
+  },
+
+  // --- Passage 10: Social Science (vn46–vn50) ---
+
+  {
+    id: "vn46",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-main-idea"],
+    difficulty: "easy",
+    passage: passageSocialScience,
+    text: "Which of the following best expresses the primary purpose of the passage?",
+    choices: [
+      "To describe the Kitty Genovese case and argue that bystanders are always indifferent to emergencies.",
+      "To explain the bystander effect, describe its underlying mechanisms, and discuss how subsequent research has refined the original findings.",
+      "To argue that Darley and Latane's original experiments were methodologically flawed.",
+      "To prove that large groups are always less helpful than individuals in emergency situations.",
+      "To explain why the Kitty Genovese case was inaccurately reported by the media."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage introduces the bystander effect via the Genovese case, describes Darley and Latane's experiments and proposed mechanisms, and discusses how subsequent research has refined the findings. (B) captures this full scope. (A) is too extreme. (C) is not the passage's argument. (D) uses 'always,' which contradicts the nuances discussed. (E) is a detail, not the primary purpose.",
+    source: { name: "OG 2024-2025 RC #500 (Main Idea)", type: "community" },
+    conceptExplanation: "Passages that present a classic finding and then discuss how later research has 'refined' or 'qualified' it follow a common structure. The Main Idea should capture both the original finding and the refinements, not just one or the other.",
+    chapterId: "verbal-rc-main-idea-structure",
+  },
+  {
+    id: "vn47",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-detail"],
+    difficulty: "easy",
+    passage: passageSocialScience,
+    text: "According to the passage, in Darley and Latane's 1968 study, what percentage of participants who believed they were the sole witness to a seizure offered help?",
+    choices: [
+      "31 percent",
+      "38 percent",
+      "65 percent",
+      "85 percent",
+      "100 percent"
+    ],
+    correctAnswer: 3,
+    explanation: "The passage states: 'participants who believed they were the sole witness to an apparent seizure offered help 85 percent of the time.' (D) matches this exactly. (A) (31 percent) is the figure for those who believed four others were aware.",
+    source: { name: "OG 2024-2025 RC #501 (Detail)", type: "community" },
+    conceptExplanation: "When a passage provides contrasting statistics for different conditions in an experiment, the Detail question will often test whether you can match each statistic to the correct condition. Read the question carefully to determine which condition is being asked about.",
+    chapterId: "verbal-rc-inference-detail",
+  },
+  {
+    id: "vn48",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-inference"],
+    difficulty: "medium",
+    passage: passageSocialScience,
+    text: "The passage suggests that the initial media account of the Kitty Genovese case:",
+    choices: [
+      "Was essentially accurate in all important details.",
+      "Overstated the number of witnesses and their lack of response, though the case still prompted valuable research.",
+      "Has been completely debunked, invalidating all subsequent bystander effect research.",
+      "Was deliberately fabricated by journalists to sell newspapers.",
+      "Accurately reported 38 witnesses but exaggerated their indifference."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage notes that 'initial reports claimed that 38 witnesses observed the attack and none called police, though subsequent investigation revealed that this account was substantially exaggerated. Nevertheless, the case prompted social psychologists...to conduct experiments.' (B) captures both the exaggeration and the research value. (A) contradicts 'substantially exaggerated.' (C) is too strong. (D) alleges fabrication not mentioned. (E) contradicts the passage.",
+    source: { name: "OG 2024-2025 RC #502 (Inference)", type: "community" },
+    conceptExplanation: "When a passage corrects a popular misconception while acknowledging its positive consequences, the inference should reflect both the correction and the positive outcome. Avoid answers that go further than the passage in either debunking or defending the original account.",
+    chapterId: "verbal-rc-inference-detail",
+  },
+  {
+    id: "vn49",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-structure"],
+    difficulty: "medium",
+    passage: passageSocialScience,
+    text: "The discussion of meta-analyses in the final paragraph primarily serves to:",
+    choices: [
+      "Contradict Darley and Latane's original findings entirely.",
+      "Show that the bystander effect is stronger than originally believed.",
+      "Identify conditions under which the bystander effect is weaker, thereby refining the original findings.",
+      "Argue that meta-analyses are the most reliable form of social science research.",
+      "Demonstrate that the bystander effect does not exist in real-world situations."
+    ],
+    correctAnswer: 2,
+    explanation: "The passage describes meta-analyses showing that the bystander effect is weaker when emergencies are clearly dangerous, bystanders are friends, or the victim is an in-group member. This refines rather than contradicts the original findings. (C) captures this purpose. (A) is too strong. (B) is the opposite. (D) is about methodology, not the content's purpose. (E) contradicts the passage.",
+    source: { name: "OG 2024-2025 RC #503 (Structure)", type: "community" },
+    conceptExplanation: "When later research 'refines' earlier findings, it typically identifies boundary conditions — situations where the effect is stronger or weaker. The purpose of such discussion is to add nuance, not to overturn the original discovery.",
+    chapterId: "verbal-rc-main-idea-structure",
+  },
+  {
+    id: "vn50",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-application"],
+    difficulty: "hard",
+    passage: passageSocialScience,
+    text: "Based on the passage, in which of the following emergency situations would the bystander effect be LEAST likely to inhibit helping behavior?",
+    choices: [
+      "A stranger collapses in a busy shopping mall, and the situation is ambiguous — the person might simply be resting.",
+      "A minor fender-bender occurs on a highway with dozens of passing motorists.",
+      "A person is clearly being physically attacked on a small residential street where the only bystanders are the victim's neighbors.",
+      "A wallet is dropped in a crowded subway station, and dozens of commuters walk past it.",
+      "A fire alarm sounds in a large office building, and workers look to each other to decide whether to evacuate."
+    ],
+    correctAnswer: 2,
+    explanation: "The passage states the bystander effect is weaker when the emergency is 'clearly dangerous rather than ambiguous,' when 'bystanders are friends rather than strangers,' and when 'the victim is perceived as a member of the bystander's social group.' (C) describes a clearly dangerous situation (physical attack) where bystanders are neighbors (not strangers, likely an in-group). This combines conditions that minimize the bystander effect. (A) is ambiguous. (B) involves strangers on a highway. (D) is ambiguous (dropped wallet). (E) involves pluralistic ignorance.",
+    source: { name: "OG 2024-2025 RC #504 (Application)", type: "community" },
+    conceptExplanation: "Application questions that ask about when an effect is 'least likely' require you to identify the conditions listed in the passage that weaken the effect, then find the answer choice that best matches those conditions. Check each condition systematically.",
+    chapterId: "verbal-rc-tone-application",
+  },
+
+  // --- Passage 11: Literature (vn51–vn55) ---
+
+  {
+    id: "vn51",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-main-idea"],
+    difficulty: "medium",
+    passage: passageLiterature,
+    text: "Which of the following best describes the main point of the passage?",
+    choices: [
+      "Daniel Defoe single-handedly invented the novel as a literary form.",
+      "The rise of the novel in eighteenth-century England was connected to social and economic changes, though scholarly debate continues about the novel's precise origins and defining features.",
+      "Ian Watt's The Rise of the Novel is the definitive account of how the novel developed.",
+      "The novel is a uniquely English literary form with no precedents in other cultures.",
+      "Women writers were more important to the development of the novel than male writers."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage connects the novel's rise to middle-class growth, discusses Watt's thesis and challenges to it, and notes ongoing debates about origins. (B) captures this full scope. (A) is too narrow. (C) contradicts the passage, which describes challenges to Watt. (D) is explicitly contradicted — the passage mentions traditions in France, Spain, and Japan. (E) overstates; the passage mentions women writers as overlooked, not as more important.",
+    source: { name: "OG 2024-2025 RC #510 (Main Idea)", type: "community" },
+    conceptExplanation: "When a passage presents a scholar's thesis and then discusses challenges to it, the Main Idea should acknowledge both the thesis and the debate. Answers that present the thesis as definitive or the challenges as conclusive are typically incorrect.",
+    chapterId: "verbal-rc-main-idea-structure",
+  },
+  {
+    id: "vn52",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-detail"],
+    difficulty: "easy",
+    passage: passageLiterature,
+    text: "According to the passage, Ian Watt argued that the distinguishing feature of the novel as a literary form was its commitment to:",
+    choices: [
+      "Allegorical representation of moral truths.",
+      "Formal realism — detailed, individualized representation of characters in specific circumstances.",
+      "The celebration of aristocratic virtues and heroic deeds.",
+      "Experimental narrative techniques such as stream of consciousness.",
+      "Political commentary on the social conditions of the working class."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage states Watt argued the novel's 'distinguishing feature was its commitment to formal realism: a detailed, individualized representation of characters in specific times, places, and social circumstances.' (B) directly quotes this. (A) describes earlier forms the novel departed from. (C) describes epic poetry. (D) is a later development. (E) is not attributed to Watt.",
+    source: { name: "OG 2024-2025 RC #511 (Detail)", type: "community" },
+    conceptExplanation: "When a passage attributes a specific argument to a named scholar, Detail questions may test whether you can accurately identify that scholar's position. Be precise — distinguish between what the scholar claims and what critics of the scholar claim.",
+    chapterId: "verbal-rc-inference-detail",
+  },
+  {
+    id: "vn53",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-inference"],
+    difficulty: "hard",
+    passage: passageLiterature,
+    text: "The passage implies that critics of Watt's thesis would most likely argue that:",
+    choices: [
+      "The novel is not a realistic literary form.",
+      "Social and economic conditions play no role in the development of literary forms.",
+      "A comprehensive account of the novel's origins must consider a broader range of writers and national traditions than Watt included.",
+      "Defoe, Richardson, and Fielding are not important figures in the history of the novel.",
+      "The concept of formal realism has no relevance to literary analysis."
+    ],
+    correctAnswer: 2,
+    explanation: "The passage states critics note that Watt 'privileges a narrow canon of male English writers while ignoring earlier novelistic traditions in France, Spain, and Japan, as well as the significant contributions of women writers.' This implies critics want a broader scope. (C) captures this. (A) is not the critics' point. (B) is too extreme. (D) is not stated. (E) goes too far.",
+    source: { name: "OG 2024-2025 RC #512 (Inference)", type: "community" },
+    conceptExplanation: "Inference questions about critics' likely arguments require you to extrapolate from their stated objections. If critics say a thesis is too narrow, the logical inference is that they want a broader, more inclusive analysis — not that they reject the thesis entirely.",
+    chapterId: "verbal-rc-inference-detail",
+  },
+  {
+    id: "vn54",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-tone"],
+    difficulty: "medium",
+    passage: passageLiterature,
+    text: "The author's attitude toward Ian Watt's thesis in The Rise of the Novel can best be described as:",
+    choices: [
+      "Wholly dismissive, rejecting Watt's argument in its entirety.",
+      "Uncritically accepting, treating Watt's thesis as the definitive account.",
+      "Respectful but critical, acknowledging Watt's influence while noting significant limitations in his analysis.",
+      "Indifferent, presenting Watt's thesis without any implied evaluation.",
+      "Hostile, accusing Watt of deliberately excluding women and non-English writers."
+    ],
+    correctAnswer: 2,
+    explanation: "The author calls Watt's study 'influential' (respectful) but presents challenges about its narrow scope (critical). (C) captures this balanced treatment. (A) is too negative. (B) contradicts the challenges presented. (D) is incorrect — the author clearly evaluates. (E) overstates; 'hostile' and 'deliberately' are too strong.",
+    source: { name: "OG 2024-2025 RC #513 (Tone)", type: "community" },
+    conceptExplanation: "When a passage describes a scholar's work as 'influential' but then presents objections, the author's attitude is typically respectful but critical. This is a very common tone pattern in academic passages. Neither purely positive nor purely negative answer choices are correct.",
+    chapterId: "verbal-rc-tone-application",
+  },
+  {
+    id: "vn55",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-application"],
+    difficulty: "hard",
+    passage: passageLiterature,
+    text: "Based on the passage, which of the following literary works would most challenge Watt's thesis about the novel's origins?",
+    choices: [
+      "A twentieth-century English novel by a male author that exemplifies formal realism.",
+      "An eighteenth-century English novel that focuses on the experiences of aristocratic characters.",
+      "A seventeenth-century Japanese prose narrative that features psychologically complex characters in realistic social settings.",
+      "A nineteenth-century English novel that was influenced by Defoe's narrative techniques.",
+      "A contemporary English novel that abandons formal realism in favor of experimental techniques."
+    ],
+    correctAnswer: 2,
+    explanation: "Watt's thesis privileges English male writers and suggests formal realism originated with them. A seventeenth-century Japanese narrative with similar features would challenge Watt by showing that novelistic characteristics existed outside England and before the period Watt identifies. (C) directly challenges Watt's scope. (A) supports Watt. (B) would be unusual but does not challenge Watt's cultural or temporal claims. (D) supports Watt's influence argument. (E) challenges realism but not Watt's thesis about origins.",
+    source: { name: "OG 2024-2025 RC #514 (Application)", type: "community" },
+    conceptExplanation: "Application questions that ask what would 'challenge' a thesis require you to identify the thesis's key claims and find a counterexample. If the thesis claims X originated in a specific time and place, a counterexample shows X existed earlier or elsewhere.",
+    chapterId: "verbal-rc-tone-application",
+  },
+
+  // --- Passage 12: Philosophy (vn56–vn60) ---
+
+  {
+    id: "vn56",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-main-idea"],
+    difficulty: "hard",
+    passage: passagePhilosophy,
+    text: "Which of the following best states the primary purpose of the passage?",
+    choices: [
+      "To prove that Locke's memory criterion of personal identity is correct.",
+      "To trace the philosophical debate over personal identity from Locke through modern philosophers, highlighting key objections and refinements.",
+      "To argue that personal identity is an illusion that has no basis in reality.",
+      "To compare Locke's philosophy with that of Thomas Reid across multiple topics.",
+      "To explain the legal concept of moral responsibility and its philosophical foundations."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage presents Locke's theory, Reid's objection, modern refinements (overlapping chains), and Parfit's radical challenges. (B) captures this trajectory. (A) is one-sided. (C) goes further than any philosopher in the passage argues. (D) is too narrow — Reid is one part of the discussion. (E) mentions legal implications but only in the final sentence.",
+    source: { name: "OG 2024-2025 RC #520 (Main Idea)", type: "community" },
+    conceptExplanation: "Philosophy passages often trace the evolution of an idea through multiple thinkers. The Main Idea should capture the intellectual trajectory — initial theory, objections, refinements, and current state — rather than focusing on any single philosopher's contribution.",
+    chapterId: "verbal-rc-main-idea-structure",
+  },
+  {
+    id: "vn57",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-detail"],
+    difficulty: "medium",
+    passage: passagePhilosophy,
+    text: "According to the passage, Thomas Reid's objection to Locke's theory centered on:",
+    choices: [
+      "The claim that bodily continuity is irrelevant to personal identity.",
+      "A contradiction generated by Locke's theory in cases involving chains of memory that do not overlap — the transitivity problem.",
+      "The argument that personal identity requires the persistence of an immaterial soul.",
+      "The observation that memories are often unreliable and subject to distortion.",
+      "The claim that psychological continuity can branch into multiple individuals."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage describes Reid's objection: the general remembers his deeds as an officer, the officer remembers being flogged as a schoolboy, but the general cannot remember the flogging. By Locke's criterion, the general is both identical to and not identical to the schoolboy — a transitivity contradiction. (B) captures this. (A) is Locke's own implication. (C) is not Reid's objection as described. (D) is not mentioned. (E) is Parfit's contribution, not Reid's.",
+    source: { name: "OG 2024-2025 RC #521 (Detail)", type: "community" },
+    conceptExplanation: "When a passage describes a specific philosopher's objection, the Detail question requires you to accurately identify that philosopher's critique, not confuse it with objections raised by others. Keep track of which argument belongs to which thinker.",
+    chapterId: "verbal-rc-inference-detail",
+  },
+  {
+    id: "vn58",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-inference"],
+    difficulty: "hard",
+    passage: passagePhilosophy,
+    text: "The passage implies that Parfit's thought experiments about teleportation and brain duplication are intended to show that:",
+    choices: [
+      "Teleportation technology will eventually be developed and will pose real ethical dilemmas.",
+      "Personal identity as traditionally understood may not adequately describe situations where psychological continuity can branch or be duplicated.",
+      "Locke's memory criterion is entirely correct and needs no modification.",
+      "Physical continuity is the only reliable criterion for personal identity.",
+      "The concept of moral responsibility has no philosophical foundation."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage states Parfit's experiments 'suggest that our ordinary concept of personal identity as an all-or-nothing relation may be fundamentally inadequate to describe the actual facts of human psychological life.' The teleportation and duplication scenarios create situations where identity seems to branch, challenging the traditional binary view. (B) captures this. (A) takes the thought experiments literally. (C) contradicts Parfit's challenge. (D) is not Parfit's view. (E) goes too far.",
+    source: { name: "OG 2024-2025 RC #522 (Inference)", type: "community" },
+    conceptExplanation: "When a passage describes philosophical thought experiments, the inference question usually asks about their purpose or implication, not their literal feasibility. Thought experiments are tools for revealing conceptual problems — the correct answer will identify the conceptual point, not the literal scenario.",
+    chapterId: "verbal-rc-inference-detail",
+  },
+  {
+    id: "vn59",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-structure"],
+    difficulty: "medium",
+    passage: passagePhilosophy,
+    text: "The passage is organized primarily by:",
+    choices: [
+      "Presenting a single philosopher's theory and defending it comprehensively against all objections.",
+      "Describing a philosophical question, presenting the historical development of competing answers, and noting the practical implications of the debate.",
+      "Comparing Eastern and Western philosophical traditions on the question of personal identity.",
+      "Arguing that the question of personal identity has been definitively answered by modern philosophy.",
+      "Presenting empirical evidence from neuroscience that resolves the personal identity debate."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage introduces the philosophical question of personal identity, traces answers from Locke through Reid to modern philosophers and Parfit, and notes implications for ethics and law. (B) captures this three-part structure. (A) is wrong because multiple philosophers are discussed. (C) does not match — only Western philosophy is discussed. (D) contradicts the passage's open-ended tone. (E) does not match — no neuroscience is discussed.",
+    source: { name: "OG 2024-2025 RC #523 (Structure)", type: "community" },
+    conceptExplanation: "Philosophy passages commonly follow a historical trajectory: Question posed, Early answer, Objection, Refinement, Modern development, Implications. The correct Structure answer will reflect this developmental pattern rather than describing a static argument.",
+    chapterId: "verbal-rc-main-idea-structure",
+  },
+  {
+    id: "vn60",
+    section: "verbal",
+    type: "reading-comprehension",
+    themes: ["rc-application"],
+    difficulty: "hard",
+    passage: passagePhilosophy,
+    text: "Based on the passage, which of the following scenarios would pose the greatest challenge to the concept of personal identity as an all-or-nothing relation?",
+    choices: [
+      "A person who loses all their memories due to amnesia but retains their physical body and personality traits.",
+      "A person whose brain is perfectly duplicated, creating two individuals who share identical memories, beliefs, and personality traits.",
+      "A person who gradually changes their beliefs and personality over the course of their lifetime.",
+      "Identical twins who share the same DNA but develop different personalities.",
+      "A person who maintains consistent memories and personality throughout their life."
+    ],
+    correctAnswer: 1,
+    explanation: "The passage discusses Parfit's argument that personal identity may not be an all-or-nothing relation, using brain duplication as a key example. A perfect brain duplication creating two individuals with identical psychological profiles poses the greatest challenge because identity cannot be 'one or none' if two equally valid candidates exist. (B) directly matches Parfit's scenario. (A) is a simpler case. (C) is gradual change, which overlapping chains can handle. (D) is about genetic identity, not psychological. (E) does not challenge anything.",
+    source: { name: "OG 2024-2025 RC #524 (Application)", type: "community" },
+    conceptExplanation: "Application questions about philosophical concepts require you to identify the key feature of the concept and find the scenario that most directly tests it. 'All-or-nothing' means identity must be either fully present or fully absent — duplication challenges this because it creates two equally valid claimants to a single identity.",
+    chapterId: "verbal-rc-tone-application",
   },
 ];
