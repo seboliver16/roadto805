@@ -1,3 +1,10 @@
+// === Chat ===
+
+export interface ChatMessage {
+  role: "user" | "assistant" | "system";
+  content: string;
+}
+
 // === Sections ===
 
 export type Section = "quant" | "verbal" | "data-insights";

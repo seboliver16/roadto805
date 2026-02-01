@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
-import { generateExplanation } from "@/lib/mistral";
+import { generateExplanation, sendFollowUp } from "@/lib/mistral";
+import { ChatMessage } from "@/types";
 import { Markdown } from "./markdown";
+import { FollowUpInput } from "./follow-up-input";
 
 interface SelectablePassageProps {
   passage: string;
@@ -17,6 +19,8 @@ export function SelectablePassage({ passage, questionContext, className }: Selec
   const [explanation, setExplanation] = useState("");
   const [loading, setLoading] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [followUpLoading, setFollowUpLoading] = useState(false);
 
   const handleMouseUp = useCallback(() => {
     const selection = window.getSelection();
@@ -55,14 +59,39 @@ export function SelectablePassage({ passage, questionContext, className }: Selec
     setShowExplanation(true);
     setLoading(true);
     setTooltipPos(null);
+    setMessages([]);
     try {
       const result = await generateExplanation(selectedText, passage, questionContext);
       setExplanation(result);
+      setMessages([
+        { role: "user", content: `Explain this text: "${selectedText}"` },
+        { role: "assistant", content: result },
+      ]);
     } catch {
       setExplanation("Could not generate explanation. Try again later.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleFollowUp = async (userMessage: string) => {
+    const updated = [...messages, { role: "user" as const, content: userMessage }];
+    setMessages(updated);
+    setFollowUpLoading(true);
+    try {
+      const response = await sendFollowUp(updated);
+      setMessages((prev) => [...prev, { role: "assistant" as const, content: response }]);
+    } catch {
+      setMessages((prev) => [...prev, { role: "assistant" as const, content: "Sorry, I couldn't process that. Try again." }]);
+    } finally {
+      setFollowUpLoading(false);
+    }
+  };
+
+  const handleDismiss = () => {
+    setShowExplanation(false);
+    setExplanation("");
+    setMessages([]);
   };
 
   useEffect(() => {
@@ -120,7 +149,7 @@ export function SelectablePassage({ passage, questionContext, className }: Selec
               AI Explanation
             </h4>
             <button
-              onClick={() => { setShowExplanation(false); setExplanation(""); }}
+              onClick={handleDismiss}
               className="text-xs text-[#6b7280] hover:text-[#0d0d0d] font-medium"
             >
               Dismiss
@@ -132,7 +161,32 @@ export function SelectablePassage({ passage, questionContext, className }: Selec
               <span className="text-xs">Analyzing...</span>
             </div>
           ) : (
-            <Markdown className="text-[#374151] text-xs">{explanation}</Markdown>
+            <>
+              <Markdown className="text-[#374151] text-xs">{explanation}</Markdown>
+
+              {/* Follow-up messages */}
+              {messages.slice(2).map((msg, i) => (
+                <div
+                  key={i}
+                  className={msg.role === "user" ? "border-t border-[#e5e7eb] pt-2 mt-2" : "mt-2"}
+                >
+                  {msg.role === "user" ? (
+                    <p className="text-xs font-medium text-[#6b7280]">{msg.content}</p>
+                  ) : (
+                    <Markdown className="text-[#374151] text-xs">{msg.content}</Markdown>
+                  )}
+                </div>
+              ))}
+
+              {followUpLoading && (
+                <div className="flex items-center gap-2 text-[#6b7280] mt-2">
+                  <div className="h-3 w-3 animate-spin rounded-full border-2 border-[#0d0d0d] border-t-transparent" />
+                  <span className="text-xs">Thinking...</span>
+                </div>
+              )}
+
+              <FollowUpInput onSend={handleFollowUp} loading={followUpLoading} placeholder="Ask a follow-up..." />
+            </>
           )}
         </div>
       )}

@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { generateHint, generateWalkthrough } from "@/lib/mistral";
-import { Question } from "@/types";
+import { generateHint, generateWalkthrough, sendFollowUp } from "@/lib/mistral";
+import { ChatMessage, Question } from "@/types";
 import { Markdown } from "./markdown";
+import { FollowUpInput } from "./follow-up-input";
 
 interface AiHelpButtonProps {
   question: Question;
@@ -17,6 +18,8 @@ export function AiHelpButton({ question, showResult, selectedAnswer }: AiHelpBut
   const [hintLoading, setHintLoading] = useState(false);
   const [walkthroughLoading, setWalkthroughLoading] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [followUpLoading, setFollowUpLoading] = useState(false);
 
   const handleGetHint = async () => {
     if (hintContent) {
@@ -25,6 +28,7 @@ export function AiHelpButton({ question, showResult, selectedAnswer }: AiHelpBut
     }
     setShowPanel(true);
     setHintLoading(true);
+    setMessages([]);
     try {
       const content = await generateHint(
         question.text,
@@ -33,6 +37,10 @@ export function AiHelpButton({ question, showResult, selectedAnswer }: AiHelpBut
         question.passage
       );
       setHintContent(content);
+      setMessages([
+        { role: "user", content: `Give me a hint for this question: "${question.text.slice(0, 200)}"` },
+        { role: "assistant", content },
+      ]);
     } catch {
       setHintContent("Could not generate hint. Try again later.");
     } finally {
@@ -48,6 +56,7 @@ export function AiHelpButton({ question, showResult, selectedAnswer }: AiHelpBut
     if (selectedAnswer === null || selectedAnswer === undefined) return;
     setShowPanel(true);
     setWalkthroughLoading(true);
+    setMessages([]);
     try {
       const content = await generateWalkthrough(
         question.text,
@@ -58,12 +67,33 @@ export function AiHelpButton({ question, showResult, selectedAnswer }: AiHelpBut
         question.section
       );
       setWalkthroughContent(content);
+      setMessages([
+        { role: "user", content: `Walk me through this question: "${question.text.slice(0, 200)}"` },
+        { role: "assistant", content },
+      ]);
     } catch {
       setWalkthroughContent(question.explanation);
     } finally {
       setWalkthroughLoading(false);
     }
   };
+
+  const handleFollowUp = async (userMessage: string) => {
+    const updated = [...messages, { role: "user" as const, content: userMessage }];
+    setMessages(updated);
+    setFollowUpLoading(true);
+    try {
+      const response = await sendFollowUp(updated, question.section);
+      setMessages((prev) => [...prev, { role: "assistant" as const, content: response }]);
+    } catch {
+      setMessages((prev) => [...prev, { role: "assistant" as const, content: "Sorry, I couldn't process that. Try again." }]);
+    } finally {
+      setFollowUpLoading(false);
+    }
+  };
+
+  const currentContent = showResult ? walkthroughContent : hintContent;
+  const isGenerating = hintLoading || walkthroughLoading;
 
   return (
     <div className="mt-3">
@@ -105,15 +135,42 @@ export function AiHelpButton({ question, showResult, selectedAnswer }: AiHelpBut
           <h4 className="text-sm font-semibold text-[#0d0d0d] mb-2">
             {showResult ? "AI Walkthrough" : "AI Hint"}
           </h4>
-          {(hintLoading || walkthroughLoading) ? (
+          {isGenerating ? (
             <div className="flex items-center gap-2 text-[#6b7280]">
               <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#0d0d0d] border-t-transparent" />
               <span className="text-sm">{showResult ? "Generating walkthrough..." : "Thinking..."}</span>
             </div>
           ) : (
-            <Markdown className="text-[#374151] text-sm">
-              {showResult ? walkthroughContent : hintContent}
-            </Markdown>
+            <>
+              <Markdown className="text-[#374151] text-sm">
+                {currentContent}
+              </Markdown>
+
+              {/* Follow-up messages */}
+              {messages.slice(2).map((msg, i) => (
+                <div
+                  key={i}
+                  className={msg.role === "user" ? "border-t border-[#e5e7eb] pt-2 mt-3" : "mt-2"}
+                >
+                  {msg.role === "user" ? (
+                    <p className="text-sm font-medium text-[#6b7280]">{msg.content}</p>
+                  ) : (
+                    <Markdown className="text-[#374151] text-sm">{msg.content}</Markdown>
+                  )}
+                </div>
+              ))}
+
+              {followUpLoading && (
+                <div className="flex items-center gap-2 text-[#6b7280] mt-2">
+                  <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#0d0d0d] border-t-transparent" />
+                  <span className="text-xs">Thinking...</span>
+                </div>
+              )}
+
+              {currentContent && (
+                <FollowUpInput onSend={handleFollowUp} loading={followUpLoading} placeholder="Ask a follow-up..." />
+              )}
+            </>
           )}
         </div>
       )}

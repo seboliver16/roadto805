@@ -1,5 +1,5 @@
 import { Mistral } from "@mistralai/mistralai";
-import { Section } from "@/types";
+import { ChatMessage, Section } from "@/types";
 
 const client = new Mistral({ apiKey: process.env.NEXT_PUBLIC_MISTRAL_API_KEY || "" });
 
@@ -197,4 +197,23 @@ Rules:
       explanation: "",
     };
   }
+}
+
+export async function sendFollowUp(
+  messages: ChatMessage[],
+  section?: Section
+): Promise<string> {
+  const role = section ? SECTION_TUTOR_ROLE[section] : "GMAT tutor";
+
+  const systemMessage: ChatMessage = {
+    role: "system",
+    content: `You are a ${role}. Continue the conversation helpfully and concisely. Stay focused on the topic being discussed. Use clean markdown formatting. Keep responses to 2-4 sentences unless the student asks for more detail.`,
+  };
+
+  const result = await client.chat.complete({
+    model: "mistral-small-latest",
+    messages: [systemMessage, ...messages],
+  });
+
+  return (result.choices?.[0]?.message?.content as string) ?? "";
 }

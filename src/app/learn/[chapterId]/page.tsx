@@ -227,6 +227,7 @@ export default function ChapterPage() {
             explanation={explanationText}
             loading={explanationLoading}
             onDismiss={dismissPanel}
+            section={chapter.section}
           />
         )}
       </div>
