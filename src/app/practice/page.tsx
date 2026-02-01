@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, Suspense } from "react";
+import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { questions } from "@/data/questions";
@@ -22,7 +22,8 @@ function PracticeContent() {
   const { user } = useAuth();
 
   const category = searchParams.get("category") as ThemeCategory | null;
-  const themes = searchParams.get("themes")?.split(",") || [];
+  const themesParam = searchParams.get("themes");
+  const themes = useMemo(() => themesParam?.split(",") || [], [themesParam]);
 
   const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
