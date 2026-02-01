@@ -5,12 +5,12 @@ interface BadgeProps {
 }
 
 const VARIANT_STYLES = {
-  default: "bg-gray-100 text-gray-700",
-  blue: "bg-blue-50 text-blue-700",
+  default: "bg-[#f3f4f6] text-[#374151]",
+  blue: "bg-[#f3f4f6] text-[#374151]",
   green: "bg-green-50 text-green-700",
   red: "bg-red-50 text-red-700",
-  yellow: "bg-yellow-50 text-yellow-700",
-  purple: "bg-purple-50 text-purple-700",
+  yellow: "bg-[#f3f4f6] text-[#374151]",
+  purple: "bg-[#f3f4f6] text-[#374151]",
 };
 
 const SIZE_STYLES = {

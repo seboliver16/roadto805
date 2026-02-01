@@ -15,9 +15,9 @@ export const SECTION_SHORT_LABELS: Record<Section, string> = {
 };
 
 export const SECTION_COLORS: Record<Section, { bg: string; text: string; border: string; accent: string }> = {
-  quant: { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200", accent: "bg-blue-600" },
-  verbal: { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200", accent: "bg-emerald-600" },
-  "data-insights": { bg: "bg-purple-50", text: "text-purple-700", border: "border-purple-200", accent: "bg-purple-600" },
+  quant: { bg: "bg-gray-50", text: "text-gray-700", border: "border-gray-200", accent: "bg-gray-800" },
+  verbal: { bg: "bg-gray-50", text: "text-gray-700", border: "border-gray-200", accent: "bg-gray-700" },
+  "data-insights": { bg: "bg-gray-50", text: "text-gray-700", border: "border-gray-200", accent: "bg-gray-600" },
 };
 
 // === Themes ===
@@ -372,4 +372,26 @@ export interface UserProfile {
   hasTakenDiagnostic?: boolean;
   currentStudyPlanId?: string;
   sectionStats?: Record<Section, { totalQuestions: number; totalCorrect: number }>;
+}
+
+// === Study Guide ===
+
+export interface StudyGuideItem {
+  id?: string;
+  userId: string;
+  chapterId: string;
+  chapterTitle: string;
+  sectionTitle: string;
+  selectedText: string;
+  note?: string;
+  createdAt: number;
+}
+
+// === Chapter Progress ===
+
+export interface ChapterProgress {
+  chapterId: string;
+  chapterTitle: string;
+  completed: boolean;
+  completedAt: number;
 }

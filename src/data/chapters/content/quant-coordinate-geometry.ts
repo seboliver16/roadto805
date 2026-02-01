@@ -33,6 +33,8 @@ Points on the axes do not belong to any quadrant.
 
 Many Data Sufficiency questions ask "In which quadrant does point $(a, b)$ lie?" You need to determine the signs of $a$ and $b$---nothing more.
 
+> **Quick Method:** For quadrant questions, you only need two pieces of information: the sign of $x$ and the sign of $y$. Any statement that tells you both signs is sufficient. If you know $xy > 0$, then $x$ and $y$ have the same sign (Quadrant I or III). If $xy < 0$, they have opposite signs (Quadrant II or IV). This eliminates half the quadrants instantly.
+
 ---
 
 ## 2. Distance Formula
@@ -58,6 +60,18 @@ Recognizing these saves time:
 
 In the example above, the legs were 5 and 12, so the distance is 13---a classic $5, 12, 13$ triple.
 
+> **Quick Method:** Before grinding through the distance formula, check whether the horizontal and vertical differences form a Pythagorean triple. If the differences are 6 and 8, the distance is 10 (since $6, 8, 10$ is a multiple of $3, 4, 5$). This check takes 3 seconds and avoids the square root entirely.
+
+> **Common Trap:** Sign errors in the distance formula are the number-one mistake. When subtracting a negative coordinate, remember: $4 - (-1) = 5$, not $3$. Always write out the subtraction carefully before squaring.
+
+**Example:** What is the distance from the point $(7, -3)$ to the origin?
+
+**Solution:**
+
+$$d = \\sqrt{(7 - 0)^2 + (-3 - 0)^2} = \\sqrt{49 + 9} = \\sqrt{58}$$
+
+Since 58 is not a perfect square and does not correspond to a Pythagorean triple, $\\sqrt{58}$ is the exact answer. On the GMAT, leave it in this form unless the answer choices are decimals.
+
 ---
 
 ## 3. Midpoint Formula
@@ -76,6 +90,19 @@ $$M = \\left(\\frac{2 + 6}{2}, \\frac{8 + (-4)}{2}\\right) = (4, 2)$$
 
 If you know the midpoint $M$ and one endpoint, you can find the other endpoint. If $A = (1, 5)$ and $M = (4, 3)$, then endpoint $B = (2 \\times 4 - 1, 2 \\times 3 - 5) = (7, 1)$.
 
+**Example:** The midpoint of segment $PQ$ is $(3, -1)$. If $P = (-2, 4)$, what are the coordinates of $Q$?
+
+**Solution:**
+
+$$Q_x = 2 \\times 3 - (-2) = 6 + 2 = 8$$
+$$Q_y = 2 \\times (-1) - 4 = -2 - 4 = -6$$
+
+$$Q = (8, -6)$$
+
+**Verification:** Midpoint $= \\left(\\frac{-2 + 8}{2}, \\frac{4 + (-6)}{2}\\right) = \\left(\\frac{6}{2}, \\frac{-2}{2}\\right) = (3, -1)$. Correct.
+
+> **Quick Method:** To find the missing endpoint when you know the midpoint and one endpoint, use: "double the midpoint and subtract the known endpoint." This is $B = 2M - A$, applied coordinate-wise. No need to set up equations.
+
 ---
 
 ## 4. Slope
@@ -90,6 +117,8 @@ $$m = \\frac{y_2 - y_1}{x_2 - x_1} = \\frac{\\text{rise}}{\\text{run}}$$
 - **Negative slope ($m < 0$):** Line falls from left to right.
 - **Zero slope ($m = 0$):** Horizontal line.
 - **Undefined slope:** Vertical line (run $= 0$).
+
+> **Common Trap:** Students frequently mix up "zero slope" and "undefined slope." A horizontal line (like $y = 5$) has slope **zero**. A vertical line (like $x = 3$) has **undefined** slope. On DS questions, "the slope of line $L$ is 0" is a definite piece of information (the line is horizontal); "the slope of line $L$ is undefined" means it is vertical.
 
 ### Slope-Intercept Form
 
@@ -111,6 +140,20 @@ The slope is 3 and the $y$-intercept is 1.
 
 - **Standard form:** $Ax + By = C$ (useful for intercepts and for systems of equations).
 - **Point-slope form:** $y - y_1 = m(x - x_1)$ (useful when you have a point and the slope).
+
+**Example:** Write the equation of the line with slope $-\\frac{2}{3}$ that passes through $(6, 1)$.
+
+**Solution:**
+
+Using point-slope form:
+
+$$y - 1 = -\\frac{2}{3}(x - 6)$$
+
+$$y - 1 = -\\frac{2}{3}x + 4$$
+
+$$y = -\\frac{2}{3}x + 5$$
+
+The $y$-intercept is 5. In standard form: $2x + 3y = 15$.
 
 ---
 
@@ -138,6 +181,22 @@ $$m_1 \\times m_2 = -1 \\quad \\text{or equivalently} \\quad m_2 = -\\frac{1}{m_
 - A horizontal line ($m = 0$) is perpendicular to a vertical line (undefined slope).
 - This pair does not satisfy $m_1 \\times m_2 = -1$ numerically, but geometrically they are perpendicular.
 
+> **Common Trap:** When finding the perpendicular slope, students often just negate the slope without also taking the reciprocal (or vice versa). If $m_1 = \\frac{2}{3}$, the perpendicular slope is NOT $-\\frac{2}{3}$ (just negated) and NOT $\\frac{3}{2}$ (just reciprocal). It must be **both**: $m_2 = -\\frac{3}{2}$.
+
+> **Quick Method:** To find the perpendicular slope, flip the fraction and change the sign. That is the full procedure: $\\frac{2}{3} \\rightarrow -\\frac{3}{2}$, $-4 \\rightarrow \\frac{1}{4}$, $\\frac{1}{5} \\rightarrow -5$. Practice this until it is instantaneous.
+
+**Example:** Line $L_1$ has equation $3x - 4y = 12$. Line $L_2$ passes through the origin and is perpendicular to $L_1$. What is the equation of $L_2$?
+
+**Solution:**
+
+Rewrite $L_1$ in slope-intercept form: $y = \\frac{3}{4}x - 3$. So $m_1 = \\frac{3}{4}$.
+
+Perpendicular slope: $m_2 = -\\frac{4}{3}$.
+
+$L_2$ passes through the origin, so $b = 0$:
+
+$$y = -\\frac{4}{3}x$$
+
 ---
 
 ## 6. Finding $x$- and $y$-Intercepts
@@ -156,6 +215,15 @@ Set $x = 0$ and solve for $y$. The $y$-intercept is the point $(0, y)$.
 - $y$-intercept: $0 + 4y = 24 \\implies y = 6$. Point: $(0, 6)$.
 
 These intercepts are extremely useful for sketching lines quickly and for computing areas of triangles formed by lines and the coordinate axes.
+
+> **Quick Method:** For a line in the form $\\frac{x}{a} + \\frac{y}{b} = 1$, the $x$-intercept is $(a, 0)$ and the $y$-intercept is $(0, b)$. To use this, rewrite $3x + 4y = 24$ as $\\frac{x}{8} + \\frac{y}{6} = 1$. Intercepts: $(8, 0)$ and $(0, 6)$. This form is called the **intercept form** and is the fastest way to read off both intercepts.
+
+**Example:** The line $5x - 2y = 20$ crosses the axes at what points?
+
+**Solution:**
+
+- $x$-intercept: set $y = 0$: $5x = 20 \\implies x = 4$. Point: $(4, 0)$.
+- $y$-intercept: set $x = 0$: $-2y = 20 \\implies y = -10$. Point: $(0, -10)$.
 
 ---
 
@@ -189,6 +257,12 @@ $$\\text{Area} = \\frac{1}{2} |1(6 - 1) + 4(1 - 2) + 7(2 - 6)|$$
 $$= \\frac{1}{2} |5 + (-4) + (-28)|$$
 $$= \\frac{1}{2} \\times |-27| = \\frac{27}{2} = 13.5$$
 
+> **Quick Method:** For triangles formed by a line and the coordinate axes (a very common GMAT setup), find both intercepts and use:
+>
+> $$\\text{Area} = \\frac{1}{2} \\times |x\\text{-intercept}| \\times |y\\text{-intercept}|$$
+>
+> For example, the line $3x + 4y = 24$ has intercepts at $(8, 0)$ and $(0, 6)$. Area $= \\frac{1}{2} \\times 8 \\times 6 = 24$. No need for the shoelace formula.
+
 ### Rectangle
 
 If a rectangle has sides parallel to the axes, the area is simply $\\text{width} \\times \\text{height}$, where width and height are the differences in $x$-coordinates and $y$-coordinates, respectively.
@@ -198,6 +272,8 @@ If a rectangle has sides parallel to the axes, the area is simply $\\text{width}
 $$\\text{Area} = \\frac{1}{2}(b_1 + b_2) \\times h$$
 
 where $b_1$ and $b_2$ are the lengths of the parallel sides and $h$ is the perpendicular distance between them.
+
+> **Common Trap:** When computing areas with coordinates, always use absolute values for lengths. If the $x$-intercept is $-4$ and the $y$-intercept is $3$, the triangle area is $\\frac{1}{2} \\times 4 \\times 3 = 6$, not $\\frac{1}{2} \\times (-4) \\times 3 = -6$. Negative areas do not exist.
 
 ---
 
@@ -210,6 +286,8 @@ $$(x - h)^2 + (y - k)^2 = r^2$$
 For a circle centered at the origin: $x^2 + y^2 = r^2$.
 
 **Example:** The circle $(x - 3)^2 + (y + 2)^2 = 25$ has center $(3, -2)$ and radius $\\sqrt{25} = 5$.
+
+> **Common Trap:** In $(x - h)^2 + (y - k)^2 = r^2$, the center is $(h, k)$. If the equation is $(x + 1)^2 + (y - 4)^2 = 9$, the center is $(-1, 4)$, **not** $(1, 4)$. Remember: $(x + 1) = (x - (-1))$, so $h = -1$. Students frequently get the sign of the center wrong.
 
 ### General Form
 
@@ -227,6 +305,26 @@ $$(x^2 - 6x + 9) + (y^2 + 4y + 4) = 12 + 9 + 4$$
 $$(x - 3)^2 + (y + 2)^2 = 25$$
 
 Center: $(3, -2)$, radius: 5.
+
+**Example:** Find the center and radius of the circle $x^2 + y^2 + 8x - 2y - 8 = 0$.
+
+**Solution:**
+
+Group by variable:
+
+$$(x^2 + 8x) + (y^2 - 2y) = 8$$
+
+Complete the square for $x$: half of 8 is 4, $4^2 = 16$.
+
+Complete the square for $y$: half of $-2$ is $-1$, $(-1)^2 = 1$.
+
+$$(x^2 + 8x + 16) + (y^2 - 2y + 1) = 8 + 16 + 1$$
+
+$$(x + 4)^2 + (y - 1)^2 = 25$$
+
+Center: $(-4, 1)$, radius: 5.
+
+> **Quick Method:** For the general form $x^2 + y^2 + Dx + Ey + F = 0$, the center is $\\left(-\\frac{D}{2}, -\\frac{E}{2}\\right)$ and the radius is $\\sqrt{\\frac{D^2}{4} + \\frac{E^2}{4} - F}$. This saves the completing-the-square steps if you memorize it.
 
 **GMAT note:** The GMAT Focus edition rarely tests the equation of a circle directly, but it may appear in Data Sufficiency or as part of a problem involving distance from a point to the origin.
 
@@ -292,6 +390,66 @@ $$\\text{Area} = \\frac{1}{2} \\times 6 \\times 4 = 12$$
 
 Answer: **(B)** --- Statement (2) alone is sufficient.
 
+### Example 5: Line Through Two Intercepts
+
+**Problem:** A line passes through $(4, 0)$ and $(0, -3)$. What is the equation of this line, and at what point does it intersect the line $y = x$?
+
+**Solution:**
+
+Step 1: Find the slope.
+
+$$m = \\frac{-3 - 0}{0 - 4} = \\frac{-3}{-4} = \\frac{3}{4}$$
+
+Step 2: Use the $y$-intercept (which is $-3$).
+
+$$y = \\frac{3}{4}x - 3$$
+
+Step 3: Find the intersection with $y = x$.
+
+Set $x = \\frac{3}{4}x - 3$:
+
+$$x - \\frac{3}{4}x = -3$$
+
+$$\\frac{1}{4}x = -3$$
+
+$$x = -12$$
+
+So $y = -12$.
+
+The lines intersect at $(-12, -12)$.
+
+**Verification:** $y = \\frac{3}{4}(-12) - 3 = -9 - 3 = -12$. Correct.
+
+### Example 6: Reflection Across an Axis
+
+**Problem:** Point $P$ has coordinates $(5, -3)$. What are the coordinates of $P$ after it is reflected across the $x$-axis? Across the $y$-axis? Across the origin?
+
+**Solution:**
+
+- **Reflected across the $x$-axis:** Negate the $y$-coordinate: $(5, 3)$.
+- **Reflected across the $y$-axis:** Negate the $x$-coordinate: $(-5, -3)$.
+- **Reflected across the origin:** Negate both coordinates: $(-5, 3)$.
+
+> **Quick Method:** Reflection rules to memorize:
+> - Across $x$-axis: $(x, y) \\rightarrow (x, -y)$
+> - Across $y$-axis: $(x, y) \\rightarrow (-x, y)$
+> - Across origin: $(x, y) \\rightarrow (-x, -y)$
+> - Across line $y = x$: $(x, y) \\rightarrow (y, x)$
+
+### Example 7: Distance Between Parallel Lines
+
+**Problem:** What is the shortest distance between the parallel lines $y = 2x + 3$ and $y = 2x - 7$?
+
+**Solution:**
+
+For two parallel lines $y = mx + b_1$ and $y = mx + b_2$, the perpendicular distance between them is:
+
+$$d = \\frac{|b_1 - b_2|}{\\sqrt{1 + m^2}}$$
+
+$$d = \\frac{|3 - (-7)|}{\\sqrt{1 + 4}} = \\frac{10}{\\sqrt{5}} = \\frac{10\\sqrt{5}}{5} = 2\\sqrt{5}$$
+
+> **Common Trap:** The distance between parallel lines is NOT simply $|b_1 - b_2|$. That only works when the lines are horizontal ($m = 0$). For non-horizontal parallel lines, you must divide by $\\sqrt{1 + m^2}$. Using $|3 - (-7)| = 10$ as the answer would be incorrect.
+
 ---
 
 ## 10. Key Formulas
@@ -332,4 +490,6 @@ If you have less information than this, the line is not determined and the state
 **7. For area problems, look for right angles.** If one side of a triangle or quadrilateral is horizontal or vertical, the area calculation simplifies dramatically.
 
 **8. Parallel and perpendicular lines are tested often in Data Sufficiency.** A common question: "Is line $L$ perpendicular to line $M$?" You need both slopes to answer definitively.
+
+> **Common Trap:** On DS, "Line $L$ has a positive slope and Line $M$ has a negative slope" does NOT mean they are perpendicular. For perpendicularity, you need $m_1 \\times m_2 = -1$ exactly. A positive slope and a negative slope could have a product of $-2$, $-0.5$, or any other negative number. Do not assume perpendicularity from sign information alone.
 `;

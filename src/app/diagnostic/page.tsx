@@ -184,10 +184,10 @@ function DiagnosticContent() {
 
   if (showTransition && transitionSection) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-white">
         <div className="animate-fade-in text-center">
-          <p className="text-sm text-gray-500 mb-2">Next Section</p>
-          <h2 className="text-3xl font-bold">{SECTION_LABELS[transitionSection]}</h2>
+          <p className="text-sm text-[#6b7280] mb-2">Next Section</p>
+          <h2 className="text-3xl font-bold text-[#0d0d0d]">{SECTION_LABELS[transitionSection]}</h2>
         </div>
       </div>
     );
@@ -200,29 +200,29 @@ function DiagnosticContent() {
   const sectionIndex = SECTION_ORDER.indexOf(currentQuestion.section);
 
   return (
-    <div className="min-h-screen">
-      <header className="border-b bg-white">
+    <div className="min-h-screen bg-white">
+      <header className="border-b border-[#e5e7eb] bg-white">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
           <Badge variant={sectionIndex === 0 ? "blue" : sectionIndex === 1 ? "green" : "purple"}>
             {SECTION_LABELS[currentQuestion.section]}
           </Badge>
-          <span className="text-sm font-medium text-gray-600">
+          <span className="text-sm font-medium text-[#374151]">
             {currentIndex + 1} / {questions.length}
           </span>
-          <span className="text-sm tabular-nums text-gray-500">
+          <span className="text-sm tabular-nums text-[#6b7280]">
             {minutes}:{seconds.toString().padStart(2, "0")}
           </span>
         </div>
         {/* Progress bar */}
         <div className="h-1 bg-gray-100">
           <div
-            className="h-full bg-blue-600 transition-all duration-300"
+            className="h-full bg-[#0d0d0d] transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
           />
         </div>
       </header>
 
-      <main className="mx-auto max-w-3xl px-4 py-8">
+      <main className="mx-auto max-w-3xl px-4 py-4">
         <QuestionRenderer
           question={currentQuestion}
           selectedAnswer={selectedAnswer}
@@ -237,14 +237,14 @@ function DiagnosticContent() {
             <button
               onClick={handleSubmit}
               disabled={selectedAnswer === null || (isTPA && selectedAnswerB === null)}
-              className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-full rounded-lg bg-[#0d0d0d] py-4 text-lg font-semibold text-white hover:bg-[#1a1a1a] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Submit Answer
             </button>
           ) : (
             <button
               onClick={handleNext}
-              className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors"
+              className="w-full rounded-lg bg-[#0d0d0d] py-4 text-lg font-semibold text-white hover:bg-[#1a1a1a] transition-colors"
             >
               {currentIndex < questions.length - 1 ? "Next Question" : "See Results"}
             </button>

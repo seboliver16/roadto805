@@ -7,9 +7,10 @@ import { Markdown } from "./markdown";
 interface SelectablePassageProps {
   passage: string;
   questionContext?: string;
+  className?: string;
 }
 
-export function SelectablePassage({ passage, questionContext }: SelectablePassageProps) {
+export function SelectablePassage({ passage, questionContext, className }: SelectablePassageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedText, setSelectedText] = useState("");
   const [tooltipPos, setTooltipPos] = useState<{ top: number; left: number } | null>(null);
@@ -30,7 +31,6 @@ export function SelectablePassage({ passage, questionContext }: SelectablePassag
     const range = selection?.getRangeAt(0);
     if (!range || !containerRef.current) return;
 
-    // Check if selection is within our container
     if (!containerRef.current.contains(range.commonAncestorContainer)) {
       setTooltipPos(null);
       setSelectedText("");
@@ -65,7 +65,6 @@ export function SelectablePassage({ passage, questionContext }: SelectablePassag
     }
   };
 
-  // Dismiss tooltip on click outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -80,14 +79,20 @@ export function SelectablePassage({ passage, questionContext }: SelectablePassag
   return (
     <div ref={containerRef} className="relative">
       <p
-        className="text-sm leading-relaxed text-slate-800 whitespace-pre-line select-text cursor-text"
+        className={`leading-relaxed text-[#374151] whitespace-pre-line select-text cursor-text ${className ?? "text-sm"}`}
         onMouseUp={handleMouseUp}
         onTouchEnd={handleMouseUp}
       >
         {passage}
       </p>
 
-      {/* Floating tooltip */}
+      <p className="mt-2 flex items-center gap-1 text-[11px] text-[#9ca3af] select-none">
+        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+        </svg>
+        Highlight any text to ask AI
+      </p>
+
       {tooltipPos && selectedText && (
         <div
           className="absolute z-10 animate-fade-in"
@@ -95,7 +100,7 @@ export function SelectablePassage({ passage, questionContext }: SelectablePassag
         >
           <button
             onClick={handleExplain}
-            className="flex items-center gap-1.5 rounded-lg bg-purple-600 px-3 py-1.5 text-xs font-medium text-white shadow-lg hover:bg-purple-700 transition-colors"
+            className="flex items-center gap-1.5 rounded-lg bg-[#0d0d0d] px-3 py-1.5 text-xs font-medium text-white hover:bg-[#1a1a1a] transition-colors"
           >
             <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
@@ -105,25 +110,29 @@ export function SelectablePassage({ passage, questionContext }: SelectablePassag
         </div>
       )}
 
-      {/* Explanation panel */}
       {showExplanation && (
-        <div className="mt-3 rounded-lg border border-purple-200 bg-purple-50 p-4 animate-fade-in">
+        <div className="mt-3 rounded-lg border border-[#e5e7eb] bg-[#fafafa] p-4 animate-fade-in">
           <div className="flex items-center justify-between mb-2">
-            <h4 className="text-xs font-semibold text-purple-800">AI Explanation</h4>
+            <h4 className="text-xs font-semibold text-[#0d0d0d] flex items-center gap-1.5">
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+              </svg>
+              AI Explanation
+            </h4>
             <button
               onClick={() => { setShowExplanation(false); setExplanation(""); }}
-              className="text-xs text-purple-500 hover:text-purple-700"
+              className="text-xs text-[#6b7280] hover:text-[#0d0d0d] font-medium"
             >
               Dismiss
             </button>
           </div>
           {loading ? (
-            <div className="flex items-center gap-2 text-purple-700">
-              <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-purple-700 border-t-transparent" />
+            <div className="flex items-center gap-2 text-[#6b7280]">
+              <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#0d0d0d] border-t-transparent" />
               <span className="text-xs">Analyzing...</span>
             </div>
           ) : (
-            <Markdown className="text-purple-900 text-xs">{explanation}</Markdown>
+            <Markdown className="text-[#374151] text-xs">{explanation}</Markdown>
           )}
         </div>
       )}

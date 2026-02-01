@@ -3,6 +3,7 @@
 import { Question, QUESTION_TYPE_LABELS } from "@/types";
 import { Badge } from "../badge";
 import { SourceBadge } from "../source-badge";
+import { SelectablePassage } from "../selectable-passage";
 
 interface Props {
   question: Question;
@@ -19,9 +20,8 @@ export function TwoPartAnalysis({ question, selectedAnswer, selectedAnswerB, sho
   const correctB = question.correctAnswerB ?? -1;
 
   return (
-    <div className="animate-fade-in">
-      {/* Badges */}
-      <div className="mb-4 flex flex-wrap items-center gap-2">
+    <div>
+      <div className="mb-2 flex flex-wrap items-center gap-2">
         <Badge variant="purple">{QUESTION_TYPE_LABELS[question.type]}</Badge>
         <Badge
           variant={
@@ -32,24 +32,20 @@ export function TwoPartAnalysis({ question, selectedAnswer, selectedAnswerB, sho
         </Badge>
       </div>
 
-      {/* Question text */}
-      <div className="mb-6 rounded-xl bg-white p-6 shadow-sm border">
-        <p className="text-base leading-relaxed whitespace-pre-line">{question.text}</p>
+      <div className="mb-3 rounded-lg bg-white p-4 border border-[#e5e7eb]">
+        <SelectablePassage passage={question.text} className="text-base" />
       </div>
 
-      {/* Two-column header */}
       <div className="mb-2 grid grid-cols-[80px_80px_1fr] gap-2 px-4">
-        <span className="text-xs font-semibold text-gray-500 text-center">{columns[0]}</span>
-        <span className="text-xs font-semibold text-gray-500 text-center">{columns[1]}</span>
-        <span className="text-xs font-semibold text-gray-500">Answer Choices</span>
+        <span className="text-xs font-semibold text-[#6b7280] text-center">{columns[0]}</span>
+        <span className="text-xs font-semibold text-[#6b7280] text-center">{columns[1]}</span>
+        <span className="text-xs font-semibold text-[#6b7280]">Answer Choices</span>
       </div>
 
-      {/* Choices as rows with independent radio buttons per column */}
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {question.choices.map((choice, i) => {
-          // Determine row background based on result state
           let bg = "bg-white";
-          let borderColor = "border-gray-200";
+          let borderColor = "border-[#e5e7eb]";
 
           if (showResult) {
             const isCorrectA = i === correctA;
@@ -66,12 +62,10 @@ export function TwoPartAnalysis({ question, selectedAnswer, selectedAnswerB, sho
             }
           }
 
-          // Column A radio state
           const isSelectedA = selectedAnswer === i;
           const isCorrectACell = showResult && i === correctA;
           const isWrongACell = showResult && i === selectedAnswer && i !== correctA;
 
-          // Column B radio state
           const isSelectedB = selectedAnswerB === i;
           const isCorrectBCell = showResult && i === correctB;
           const isWrongBCell = showResult && i === selectedAnswerB && i !== correctB;
@@ -79,16 +73,15 @@ export function TwoPartAnalysis({ question, selectedAnswer, selectedAnswerB, sho
           function radioClasses(selected: boolean, isCorrect: boolean, isWrong: boolean) {
             if (isCorrect) return "border-green-500 bg-green-500";
             if (isWrong) return "border-red-500 bg-red-500";
-            if (selected && !showResult) return "border-blue-500 bg-blue-500";
-            return "border-gray-300";
+            if (selected && !showResult) return "border-[#0d0d0d] bg-[#0d0d0d]";
+            return "border-[#d1d5db]";
           }
 
           return (
             <div
               key={i}
-              className={`grid grid-cols-[80px_80px_1fr] gap-2 items-center rounded-lg border-2 ${borderColor} ${bg} p-3 transition-colors`}
+              className={`grid grid-cols-[80px_80px_1fr] gap-2 items-center rounded-md border ${borderColor} ${bg} p-2.5 transition-colors`}
             >
-              {/* Column A radio */}
               <button
                 type="button"
                 onClick={() => !showResult && onSelectAnswer(i)}
@@ -105,7 +98,6 @@ export function TwoPartAnalysis({ question, selectedAnswer, selectedAnswerB, sho
                 </div>
               </button>
 
-              {/* Column B radio */}
               <button
                 type="button"
                 onClick={() => !showResult && onSelectAnswerB?.(i)}
@@ -122,16 +114,14 @@ export function TwoPartAnalysis({ question, selectedAnswer, selectedAnswerB, sho
                 </div>
               </button>
 
-              {/* Choice text */}
               <span className="text-sm">{choice}</span>
             </div>
           );
         })}
       </div>
 
-      {/* Result labels */}
       {showResult && (
-        <div className="mt-4 space-y-1 text-sm">
+        <div className="mt-3 space-y-1 text-sm">
           <p>
             <span className="font-medium">{columns[0]}:</span>{" "}
             {selectedAnswer === correctA ? (
@@ -155,12 +145,11 @@ export function TwoPartAnalysis({ question, selectedAnswer, selectedAnswerB, sho
         </div>
       )}
 
-      {/* Explanation */}
       {showResult && (
-        <div className="mt-6 space-y-4">
-          <div className="rounded-xl bg-amber-50 border border-amber-200 p-6">
-            <h3 className="font-semibold text-amber-800 mb-2">Explanation</h3>
-            <p className="text-amber-900 text-sm leading-relaxed whitespace-pre-line">
+        <div className="mt-3 space-y-3">
+          <div className="rounded-lg bg-[#fafafa] border border-[#e5e7eb] p-4">
+            <h3 className="font-semibold text-[#0d0d0d] mb-2">Explanation</h3>
+            <p className="text-[#374151] text-sm leading-relaxed whitespace-pre-line">
               {question.explanation}
             </p>
           </div>

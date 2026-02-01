@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased bg-gray-50 text-gray-900`}>
+      <body className={`${inter.className} antialiased bg-white text-[#0d0d0d]`}>
         <AuthProvider>
           <NavWrapper />
           {children}

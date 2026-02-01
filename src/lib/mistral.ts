@@ -129,22 +129,24 @@ Format as a single short paragraph in clean markdown.`;
 export async function generateExplanation(
   selectedText: string,
   fullPassage: string,
-  questionContext?: string
+  questionContext?: string,
+  section?: Section
 ): Promise<string> {
-  const qBlock = questionContext ? `\nThe student is answering this question: ${questionContext}\n` : "";
+  const role = section ? SECTION_TUTOR_ROLE[section] : "GMAT tutor";
+  const qBlock = questionContext ? `\nContext: ${questionContext}\n` : "";
 
-  const prompt = `You are a GMAT verbal tutor. A student highlighted the following text from a reading passage and wants it explained.
+  const prompt = `You are a ${role}. A student highlighted the following text and wants it explained.
 
-FULL PASSAGE:
-${fullPassage}
+FULL CONTEXT:
+${fullPassage.slice(0, 3000)}
 
 HIGHLIGHTED TEXT:
 "${selectedText}"
 ${qBlock}
 Explain in 2-3 concise sentences:
-- What the highlighted text means in context
-- Why it matters for the passage's argument or structure
-- Any key vocabulary or rhetorical device used
+- What the highlighted text means
+- Why it matters (for the concept, argument, or problem-solving approach)
+- Any key terms, formulas, or patterns to note
 
 Format in clean markdown.`;
 
@@ -154,4 +156,45 @@ Format in clean markdown.`;
   });
 
   return result.choices?.[0]?.message?.content as string ?? "";
+}
+
+export async function generateQuickCheck(
+  sectionContent: string,
+  section: Section = "quant"
+): Promise<{ question: string; choices: string[]; correctIndex: number; explanation: string }> {
+  const role = SECTION_TUTOR_ROLE[section];
+
+  const prompt = `You are a ${role}. Based on the lesson content below, create ONE multiple-choice question to test the student's understanding.
+
+LESSON CONTENT:
+${sectionContent.slice(0, 2500)}
+
+Return ONLY a JSON object with this exact format (no markdown, no code fences, just raw JSON):
+{"question":"The question text","choices":["A choice","B choice","C choice","D choice"],"correctIndex":0,"explanation":"Why the correct answer is right."}
+
+Rules:
+- The question should test comprehension of a key concept from the lesson
+- Make it challenging but fair — test understanding, not memorization
+- The explanation should be 1-2 sentences
+- correctIndex is 0-based (0=first choice, 3=last)`;
+
+  const result = await client.chat.complete({
+    model: "mistral-small-latest",
+    messages: [{ role: "user", content: prompt }],
+  });
+
+  const raw = (result.choices?.[0]?.message?.content as string ?? "").trim();
+  try {
+    return JSON.parse(raw);
+  } catch {
+    // Try to extract JSON from potential markdown wrapping
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (jsonMatch) return JSON.parse(jsonMatch[0]);
+    return {
+      question: "Could not generate a question. Try again.",
+      choices: ["Option A", "Option B", "Option C", "Option D"],
+      correctIndex: 0,
+      explanation: "",
+    };
+  }
 }

@@ -21,11 +21,13 @@ import {
 import { generateWalkthrough, generateThemeSummary } from "@/lib/mistral";
 import {
   TimeRange,
+  TrendPoint,
   filterByTime,
   filterBySection,
   filterByQuestionType,
   computeAnalytics,
   computeRecommendations,
+  computeProgressTrend,
   formatRelativeTime,
   getQuestionTypesForSection,
   countSessionsInRange,
@@ -122,42 +124,42 @@ function SessionReview({ sessionId }: { sessionId: string }) {
   if (reviewItems.length === 0) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4">
-        <p className="text-lg text-gray-600">No questions to review. Great job!</p>
-        <button onClick={() => router.push("/")} className="rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700">Back to Home</button>
+        <p className="text-lg text-[#6b7280]">No questions to review. Great job!</p>
+        <button onClick={() => router.push("/")} className="rounded-lg bg-[#0d0d0d] px-6 py-3 text-white hover:bg-[#1a1a1a]">Back to Home</button>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen">
-      <header className="border-b bg-white">
+      <header className="border-b border-[#e5e7eb] bg-white">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
-          <button onClick={() => router.push("/")} className="text-sm text-gray-500 hover:text-gray-700">&larr; Home</button>
-          <h1 className="text-lg font-semibold">Review Session</h1>
-          <span className="text-sm text-gray-500">{currentIndex + 1} of {reviewItems.length}</span>
+          <button onClick={() => router.push("/")} className="text-sm text-[#6b7280] hover:text-[#0d0d0d]">&larr; Home</button>
+          <h1 className="text-lg font-semibold text-[#0d0d0d]">Review Session</h1>
+          <span className="text-sm text-[#6b7280]">{currentIndex + 1} of {reviewItems.length}</span>
         </div>
       </header>
 
       <main className="mx-auto max-w-3xl px-4 py-8">
         {weakThemes.length > 0 && (
-          <div className="mb-6 rounded-xl bg-red-50 border border-red-200 p-5">
-            <h3 className="font-semibold text-red-800 mb-2">Weak Areas</h3>
+          <div className="mb-6 rounded-lg bg-[#fafafa] border border-[#e5e7eb] p-5">
+            <h3 className="font-semibold text-[#0d0d0d] mb-2">Weak Areas</h3>
             <div className="flex flex-wrap gap-2">
               {weakThemes.map((theme) => (
-                <span key={theme} className="rounded-full bg-red-100 px-3 py-1 text-sm text-red-700">{THEME_LABELS[theme]}</span>
+                <span key={theme} className="rounded-full bg-[#f3f4f6] px-3 py-1 text-sm text-[#374151]">{THEME_LABELS[theme]}</span>
               ))}
             </div>
           </div>
         )}
 
         {themeSummary && (
-          <div className="mb-6 rounded-xl bg-blue-50 border border-blue-200">
+          <div className="mb-6 rounded-lg bg-[#fafafa] border border-[#e5e7eb]">
             <button onClick={() => setShowThemeSummary((v) => !v)} className="flex w-full items-center justify-between p-5 text-left">
-              <h3 className="font-semibold text-blue-800">Theme Summary</h3>
-              <span className="text-blue-600 text-sm">{showThemeSummary ? "Hide" : "Show"}</span>
+              <h3 className="font-semibold text-[#0d0d0d]">Theme Summary</h3>
+              <span className="text-[#6b7280] text-sm">{showThemeSummary ? "Hide" : "Show"}</span>
             </button>
             {showThemeSummary && (
-              <div className="px-5 pb-5"><Markdown className="text-blue-900">{themeSummary}</Markdown></div>
+              <div className="px-5 pb-5"><Markdown className="text-[#374151]">{themeSummary}</Markdown></div>
             )}
           </div>
         )}
@@ -169,13 +171,13 @@ function SessionReview({ sessionId }: { sessionId: string }) {
                 {SECTION_LABELS[currentItem.question.section]}
               </Badge>
               {currentItem.question.themes.map((theme) => (
-                <span key={theme} className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">{THEME_LABELS[theme]}</span>
+                <span key={theme} className="rounded-full bg-[#f3f4f6] px-3 py-1 text-xs font-medium text-[#6b7280]">{THEME_LABELS[theme]}</span>
               ))}
             </div>
 
             {currentItem.question.passage && (
-              <div className="mb-4 rounded-xl bg-slate-50 border border-slate-200 p-5">
-                <h3 className="font-semibold text-slate-700 text-sm mb-2">Reading Passage</h3>
+              <div className="mb-4 rounded-lg bg-[#fafafa] border border-[#e5e7eb] p-5">
+                <h3 className="font-semibold text-[#374151] text-sm mb-2">Reading Passage</h3>
                 <SelectablePassage
                   passage={currentItem.question.passage}
                   questionContext={currentItem.question.text}
@@ -183,7 +185,7 @@ function SessionReview({ sessionId }: { sessionId: string }) {
               </div>
             )}
 
-            <div className="mb-6 rounded-xl bg-white p-6 shadow-sm border">
+            <div className="mb-6 rounded-lg bg-white p-6 border border-[#e5e7eb]">
               <p className="text-lg leading-relaxed whitespace-pre-line">{currentItem.question.text}</p>
             </div>
 
@@ -194,7 +196,7 @@ function SessionReview({ sessionId }: { sessionId: string }) {
                 else if (i === currentItem.userAnswer) style = "border-red-500 bg-red-50";
                 return (
                   <div key={i} className={`rounded-lg border-2 ${style} p-4`}>
-                    <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold">{String.fromCharCode(65 + i)}</span>
+                    <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#f3f4f6] text-sm font-semibold">{String.fromCharCode(65 + i)}</span>
                     {choice}
                     {i === currentItem.question.correctAnswer && <span className="ml-2 text-green-600 text-sm font-medium">Correct</span>}
                     {i === currentItem.userAnswer && i !== currentItem.question.correctAnswer && <span className="ml-2 text-red-600 text-sm font-medium">Your answer</span>}
@@ -207,21 +209,21 @@ function SessionReview({ sessionId }: { sessionId: string }) {
               const cached = walkthroughs[currentIndex];
               const isLoading = !cached;
               return (
-                <div className="mb-6 rounded-xl bg-amber-50 border border-amber-200 p-6">
-                  <h3 className="font-semibold text-amber-800 mb-3">{cached?.error ? "Explanation" : "Step-by-Step Walkthrough"}</h3>
+                <div className="mb-6 rounded-lg bg-[#fafafa] border border-[#e5e7eb] p-6">
+                  <h3 className="font-semibold text-[#0d0d0d] mb-3">{cached?.error ? "Explanation" : "Step-by-Step Walkthrough"}</h3>
                   {cached?.error && (
-                    <div className="mb-3 flex items-center gap-2 rounded-lg bg-amber-100 px-3 py-2 text-sm text-amber-700">
+                    <div className="mb-3 flex items-center gap-2 rounded-lg bg-[#f3f4f6] px-3 py-2 text-sm text-[#374151]">
                       <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       AI walkthrough unavailable. Showing static explanation.
                     </div>
                   )}
                   {isLoading ? (
-                    <div className="flex items-center gap-2 text-amber-700">
-                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-amber-700 border-t-transparent" />
+                    <div className="flex items-center gap-2 text-[#374151]">
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#374151] border-t-transparent" />
                       Generating personalized walkthrough...
                     </div>
                   ) : (
-                    <Markdown className="text-amber-900">{cached.content}</Markdown>
+                    <Markdown className="text-[#374151]">{cached.content}</Markdown>
                   )}
                 </div>
               );
@@ -233,12 +235,12 @@ function SessionReview({ sessionId }: { sessionId: string }) {
 
             <div className="flex gap-3">
               {currentIndex > 0 && (
-                <button onClick={() => setCurrentIndex((i) => i - 1)} className="flex-1 rounded-xl border border-gray-300 bg-white py-4 text-lg font-semibold text-gray-700 hover:bg-gray-50">Previous</button>
+                <button onClick={() => setCurrentIndex((i) => i - 1)} className="flex-1 rounded-lg border border-[#e5e7eb] bg-white py-4 text-lg font-semibold text-[#0d0d0d] hover:bg-[#fafafa]">Previous</button>
               )}
               {currentIndex < reviewItems.length - 1 ? (
-                <button onClick={() => setCurrentIndex((i) => i + 1)} className="flex-1 rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white hover:bg-blue-700">Next Question</button>
+                <button onClick={() => setCurrentIndex((i) => i + 1)} className="flex-1 rounded-lg bg-[#0d0d0d] py-4 text-lg font-semibold text-white hover:bg-[#1a1a1a]">Next Question</button>
               ) : (
-                <button onClick={() => router.push(`/practice?themes=${weakThemes.join(",")}`)} className="flex-1 rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white hover:bg-blue-700">Drill These Themes</button>
+                <button onClick={() => router.push(`/practice?themes=${weakThemes.join(",")}`)} className="flex-1 rounded-lg bg-[#0d0d0d] py-4 text-lg font-semibold text-white hover:bg-[#1a1a1a]">Drill These Themes</button>
               )}
             </div>
           </div>
@@ -259,6 +261,105 @@ const TIME_RANGE_OPTIONS: { value: TimeRange; label: string }[] = [
 
 const DIFFICULTY_LABELS: Record<Difficulty, string> = { easy: "Easy", medium: "Medium", hard: "Hard" };
 const DIFFICULTY_ORDER: Difficulty[] = ["easy", "medium", "hard"];
+
+function ProgressChart({ data }: { data: TrendPoint[] }) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const W = 600;
+  const H = 200;
+  const PAD_X = 40;
+  const PAD_TOP = 20;
+  const PAD_BOTTOM = 32;
+  const chartW = W - PAD_X * 2;
+  const chartH = H - PAD_TOP - PAD_BOTTOM;
+
+  const minAcc = Math.min(...data.map((d) => d.accuracy));
+  const maxAcc = Math.max(...data.map((d) => d.accuracy));
+  const yMin = Math.max(0, Math.floor((minAcc - 10) / 10) * 10);
+  const yMax = Math.min(100, Math.ceil((maxAcc + 10) / 10) * 10);
+  const yRange = yMax - yMin || 1;
+
+  const xStep = data.length > 1 ? chartW / (data.length - 1) : 0;
+
+  function toX(i: number) { return PAD_X + i * xStep; }
+  function toY(acc: number) { return PAD_TOP + chartH - ((acc - yMin) / yRange) * chartH; }
+
+  const points = data.map((d, i) => `${toX(i)},${toY(d.accuracy)}`).join(" ");
+  const areaPoints = `${PAD_X},${PAD_TOP + chartH} ${points} ${toX(data.length - 1)},${PAD_TOP + chartH}`;
+
+  // Y-axis gridlines
+  const yTicks: number[] = [];
+  for (let v = yMin; v <= yMax; v += 10) yTicks.push(v);
+
+  // X-axis labels — show ~6 evenly spaced
+  const labelStep = Math.max(1, Math.floor(data.length / 6));
+
+  return (
+    <div className="rounded-lg bg-white p-5 border border-[#e5e7eb]">
+      <h2 className="text-base font-semibold mb-3">Accuracy Over Time</h2>
+      <div className="relative">
+        <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" preserveAspectRatio="xMidYMid meet">
+          {/* Grid lines */}
+          {yTicks.map((v) => (
+            <g key={v}>
+              <line x1={PAD_X} y1={toY(v)} x2={W - PAD_X} y2={toY(v)} stroke="#e5e7eb" strokeWidth={1} />
+              <text x={PAD_X - 6} y={toY(v) + 4} textAnchor="end" className="fill-gray-400" fontSize={11}>{v}%</text>
+            </g>
+          ))}
+
+          {/* Area fill */}
+          <polygon points={areaPoints} fill="url(#trendGrad)" opacity={0.1} />
+          <defs>
+            <linearGradient id="trendGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#0d0d0d" />
+              <stop offset="100%" stopColor="#0d0d0d" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+
+          {/* Line */}
+          <polyline points={points} fill="none" stroke="#0d0d0d" strokeWidth={2.5} strokeLinejoin="round" strokeLinecap="round" />
+
+          {/* Data points */}
+          {data.map((d, i) => (
+            <circle
+              key={i}
+              cx={toX(i)}
+              cy={toY(d.accuracy)}
+              r={hoveredIndex === i ? 5 : 3.5}
+              fill={hoveredIndex === i ? "#1a1a1a" : "#0d0d0d"}
+              stroke="white"
+              strokeWidth={2}
+              className="cursor-pointer"
+              onMouseEnter={() => setHoveredIndex(i)}
+              onMouseLeave={() => setHoveredIndex(null)}
+            />
+          ))}
+
+          {/* X-axis labels */}
+          {data.map((d, i) => (
+            i % labelStep === 0 || i === data.length - 1 ? (
+              <text key={i} x={toX(i)} y={H - 6} textAnchor="middle" className="fill-gray-400" fontSize={11}>{d.label}</text>
+            ) : null
+          ))}
+
+          {/* Hover tooltip */}
+          {hoveredIndex !== null && (() => {
+            const d = data[hoveredIndex];
+            const tx = toX(hoveredIndex);
+            const ty = toY(d.accuracy) - 14;
+            return (
+              <g>
+                <line x1={tx} y1={PAD_TOP} x2={tx} y2={PAD_TOP + chartH} stroke="#0d0d0d" strokeWidth={1} strokeDasharray="4 2" opacity={0.3} />
+                <rect x={tx - 42} y={ty - 14} width={84} height={20} rx={4} fill="#0d0d0d" />
+                <text x={tx} y={ty} textAnchor="middle" fill="white" fontSize={11} fontWeight={600}>{d.accuracy}% ({d.correct}/{d.total})</text>
+              </g>
+            );
+          })()}
+        </svg>
+      </div>
+    </div>
+  );
+}
 
 function DashboardReview() {
   const router = useRouter();
@@ -312,6 +413,7 @@ function DashboardReview() {
   const analytics = useMemo(() => computeAnalytics(filteredAttempts), [filteredAttempts]);
   const recommendations = useMemo(() => computeRecommendations(analytics), [analytics]);
   const sessionCount = useMemo(() => countSessionsInRange(allSessions, timeRange), [allSessions, timeRange]);
+  const trend = useMemo(() => computeProgressTrend(filteredAttempts, timeRange), [filteredAttempts, timeRange]);
 
   const missedItems = useMemo(() => {
     return filteredAttempts
@@ -366,8 +468,8 @@ function DashboardReview() {
   if (allAttempts.length === 0) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4">
-        <p className="text-lg text-gray-600">No practice history yet. Complete some questions first!</p>
-        <button onClick={() => router.push("/practice")} className="rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700">Start Practicing</button>
+        <p className="text-lg text-[#6b7280]">No practice history yet. Complete some questions first!</p>
+        <button onClick={() => router.push("/practice")} className="rounded-lg bg-[#0d0d0d] px-6 py-3 text-white hover:bg-[#1a1a1a]">Start Practicing</button>
       </div>
     );
   }
@@ -375,27 +477,27 @@ function DashboardReview() {
   const visibleMissed = missedItems.slice(0, visibleCount);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="border-b bg-white">
+    <div className="min-h-screen bg-white">
+      <header className="border-b border-[#e5e7eb] bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-          <button onClick={() => router.push("/")} className="text-sm text-gray-500 hover:text-gray-700">&larr; Home</button>
-          <h1 className="text-lg font-semibold">Review Dashboard</h1>
+          <button onClick={() => router.push("/")} className="text-sm text-[#6b7280] hover:text-[#0d0d0d]">&larr; Home</button>
+          <h1 className="text-lg font-semibold text-[#0d0d0d]">Review Dashboard</h1>
           <div />
         </div>
       </header>
 
       <main className="mx-auto max-w-5xl px-4 py-8 space-y-8">
         {/* ── Filter Bar ── */}
-        <div className="rounded-xl bg-white p-4 shadow-sm border space-y-3">
+        <div className="rounded-lg bg-white p-4 border border-[#e5e7eb] space-y-3">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-sm font-medium text-gray-500">Period:</span>
-            <div className="flex gap-1 rounded-lg bg-gray-100 p-1">
+            <span className="text-sm font-medium text-[#6b7280]">Period:</span>
+            <div className="flex gap-1">
               {TIME_RANGE_OPTIONS.map((opt) => (
                 <button
                   key={opt.value}
                   onClick={() => setTimeRange(opt.value)}
                   className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-                    timeRange === opt.value ? "bg-white text-gray-900 shadow-sm" : "text-gray-600 hover:text-gray-900"
+                    timeRange === opt.value ? "text-[#0d0d0d] border-b-2 border-[#0d0d0d]" : "text-[#6b7280] hover:text-[#0d0d0d]"
                   }`}
                 >
                   {opt.label}
@@ -404,15 +506,15 @@ function DashboardReview() {
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-sm font-medium text-gray-500">Section:</span>
+            <span className="text-sm font-medium text-[#6b7280]">Section:</span>
             <SectionTabs value={sectionFilter} onChange={handleSectionChange} />
             {sectionFilter !== "all" && (
               <>
-                <span className="text-sm font-medium text-gray-500 ml-2">Type:</span>
+                <span className="text-sm font-medium text-[#6b7280] ml-2">Type:</span>
                 <select
                   value={questionTypeFilter}
                   onChange={(e) => setQuestionTypeFilter(e.target.value as QuestionType | "all")}
-                  className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm"
+                  className="rounded-lg border border-[#e5e7eb] bg-white px-3 py-1.5 text-sm"
                 >
                   <option value="all">All Types</option>
                   {getQuestionTypesForSection(sectionFilter).map((qt) => (
@@ -425,8 +527,8 @@ function DashboardReview() {
         </div>
 
         {filteredAttempts.length === 0 ? (
-          <div className="rounded-xl bg-white p-12 text-center shadow-sm border">
-            <p className="text-gray-500">No questions found for this time range and filters.</p>
+          <div className="rounded-lg bg-white p-12 text-center border border-[#e5e7eb]">
+            <p className="text-[#6b7280]">No questions found for this time range and filters.</p>
           </div>
         ) : (
           <>
@@ -443,41 +545,44 @@ function DashboardReview() {
               {(["quant", "verbal", "data-insights"] as Section[]).map((section) => {
                 const data = analytics.sectionBreakdown[section];
                 if (data.total === 0) return (
-                  <div key={section} className={`rounded-xl ${SECTION_COLORS[section].bg} ${SECTION_COLORS[section].border} border p-5`}>
-                    <h3 className={`text-sm font-semibold ${SECTION_COLORS[section].text}`}>{SECTION_SHORT_LABELS[section]}</h3>
-                    <p className="mt-2 text-sm text-gray-400">No data</p>
+                  <div key={section} className="rounded-lg bg-[#fafafa] border border-[#e5e7eb] p-5">
+                    <h3 className="text-sm font-semibold text-[#0d0d0d]">{SECTION_SHORT_LABELS[section]}</h3>
+                    <p className="mt-2 text-sm text-[#9ca3af]">No data</p>
                   </div>
                 );
                 const ringColor = data.accuracy >= 75 ? "text-green-500" : data.accuracy >= 50 ? "text-yellow-500" : "text-red-500";
                 return (
-                  <div key={section} className={`rounded-xl ${SECTION_COLORS[section].bg} ${SECTION_COLORS[section].border} border p-5 flex items-center gap-4`}>
+                  <div key={section} className="rounded-lg bg-[#fafafa] border border-[#e5e7eb] p-5 flex items-center gap-4">
                     <ProgressRing percent={data.accuracy} size={64} strokeWidth={5} color={ringColor} />
                     <div>
-                      <h3 className={`text-sm font-semibold ${SECTION_COLORS[section].text}`}>{SECTION_SHORT_LABELS[section]}</h3>
-                      <p className="text-xs text-gray-500 mt-1">{data.correct}/{data.total} correct</p>
+                      <h3 className="text-sm font-semibold text-[#0d0d0d]">{SECTION_SHORT_LABELS[section]}</h3>
+                      <p className="text-xs text-[#6b7280] mt-1">{data.correct}/{data.total} correct</p>
                     </div>
                   </div>
                 );
               })}
             </div>
 
+            {/* ── Progress Over Time ── */}
+            {trend.length >= 2 && <ProgressChart data={trend} />}
+
             {/* ── Analytics Grid ── */}
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               {/* Theme Accuracy */}
               {analytics.themeBreakdown.length > 0 && (
-                <div className="rounded-xl bg-white p-5 shadow-sm border">
+                <div className="rounded-lg bg-white p-5 border border-[#e5e7eb]">
                   <h2 className="text-base font-semibold mb-4">Accuracy by Theme</h2>
                   <div className="space-y-2.5 max-h-80 overflow-y-auto pr-1">
                     {analytics.themeBreakdown.map(({ theme, total, accuracy }) => (
                       <div key={theme} className="flex items-center gap-3">
                         <span className="w-36 text-sm font-medium truncate shrink-0" title={THEME_LABELS[theme]}>{THEME_LABELS[theme]}</span>
-                        <div className="flex-1 h-2.5 rounded-full bg-gray-100 overflow-hidden">
+                        <div className="flex-1 h-2.5 rounded-full bg-[#f3f4f6] overflow-hidden">
                           <div
                             className={`h-full rounded-full transition-all ${accuracy >= 80 ? "bg-green-500" : accuracy >= 60 ? "bg-yellow-500" : "bg-red-500"}`}
                             style={{ width: `${Math.max(accuracy, 2)}%` }}
                           />
                         </div>
-                        <span className="text-xs text-gray-500 w-20 text-right shrink-0">{accuracy}% ({total})</span>
+                        <span className="text-xs text-[#6b7280] w-20 text-right shrink-0">{accuracy}% ({total})</span>
                       </div>
                     ))}
                   </div>
@@ -487,7 +592,7 @@ function DashboardReview() {
               {/* Right column: Difficulty + Question Type */}
               <div className="space-y-4">
                 {/* Difficulty */}
-                <div className="rounded-xl bg-white p-5 shadow-sm border">
+                <div className="rounded-lg bg-white p-5 border border-[#e5e7eb]">
                   <h2 className="text-base font-semibold mb-4">By Difficulty</h2>
                   <div className="space-y-3">
                     {DIFFICULTY_ORDER.map((d) => {
@@ -496,13 +601,13 @@ function DashboardReview() {
                       return (
                         <div key={d} className="flex items-center gap-3">
                           <span className="w-16 text-sm font-medium">{DIFFICULTY_LABELS[d]}</span>
-                          <div className="flex-1 h-2.5 rounded-full bg-gray-100 overflow-hidden">
+                          <div className="flex-1 h-2.5 rounded-full bg-[#f3f4f6] overflow-hidden">
                             <div
                               className={`h-full rounded-full ${data.accuracy >= 80 ? "bg-green-500" : data.accuracy >= 60 ? "bg-yellow-500" : "bg-red-500"}`}
                               style={{ width: `${Math.max(data.accuracy, 2)}%` }}
                             />
                           </div>
-                          <span className="text-xs text-gray-500 w-24 text-right">{data.accuracy}% ({data.correct}/{data.total})</span>
+                          <span className="text-xs text-[#6b7280] w-24 text-right">{data.accuracy}% ({data.correct}/{data.total})</span>
                         </div>
                       );
                     })}
@@ -511,19 +616,19 @@ function DashboardReview() {
 
                 {/* Question Type */}
                 {analytics.questionTypeBreakdown.length > 0 && (
-                  <div className="rounded-xl bg-white p-5 shadow-sm border">
+                  <div className="rounded-lg bg-white p-5 border border-[#e5e7eb]">
                     <h2 className="text-base font-semibold mb-4">By Question Type</h2>
                     <div className="space-y-3">
                       {analytics.questionTypeBreakdown.map(({ type, label, total, accuracy, correct }) => (
                         <div key={type} className="flex items-center gap-3">
                           <span className="w-36 text-sm font-medium truncate shrink-0">{label}</span>
-                          <div className="flex-1 h-2.5 rounded-full bg-gray-100 overflow-hidden">
+                          <div className="flex-1 h-2.5 rounded-full bg-[#f3f4f6] overflow-hidden">
                             <div
                               className={`h-full rounded-full ${accuracy >= 80 ? "bg-green-500" : accuracy >= 60 ? "bg-yellow-500" : "bg-red-500"}`}
                               style={{ width: `${Math.max(accuracy, 2)}%` }}
                             />
                           </div>
-                          <span className="text-xs text-gray-500 w-24 text-right">{accuracy}% ({correct}/{total})</span>
+                          <span className="text-xs text-[#6b7280] w-24 text-right">{accuracy}% ({correct}/{total})</span>
                         </div>
                       ))}
                     </div>
@@ -534,18 +639,18 @@ function DashboardReview() {
 
             {/* ── Recommendations ── */}
             {recommendations.length > 0 && (
-              <div className="rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 p-6">
-                <h2 className="text-base font-semibold text-blue-900 mb-4">Recommended Focus Areas</h2>
+              <div className="rounded-lg bg-[#fafafa] border border-[#e5e7eb] p-6">
+                <h2 className="text-base font-semibold text-[#0d0d0d] mb-4">Recommended Focus Areas</h2>
                 <div className="space-y-3">
                   {recommendations.map((rec) => (
-                    <div key={rec.id} className="flex items-center justify-between rounded-lg bg-white p-4 border">
+                    <div key={rec.id} className="flex items-center justify-between rounded-lg bg-white p-4 border border-[#e5e7eb]">
                       <div>
-                        <p className="font-medium text-sm">{rec.title}</p>
-                        <p className="text-xs text-gray-500">{rec.reason}</p>
+                        <p className="font-medium text-sm text-[#0d0d0d]">{rec.title}</p>
+                        <p className="text-xs text-[#6b7280]">{rec.reason}</p>
                       </div>
                       <button
                         onClick={() => router.push(rec.practiceUrl)}
-                        className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 shrink-0 ml-4"
+                        className="rounded-lg bg-[#0d0d0d] px-4 py-2 text-sm font-medium text-white hover:bg-[#1a1a1a] shrink-0 ml-4"
                       >
                         Practice
                       </button>
@@ -557,19 +662,19 @@ function DashboardReview() {
                 {analytics.themeBreakdown.length > 0 && analytics.themeBreakdown[0].accuracy < 75 && (
                   <div className="mt-4">
                     {aiSummary ? (
-                      <div className="rounded-lg bg-white border p-5">
-                        <h3 className="font-semibold text-sm text-blue-800 mb-2">AI Analysis: {aiSummary.theme}</h3>
-                        <Markdown className="text-sm text-blue-900">{aiSummary.content}</Markdown>
+                      <div className="rounded-lg bg-white border border-[#e5e7eb] p-5">
+                        <h3 className="font-semibold text-sm text-[#0d0d0d] mb-2">AI Analysis: {aiSummary.theme}</h3>
+                        <Markdown className="text-sm text-[#374151]">{aiSummary.content}</Markdown>
                       </div>
                     ) : (
                       <button
                         onClick={() => handleAiSummary(analytics.themeBreakdown[0].theme)}
                         disabled={aiSummaryLoading}
-                        className="text-sm text-blue-700 hover:text-blue-900 font-medium disabled:opacity-50"
+                        className="text-sm text-[#374151] hover:text-[#0d0d0d] font-medium disabled:opacity-50"
                       >
                         {aiSummaryLoading ? (
                           <span className="flex items-center gap-2">
-                            <span className="h-3 w-3 animate-spin rounded-full border-2 border-blue-700 border-t-transparent" />
+                            <span className="h-3 w-3 animate-spin rounded-full border-2 border-[#374151] border-t-transparent" />
                             Generating AI analysis...
                           </span>
                         ) : (
@@ -591,11 +696,11 @@ function DashboardReview() {
                     const isExpanded = expandedId === attempt.questionId;
                     const cached = walkthroughs[attempt.questionId];
                     return (
-                      <div key={`${attempt.questionId}-${attempt.timestamp}`} className="rounded-xl bg-white shadow-sm border overflow-hidden">
+                      <div key={`${attempt.questionId}-${attempt.timestamp}`} className="rounded-lg bg-white border border-[#e5e7eb] overflow-hidden">
                         {/* Collapsed header */}
                         <button
                           onClick={() => setExpandedId(isExpanded ? null : attempt.questionId)}
-                          className="w-full text-left p-4 hover:bg-gray-50 transition-colors"
+                          className="w-full text-left p-4 hover:bg-[#fafafa] transition-colors"
                         >
                           <div className="flex items-start justify-between gap-3">
                             <div className="flex-1 min-w-0">
@@ -607,14 +712,14 @@ function DashboardReview() {
                                   {question.difficulty}
                                 </Badge>
                                 {question.themes.slice(0, 2).map((t) => (
-                                  <span key={t} className="text-xs text-gray-400">{THEME_LABELS[t]}</span>
+                                  <span key={t} className="text-xs text-[#9ca3af]">{THEME_LABELS[t]}</span>
                                 ))}
                               </div>
-                              <p className="text-sm text-gray-800 line-clamp-2">{question.text}</p>
+                              <p className="text-sm text-[#374151] line-clamp-2">{question.text}</p>
                             </div>
                             <div className="flex items-center gap-2 shrink-0">
-                              <span className="text-xs text-gray-400">{formatRelativeTime(attempt.timestamp)}</span>
-                              <svg className={`h-4 w-4 text-gray-400 transition-transform ${isExpanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <span className="text-xs text-[#9ca3af]">{formatRelativeTime(attempt.timestamp)}</span>
+                              <svg className={`h-4 w-4 text-[#9ca3af] transition-transform ${isExpanded ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                               </svg>
                             </div>
@@ -623,11 +728,11 @@ function DashboardReview() {
 
                         {/* Expanded content */}
                         {isExpanded && (
-                          <div className="border-t px-4 py-5 space-y-4">
+                          <div className="border-t border-[#e5e7eb] px-4 py-5 space-y-4">
                             {question.passage && (
-                              <div className="rounded-lg bg-slate-50 border border-slate-200 p-4">
-                                <h4 className="font-semibold text-slate-700 text-xs mb-1">Reading Passage</h4>
-                                <p className="text-sm leading-relaxed text-slate-800 whitespace-pre-line">{question.passage}</p>
+                              <div className="rounded-lg bg-[#fafafa] border border-[#e5e7eb] p-4">
+                                <h4 className="font-semibold text-[#374151] text-xs mb-1">Reading Passage</h4>
+                                <p className="text-sm leading-relaxed text-[#374151] whitespace-pre-line">{question.passage}</p>
                               </div>
                             )}
 
@@ -638,7 +743,7 @@ function DashboardReview() {
                                 else if (i === attempt.selectedAnswer) style = "border-red-500 bg-red-50";
                                 return (
                                   <div key={i} className={`rounded-lg border-2 ${style} p-3 text-sm`}>
-                                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 text-xs font-semibold">{String.fromCharCode(65 + i)}</span>
+                                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#f3f4f6] text-xs font-semibold">{String.fromCharCode(65 + i)}</span>
                                     {choice}
                                     {i === question.correctAnswer && <span className="ml-2 text-green-600 text-xs font-medium">Correct</span>}
                                     {i === attempt.selectedAnswer && i !== question.correctAnswer && <span className="ml-2 text-red-600 text-xs font-medium">Your answer</span>}
@@ -647,15 +752,15 @@ function DashboardReview() {
                               })}
                             </div>
 
-                            <div className="rounded-lg bg-amber-50 border border-amber-200 p-4">
-                              <h4 className="font-semibold text-amber-800 text-sm mb-2">{cached?.error ? "Explanation" : "Step-by-Step Walkthrough"}</h4>
+                            <div className="rounded-lg bg-[#fafafa] border border-[#e5e7eb] p-4">
+                              <h4 className="font-semibold text-[#0d0d0d] text-sm mb-2">{cached?.error ? "Explanation" : "Step-by-Step Walkthrough"}</h4>
                               {!cached ? (
-                                <div className="flex items-center gap-2 text-amber-700 text-sm">
-                                  <div className="h-3 w-3 animate-spin rounded-full border-2 border-amber-700 border-t-transparent" />
+                                <div className="flex items-center gap-2 text-[#374151] text-sm">
+                                  <div className="h-3 w-3 animate-spin rounded-full border-2 border-[#374151] border-t-transparent" />
                                   Generating walkthrough...
                                 </div>
                               ) : (
-                                <Markdown className="text-amber-900 text-sm">{cached.content}</Markdown>
+                                <Markdown className="text-[#374151] text-sm">{cached.content}</Markdown>
                               )}
                             </div>
 
@@ -672,7 +777,7 @@ function DashboardReview() {
                 {missedItems.length > visibleCount && (
                   <button
                     onClick={() => setVisibleCount((c) => c + 10)}
-                    className="mt-4 w-full rounded-xl border border-gray-300 bg-white py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                    className="mt-4 w-full rounded-lg border border-[#e5e7eb] bg-white py-3 text-sm font-medium text-[#0d0d0d] hover:bg-[#fafafa]"
                   >
                     Show More ({missedItems.length - visibleCount} remaining)
                   </button>

@@ -39,6 +39,14 @@ export interface Recommendation {
   practiceUrl: string;
 }
 
+export interface TrendPoint {
+  label: string;
+  accuracy: number;
+  total: number;
+  correct: number;
+  timestamp: number;
+}
+
 // === Time filtering ===
 
 const TIME_CUTOFFS: Record<TimeRange, number> = {
@@ -232,4 +240,56 @@ export function countSessionsInRange(sessions: PracticeSession[], range: TimeRan
   if (range === "all") return sessions.length;
   const cutoff = Date.now() - TIME_CUTOFFS[range];
   return sessions.filter((s) => s.timestamp >= cutoff).length;
+}
+
+// === Progress over time ===
+
+function formatDateShort(ts: number): string {
+  const d = new Date(ts);
+  return `${d.getMonth() + 1}/${d.getDate()}`;
+}
+
+function startOfDay(ts: number): number {
+  const d = new Date(ts);
+  d.setHours(0, 0, 0, 0);
+  return d.getTime();
+}
+
+function startOfWeek(ts: number): number {
+  const d = new Date(ts);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() - d.getDay());
+  return d.getTime();
+}
+
+/**
+ * Groups attempts into time buckets and computes accuracy per bucket.
+ * Buckets are daily for ranges <= 30d, weekly for "all".
+ * Returns points sorted oldest-first.
+ */
+export function computeProgressTrend(attempts: UserAttempt[], range: TimeRange): TrendPoint[] {
+  if (attempts.length === 0) return [];
+
+  const useWeekly = range === "all";
+  const bucketFn = useWeekly ? startOfWeek : startOfDay;
+
+  const buckets: Record<number, { total: number; correct: number }> = {};
+
+  // Attempts are already sorted newest-first from Firestore; iterate all
+  for (const a of attempts) {
+    const key = bucketFn(a.timestamp);
+    if (!buckets[key]) buckets[key] = { total: 0, correct: 0 };
+    buckets[key].total++;
+    if (a.correct) buckets[key].correct++;
+  }
+
+  return Object.entries(buckets)
+    .map(([ts, data]) => ({
+      label: formatDateShort(Number(ts)),
+      accuracy: Math.round((data.correct / data.total) * 100),
+      total: data.total,
+      correct: data.correct,
+      timestamp: Number(ts),
+    }))
+    .sort((a, b) => a.timestamp - b.timestamp);
 }

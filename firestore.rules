@@ -5,6 +5,22 @@ service cloud.firestore {
     // Users can read/write their own profile
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Chapter progress subcollection
+      match /chapterProgress/{chapterId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // Study guide subcollection
+      match /studyGuide/{itemId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // Study plans
+    match /studyPlans/{planId} {
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow read, update: if request.auth != null && resource.data.userId == request.auth.uid;
     }
 
     // Users can create sessions and read/update their own

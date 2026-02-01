@@ -79,7 +79,6 @@ function PracticeContent() {
     }
   }, [user, sessionQuestions, sessionId, sectionParam]);
 
-  // Warn on accidental navigation
   useEffect(() => {
     if (sessionQuestions.length === 0 || finished) return;
     const handleBeforeUnload = (e: BeforeUnloadEvent) => { e.preventDefault(); };
@@ -88,7 +87,6 @@ function PracticeContent() {
   }, [sessionQuestions.length, finished]);
 
   const currentQuestion = sessionQuestions[currentIndex];
-
   const isTPA = currentQuestion?.type === "two-part-analysis";
 
   const handleSubmit = useCallback(async () => {
@@ -162,33 +160,33 @@ function PracticeContent() {
   if (!currentQuestion) return null;
 
   return (
-    <div className="min-h-screen">
-      <header className="border-b bg-white">
-        <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
+    <div className="min-h-screen bg-white">
+      <header className="bg-white border-b border-[#e5e7eb]">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <button
             onClick={() => {
               if (window.confirm("Leave this session? Your progress will be lost.")) {
                 router.push("/");
               }
             }}
-            className="text-sm text-gray-500 hover:text-gray-700"
+            className="text-sm text-[#6b7280] hover:text-[#0d0d0d] font-medium transition-colors"
           >
             &larr; Exit
           </button>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Badge variant={currentQuestion.section === "quant" ? "blue" : currentQuestion.section === "verbal" ? "green" : "purple"}>
               {SECTION_LABELS[currentQuestion.section]}
             </Badge>
-            <span className="text-sm font-medium text-gray-600">
-              {currentIndex + 1} / {sessionQuestions.length}
+            <span className="text-sm font-bold text-[#0d0d0d]">
+              {currentIndex + 1}<span className="text-[#9ca3af] font-normal"> / {sessionQuestions.length}</span>
             </span>
           </div>
-          <div className="flex items-center gap-0.5 w-32">
+          <div className="flex items-center gap-1 w-36">
             {sessionQuestions.map((_, i) => (
               <div
                 key={i}
-                className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
-                  i < currentIndex ? "bg-blue-600" : i === currentIndex ? "bg-blue-400" : "bg-gray-200"
+                className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
+                  i < currentIndex ? "bg-[#0d0d0d]" : i === currentIndex ? "bg-[#6b7280]" : "bg-[#e5e7eb]"
                 }`}
               />
             ))}
@@ -196,8 +194,8 @@ function PracticeContent() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-3xl px-4 py-8">
-        <div key={currentIndex} className="animate-slide-up">
+      <main className="mx-auto max-w-5xl px-4 py-4">
+        <div key={currentIndex} className="animate-fade-in">
           <QuestionRenderer
             question={currentQuestion}
             selectedAnswer={selectedAnswer}
@@ -214,19 +212,19 @@ function PracticeContent() {
             selectedAnswer={selectedAnswer}
           />
 
-          <div className="mt-4">
+          <div className="mt-3">
             {!showResult ? (
               <button
                 onClick={handleSubmit}
                 disabled={selectedAnswer === null || (isTPA && selectedAnswerB === null)}
-                className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors btn-press disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-full rounded-lg py-3 text-base font-semibold text-white bg-[#0d0d0d] hover:bg-[#1a1a1a] transition-colors disabled:bg-[#d1d5db] disabled:text-[#9ca3af] disabled:cursor-not-allowed"
               >
                 Submit Answer
               </button>
             ) : (
               <button
                 onClick={handleNext}
-                className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors btn-press"
+                className="w-full rounded-lg py-3 text-base font-semibold text-white bg-[#0d0d0d] hover:bg-[#1a1a1a] transition-colors"
               >
                 {currentIndex < sessionQuestions.length - 1 ? "Next Question" : "See Results"}
               </button>

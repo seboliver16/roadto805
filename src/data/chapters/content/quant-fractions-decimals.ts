@@ -27,6 +27,8 @@ $$2\\frac{1}{4} = \\frac{(2 \\times 4) + 1}{4} = \\frac{9}{4}$$
 
 **GMAT tip:** On the GMAT, always work with improper fractions rather than mixed numbers. Improper fractions are easier to manipulate in calculations.
 
+> **Common Trap:** When converting $3\\frac{2}{5}$ to an improper fraction, some students write $\\frac{32}{5}$ (just combining digits). The correct calculation is $\\frac{(3 \\times 5) + 2}{5} = \\frac{17}{5}$. Always multiply the whole number by the denominator, then add the numerator.
+
 ---
 
 ## Simplifying Fractions
@@ -42,6 +44,8 @@ The GCD of 36 and 48 is 12.
 **Quick simplification technique:** Look for common small factors and cancel step by step:
 
 $$\\frac{36}{48} = \\frac{18}{24} = \\frac{9}{12} = \\frac{3}{4}$$
+
+> **Quick Method:** When simplifying large fractions under time pressure, divide both numerator and denominator by whatever common factor you spot first. You do not need to find the GCD immediately. Dividing by 2, then by 3, then by 2 again reaches the same answer as dividing by 12 in one step -- and is often faster because you avoid mental GCD computation.
 
 ---
 
@@ -73,6 +77,20 @@ $$\\frac{a}{b} + \\frac{c}{d} = \\frac{ad + bc}{bd}$$
 
 This method always works but may not produce the simplest form, so simplify afterward if needed.
 
+> **Common Trap:** When adding fractions, students sometimes add numerators and denominators separately: $\\frac{2}{3} + \\frac{3}{5} = \\frac{5}{8}$. This is completely wrong. You must find a common denominator first. The "add across" error is one of the most common fraction mistakes on standardized tests.
+
+**Example:** What is $\\frac{5}{6} - \\frac{3}{8}$?
+
+**Solution:** Using the bowtie method:
+
+$$\\frac{5}{6} - \\frac{3}{8} = \\frac{(5)(8) - (3)(6)}{(6)(8)} = \\frac{40 - 18}{48} = \\frac{22}{48} = \\frac{11}{24}$$
+
+Or using the LCD (24):
+
+$$\\frac{5}{6} = \\frac{20}{24}, \\quad \\frac{3}{8} = \\frac{9}{24}$$
+
+$$\\frac{20}{24} - \\frac{9}{24} = \\frac{11}{24}$$
+
 ---
 
 ## Multiplying Fractions
@@ -94,6 +112,8 @@ $$= \\frac{2}{3} \\times \\frac{1}{3} = \\frac{2}{9}$$
 
 This technique keeps numbers small and reduces the chance of arithmetic errors.
 
+> **Quick Method:** Always cross-cancel before multiplying. This is especially powerful with three or more fractions. For example: $\\frac{3}{14} \\times \\frac{7}{9} \\times \\frac{6}{5}$. Cancel: 7 with 14 (gives 1 and 2), 3 with 9 (gives 1 and 3), 6 with 2 (gives 3 and 1). Result: $\\frac{1}{1} \\times \\frac{1}{3} \\times \\frac{3}{5} = \\frac{3}{15} = \\frac{1}{5}$. Much simpler than multiplying $3 \\times 7 \\times 6 = 126$ over $14 \\times 9 \\times 5 = 630$.
+
 ---
 
 ## Dividing Fractions
@@ -105,6 +125,16 @@ $$\\frac{a}{b} \\div \\frac{c}{d} = \\frac{a}{b} \\times \\frac{d}{c}$$
 **Example:** $\\frac{3}{4} \\div \\frac{2}{5} = \\frac{3}{4} \\times \\frac{5}{2} = \\frac{15}{8}$
 
 **Important:** The reciprocal of a whole number $n$ is $\\frac{1}{n}$. So dividing by 3 is the same as multiplying by $\\frac{1}{3}$.
+
+> **Common Trap:** Students sometimes flip the wrong fraction. In $\\frac{3}{4} \\div \\frac{2}{5}$, you flip only the **second** fraction (the divisor). A common error is writing $\\frac{4}{3} \\times \\frac{2}{5}$, which flips the first fraction instead. Remember: "Keep, Change, Flip" -- keep the first fraction, change division to multiplication, flip the second fraction.
+
+**Example:** Simplify $\\frac{\\frac{2}{3}}{\\frac{5}{7}}$.
+
+**Solution:** A fraction divided by a fraction means:
+
+$$\\frac{2}{3} \\div \\frac{5}{7} = \\frac{2}{3} \\times \\frac{7}{5} = \\frac{14}{15}$$
+
+> **Quick Method:** For complex fractions (a fraction over a fraction), multiply the top fraction by the reciprocal of the bottom fraction. The shortcut is: $\\frac{\\frac{a}{b}}{\\frac{c}{d}} = \\frac{ad}{bc}$. So $\\frac{\\frac{2}{3}}{\\frac{5}{7}} = \\frac{2 \\times 7}{3 \\times 5} = \\frac{14}{15}$.
 
 ---
 
@@ -120,10 +150,14 @@ $$\\frac{3}{8} = 3 \\div 8 = 0.375$$
 - Otherwise, the decimal **repeats**.
 
 **Examples:**
-- $\\frac{7}{8} = \\frac{7}{2^3}$ — terminates: $0.875$
-- $\\frac{7}{20} = \\frac{7}{2^2 \\times 5}$ — terminates: $0.35$
-- $\\frac{1}{3}$ — repeats: $0.333\\ldots = 0.\\overline{3}$
-- $\\frac{1}{6} = \\frac{1}{2 \\times 3}$ — repeats: $0.1\\overline{6}$
+- $\\frac{7}{8} = \\frac{7}{2^3}$ -- terminates: $0.875$
+- $\\frac{7}{20} = \\frac{7}{2^2 \\times 5}$ -- terminates: $0.35$
+- $\\frac{1}{3}$ -- repeats: $0.333\\ldots = 0.\\overline{3}$
+- $\\frac{1}{6} = \\frac{1}{2 \\times 3}$ -- repeats: $0.1\\overline{6}$
+
+> **Quick Method:** To quickly determine if a fraction terminates, reduce it to lowest terms and factor the denominator. If you see any prime other than 2 or 5, it repeats. For instance, $\\frac{21}{60}$ simplifies to $\\frac{7}{20}$, and $20 = 2^2 \\times 5$ (only 2s and 5s), so it terminates.
+
+> **Common Trap:** The fraction must be in **lowest terms** before applying the terminating decimal test. For example, $\\frac{3}{12}$ has denominator $12 = 2^2 \\times 3$, which contains a factor of 3 -- so it looks like it repeats. But $\\frac{3}{12} = \\frac{1}{4}$, and $4 = 2^2$ has only factors of 2. So $\\frac{3}{12} = 0.25$ (terminates). Always simplify first.
 
 ### Converting Decimals to Fractions
 
@@ -136,6 +170,12 @@ For repeating decimals:
 - $0.\\overline{12} = \\frac{12}{99} = \\frac{4}{33}$
 
 **General rule:** For a repeating block of $n$ digits, the fraction is $\\frac{\\text{repeating block}}{\\underbrace{99\\ldots9}_{n \\text{ nines}}}$.
+
+**Example:** Convert $0.\\overline{45}$ to a fraction.
+
+**Solution:** The repeating block has 2 digits, so:
+
+$$0.\\overline{45} = \\frac{45}{99} = \\frac{15}{33} = \\frac{5}{11}$$
 
 ---
 
@@ -199,6 +239,10 @@ Therefore $\\frac{3}{7} < \\frac{5}{9}$.
 
 When other methods are cumbersome, divide to get decimal approximations.
 
+> **Quick Method:** For fractions that are both close to a benchmark (say both near $\\frac{3}{4}$), find the "gap" from the benchmark. $\\frac{7}{10}$ is $\\frac{3}{4} - \\frac{1}{20}$ below $\\frac{3}{4}$. $\\frac{5}{7}$ is... harder. In these close cases, cross-multiplication is the fastest reliable method. Do not waste time with decimal long division.
+
+> **Common Trap:** Cross-multiplication only works as described when both denominators are **positive**. If you are comparing fractions with negative values, be careful: $\\frac{-3}{5}$ vs. $\\frac{-2}{5}$ -- here $\\frac{-3}{5} < \\frac{-2}{5}$ because $-3 < -2$. But $\\frac{3}{-5}$ should first be rewritten as $\\frac{-3}{5}$ before comparing.
+
 ---
 
 ## Key Formulas
@@ -256,6 +300,62 @@ The answer is **(C)**.
 $17 \\times 35 = 595$ vs. $31 \\times 19 = 589$
 
 Since $595 > 589$, we have $\\frac{17}{31} > \\frac{19}{35}$.
+
+### Example 5: Complex Fraction Problem
+
+**Problem:** Simplify $\\frac{\\frac{1}{3} + \\frac{1}{4}}{\\frac{1}{3} - \\frac{1}{4}}$.
+
+**Solution:**
+
+First, compute the numerator:
+
+$$\\frac{1}{3} + \\frac{1}{4} = \\frac{4 + 3}{12} = \\frac{7}{12}$$
+
+Next, compute the denominator:
+
+$$\\frac{1}{3} - \\frac{1}{4} = \\frac{4 - 3}{12} = \\frac{1}{12}$$
+
+Now divide:
+
+$$\\frac{\\frac{7}{12}}{\\frac{1}{12}} = \\frac{7}{12} \\times \\frac{12}{1} = \\textbf{7}$$
+
+> **Quick Method:** When a complex fraction has the same LCD in both the numerator and denominator expressions, multiply the entire expression by that LCD. Here, multiplying top and bottom by 12: $\\frac{12(\\frac{1}{3} + \\frac{1}{4})}{12(\\frac{1}{3} - \\frac{1}{4})} = \\frac{4 + 3}{4 - 3} = \\frac{7}{1} = 7$. This eliminates all fractions in one step.
+
+### Example 6: Fraction of a Fraction Word Problem
+
+**Problem:** A tank is $\\frac{3}{5}$ full of water. If $\\frac{2}{3}$ of the water is drained, what fraction of the tank's capacity is still filled with water?
+
+**Solution:**
+
+Water remaining = $\\frac{3}{5} - \\frac{2}{3} \\times \\frac{3}{5}$
+
+First, water drained: $\\frac{2}{3} \\times \\frac{3}{5} = \\frac{6}{15} = \\frac{2}{5}$
+
+Water remaining: $\\frac{3}{5} - \\frac{2}{5} = \\frac{1}{5}$
+
+The tank is $\\textbf{\\frac{1}{5}}$ full.
+
+> **Quick Method:** If $\\frac{2}{3}$ of the water is drained, then $1 - \\frac{2}{3} = \\frac{1}{3}$ of the water remains. So the remaining water is $\\frac{1}{3} \\times \\frac{3}{5} = \\frac{1}{5}$ of the tank. Thinking about "what fraction remains" is often faster than computing "what is removed" and subtracting.
+
+### Example 7: Repeating Decimal to Fraction
+
+**Problem:** Express $0.2\\overline{7}$ as a fraction in lowest terms.
+
+**Solution:** Let $x = 0.2\\overline{7} = 0.2777\\ldots$
+
+Multiply by 10: $10x = 2.777\\ldots = 2.\\overline{7}$
+
+Multiply by 100: $100x = 27.777\\ldots = 27.\\overline{7}$
+
+Subtract: $100x - 10x = 27.\\overline{7} - 2.\\overline{7}$
+
+$$90x = 25$$
+
+$$x = \\frac{25}{90} = \\textbf{\\frac{5}{18}}$$
+
+Verify: $5 \\div 18 = 0.2777\\ldots$ ✓
+
+> **Common Trap:** For decimals like $0.2\\overline{7}$ that have a non-repeating part followed by a repeating part, you cannot just use the "repeating block over 9s" rule directly. That rule only works when the repetition starts immediately after the decimal point (like $0.\\overline{27} = \\frac{27}{99}$). For mixed cases, use the algebraic approach above.
 
 ---
 

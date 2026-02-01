@@ -4,6 +4,7 @@ import {
   setDoc,
   getDoc,
   getDocs,
+  deleteDoc,
   query,
   where,
   orderBy,
@@ -12,7 +13,7 @@ import {
   increment,
 } from "firebase/firestore";
 import { getDbInstance } from "./firebase";
-import { UserAttempt, PracticeSession, UserProfile, StudyPlan } from "@/types";
+import { UserAttempt, PracticeSession, UserProfile, StudyPlan, StudyGuideItem, ChapterProgress } from "@/types";
 
 function db() {
   return getDbInstance();
@@ -131,4 +132,50 @@ export async function updateStudyPlanProgress(planId: string, chapterId: string,
   );
   const ref = doc(db(), "studyPlans", planId);
   await updateDoc(ref, { recommendedChapters: updated, updatedAt: Date.now() });
+}
+
+// --- Chapter Progress ---
+
+export async function markChapterComplete(userId: string, chapterId: string, chapterTitle: string) {
+  const ref = doc(db(), "users", userId, "chapterProgress", chapterId);
+  await setDoc(ref, clean({
+    chapterId,
+    chapterTitle,
+    completed: true,
+    completedAt: Date.now(),
+  }));
+}
+
+export async function getChapterProgress(userId: string, chapterId: string): Promise<ChapterProgress | null> {
+  const ref = doc(db(), "users", userId, "chapterProgress", chapterId);
+  const snap = await getDoc(ref);
+  return snap.exists() ? (snap.data() as ChapterProgress) : null;
+}
+
+export async function getAllChapterProgress(userId: string): Promise<ChapterProgress[]> {
+  const q = query(collection(db(), "users", userId, "chapterProgress"));
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => d.data() as ChapterProgress);
+}
+
+// --- Study Guide ---
+
+export async function addStudyGuideItem(item: Omit<StudyGuideItem, "id">): Promise<string> {
+  const ref = doc(collection(db(), "users", item.userId, "studyGuide"));
+  await setDoc(ref, clean({ ...item, id: ref.id }));
+  return ref.id;
+}
+
+export async function getStudyGuideItems(userId: string): Promise<StudyGuideItem[]> {
+  const q = query(
+    collection(db(), "users", userId, "studyGuide"),
+    orderBy("createdAt", "desc")
+  );
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => d.data() as StudyGuideItem);
+}
+
+export async function deleteStudyGuideItem(userId: string, itemId: string) {
+  const ref = doc(db(), "users", userId, "studyGuide", itemId);
+  await deleteDoc(ref);
 }
