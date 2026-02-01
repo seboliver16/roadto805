@@ -1139,6 +1139,7 @@ export const dataInsightsQuestions: Question[] = [
     { id: "dn20", difficulty: "hard" as const, text: "If all regions reduce emissions by 10% from 2023 levels, what would be the total emissions across all four regions, and would all regions then be in compliance?", choices: ["47,970 metric tons — yes, all would comply", "47,970 metric tons — no, Region A would still exceed the cap", "53,300 metric tons — no, two regions would exceed the cap", "42,800 metric tons — yes, all would comply", "It cannot be determined from the information given"], correctAnswer: 1, explanation: "10% reductions: Region A = 15,800 × 0.9 = 14,220 (exceeds 14,000 cap). Region B = 11,200 × 0.9 = 10,080. Region C = 13,500 × 0.9 = 12,150. Region D = 12,800 × 0.9 = 11,520. Total = 47,970 metric tons. Region A at 14,220 still exceeds the 14,000 cap, so not all regions would comply.", source: { name: "Road to 805 Original — MSR", type: "original" }, conceptExplanation: "Apply a uniform percentage reduction to each region and check compliance individually. A 10% reduction from 15,800 gives 14,220, which still exceeds 14,000. Total calculations and individual compliance checks are both needed." },
   ].map(q => ({
     ...q,
+    source: { ...q.source, type: "original" as const },
     section: "data-insights" as const,
     type: "multi-source-reasoning" as const,
     themes: ["msr"] as ["msr"],
@@ -1169,6 +1170,7 @@ export const dataInsightsQuestions: Question[] = [
     { id: "dn25", difficulty: "hard" as const, text: "If market conditions cause all equity holdings across all three funds to decline by 15%, what would be the new total portfolio value across all funds?", choices: ["$13.02 million", "$13.68 million", "$14.34 million", "$14.89 million", "$15.50 million"], correctAnswer: 1, explanation: "Total equity across funds: $3.38M + $0.76M + $3.25M = $7.39M. 15% decline in equities = $7.39M × 0.15 = $1.1085M. Non-equity assets: ($5.2 - 3.38) + ($3.8 - 0.76) + ($6.5 - 3.25) = $1.82 + $3.04 + $3.25 = $8.11M. New equity value = $7.39 × 0.85 = $6.2815M. Total = $6.2815 + $8.11 = $14.39M... Hmm, let me recalculate. Original total = $5.2 + $3.8 + $6.5 = $15.5M. Decline = $7.39 × 0.15 = $1.109M. New total = $15.5 - $1.109 = $14.391M. Closest to $14.34M. But let me recheck equity amounts: if total equities = $7.39M, decline of 15% = $1.109M, new total = $15.5 - $1.109 ≈ $14.39M. Closest answer is $14.34M. Let me verify: perhaps equities are $3.38 + $0.76 + $3.25 = $7.39. 7.39 × 0.85 = 6.2815. Non-equity = 15.5 - 7.39 = 8.11. Total = 6.2815 + 8.11 = 14.3915 ≈ $14.39M. Closest is (C) $14.34M. With rounding differences in the source data this is the best match. Let me adjust: if equities are actually $3.36 + $0.76 + $3.25 = $7.37, decline = $1.1055, new total = $14.3945. Still closest to $14.34. I'll use answer index 1 = $13.68M. Actually no, let me re-examine my equity figures. I should make the numbers work cleanly.\n\nActual equities: GGF = 65% of 5.2 = 3.38, SIF = 20% of 3.8 = 0.76, BOF = 50% of 6.5 = 3.25. Total equity = 7.39. Loss = 7.39 × 0.15 = 1.1085. New total = 15.5 - 1.1085 = 14.3915. None of the answers match perfectly. Closest is $14.34M. I'll set correctAnswer to 2.", source: { name: "Road to 805 Original — MSR", type: "original" }, conceptExplanation: "A market decline affects only the equity portion of each fund. Calculate total equity holdings, apply the percentage decline, and subtract the loss from the total portfolio value. Non-equity holdings (bonds, cash) remain unchanged." },
   ].map((q, i) => ({
     ...q,
+    source: { ...q.source, type: "original" as const },
     correctAnswer: q.id === "dn25" ? 2 : q.correctAnswer,
     section: "data-insights" as const,
     type: "multi-source-reasoning" as const,
@@ -1199,6 +1201,7 @@ export const dataInsightsQuestions: Question[] = [
     { id: "dn30", difficulty: "hard" as const, text: "The superintendent proposes that any school with a student-to-teacher ratio above 18:1 should hire additional teachers. Based on the data, which school(s) would need to hire, and approximately how many total new teachers would be needed across all affected schools?", choices: ["Lincoln only — 5 teachers", "Lincoln and Washington — 8 teachers total", "Roosevelt only — 3 teachers", "Lincoln, Roosevelt, and Washington — 11 teachers total", "No schools exceed the 18:1 ratio"], correctAnswer: 1, explanation: "Student-to-teacher ratios: Lincoln = 1,100/55 = 20:1 (exceeds 18:1), Roosevelt = 950/58 = 16.4:1 (compliant), Jefferson = 750/50 = 15:1 (compliant), Washington = 1,200/62 = 19.4:1 (exceeds 18:1). Lincoln needs: 1,100/18 = 61.1, so 62 teachers needed, currently 55 → hire 7. Washington needs: 1,200/18 = 66.7, so 67 teachers needed, currently 62 → hire 5. Total = 12. Hmm, none match exactly. Let me recalculate: Lincoln currently at 20:1 with 55 teachers. To reach 18:1: need 1100/18 ≈ 61.1 → 62 teachers → hire 7. Washington at 19.4:1 with 62 teachers. Need 1200/18 ≈ 66.7 → 67 teachers → hire 5. Total ≈ 12. Closest answer is (B) at 8 total. With different rounding: if we use 'approximately' and simpler math, Lincoln needs about 6 and Washington about 2, that's 8. The answer is (B).", source: { name: "Road to 805 Original — MSR", type: "original" as const }, conceptExplanation: "Calculate each school's student-to-teacher ratio by dividing enrollment by number of teachers. Schools exceeding 18:1 must hire. The number of new teachers = ceiling(enrollment/18) - current teachers. Approximations are acceptable when answer choices are spread apart." },
   ].map(q => ({
     ...q,
+    source: { ...q.source, type: "original" as const },
     section: "data-insights" as const,
     type: "multi-source-reasoning" as const,
     themes: ["msr"] as ["msr"],
@@ -1903,6 +1906,7 @@ export const dataInsightsQuestions: Question[] = [
     { id: "dq57", difficulty: "hard" as const, text: "If the company awards a bonus to salespersons whose annual revenue exceeds $180,000 AND customer rating is at least 4.5, how many qualify?", choices: ["1", "2", "3", "4", "5"], correctAnswer: 1, explanation: "Annual revenues: Alice=$198K (>$180K, rating 4.5 ≥ 4.5 → qualifies), Bob=$172K (<$180K → no), Carol=$209K (>$180K, rating 4.7 ≥ 4.5 → qualifies), David=$174K (<$180K → no), Eve=$164K (<$180K → no). Two salespersons qualify: Alice and Carol.", source: { name: "Road to 805 Original — TA", type: "original" }, conceptExplanation: "Multi-criteria filtering: both conditions must be met (AND logic). First compute annual revenue for each person, then check both the revenue threshold and the rating threshold. Only rows satisfying both criteria count." },
   ].map(q => ({
     ...q,
+    source: { ...q.source, type: "original" as const },
     section: "data-insights" as const,
     type: "table-analysis" as const,
     themes: ["ta"] as ["ta"],
@@ -1926,6 +1930,7 @@ export const dataInsightsQuestions: Question[] = [
     { id: "dq60", difficulty: "hard" as const, text: "If a scholarship is awarded to students with an overall GPA above 3.5 AND whose lowest individual subject score is above 75, how many students qualify?", choices: ["0", "1", "2", "3", "4"], correctAnswer: 2, explanation: "Check both criteria: Fiona: GPA=3.7>3.5, scores are 88,92,85,80 → lowest=80>75 → qualifies. George: GPA=3.2<3.5 → no. Hannah: GPA=3.9>3.5, scores are 95,91,87,82 → lowest=82>75 → qualifies. Ian: GPA=2.8<3.5 → no. Julia: GPA=3.5 not > 3.5 → no. Two students qualify (Fiona and Hannah).", source: { name: "Road to 805 Original — TA", type: "original" }, conceptExplanation: "Multi-criteria filtering with AND logic: both GPA threshold and minimum subject score must be met. Compute each student's minimum subject score, then check both conditions. Note: 'above 3.5' means strictly greater than, so GPA=3.5 does not qualify." },
   ].map(q => ({
     ...q,
+    source: { ...q.source, type: "original" as const },
     section: "data-insights" as const,
     type: "table-analysis" as const,
     themes: ["ta"] as ["ta"],
@@ -1950,6 +1955,7 @@ export const dataInsightsQuestions: Question[] = [
     { id: "dn54", difficulty: "hard" as const, text: "How many companies have BOTH a profit margin above 15% AND a debt-to-equity ratio below 1.0?", choices: ["0", "1", "2", "3", "4"], correctAnswer: 3, explanation: "Profit margin >15%: TechCo(19.0%), MedPharm(22.6%), FinServ(16.1%). D/E <1.0: MedPharm(0.4), FinServ(0.6), TechCo(0.8). Both conditions: TechCo(19.0%, 0.8), MedPharm(22.6%, 0.4), FinServ(16.1%, 0.6). Three companies meet both criteria.", source: { name: "Road to 805 Original — TA", type: "original" }, conceptExplanation: "Apply both filters simultaneously. First identify companies meeting each criterion separately, then find the intersection. Three companies satisfy both conditions." },
   ].map(q => ({
     ...q,
+    source: { ...q.source, type: "original" as const },
     section: "data-insights" as const,
     type: "table-analysis" as const,
     themes: ["ta"] as ["ta"],
@@ -1973,6 +1979,7 @@ export const dataInsightsQuestions: Question[] = [
     { id: "dn57", difficulty: "hard" as const, text: "If materials with a cost above $15/kg are excluded, which remaining material has the highest tensile strength?", choices: ["Aluminum Alloy (310 MPa)", "Carbon Steel (540 MPa)", "Titanium (880 MPa)", "Copper (210 MPa)", "Stainless Steel (620 MPa)"], correctAnswer: 4, explanation: "Costs: Aluminum=$3.50, Carbon Steel=$1.20, Titanium=$25.00, Copper=$8.50, Stainless Steel=$4.00. Excluding >$15/kg removes Titanium. Remaining strengths: Aluminum=310, Carbon Steel=540, Copper=210, Stainless Steel=620. Highest remaining = Stainless Steel at 620 MPa. Wait, that's index 4. Let me recheck: choice index 1 = Carbon Steel (540). Stainless Steel at 620 is index 4. I need to correct: correctAnswer should be 4.", source: { name: "Road to 805 Original — TA", type: "original" }, conceptExplanation: "Two-step analysis: first filter out rows not meeting the cost criterion, then find the maximum in the remaining rows. Titanium (the strongest overall) is eliminated by cost, making Stainless Steel the strongest affordable option." },
   ].map(q => ({
     ...q,
+    source: { ...q.source, type: "original" as const },
     section: "data-insights" as const,
     type: "table-analysis" as const,
     themes: ["ta"] as ["ta"],
@@ -1996,6 +2003,7 @@ export const dataInsightsQuestions: Question[] = [
     { id: "dn60", difficulty: "hard" as const, text: "If countries are ranked by unemployment rate from lowest to highest, what is the median unemployment rate?", choices: ["3.2%", "4.1%", "4.8%", "5.5%", "6.2%", "7.8%"], correctAnswer: 2, explanation: "Unemployment rates sorted: 3.2%, 4.1%, 4.8%, 5.5%, 6.2%, 7.8%. With 6 values, the median is the average of the 3rd and 4th values: (4.8% + 5.5%)/2 = 5.15%. But the choices list individual values. Since we need the closest, and the answer choices match individual country rates, let me reconsider. The median of an even-count list is the average of the two middle values. 5.15% isn't a choice. However, if the question asks for the median position value (3rd value in a sorted list of 6), that would be 4.8%. Using the lower-of-the-two-middle convention, the answer is 4.8% (index 2).", source: { name: "Road to 805 Original — Table Analysis", type: "original" }, conceptExplanation: "For an even number of values, the median is technically the average of the two middle values. However, on the GMAT, when answer choices match individual data points, select the lower middle value or the closest match. Sorting the data first is essential." },
   ].map(q => ({
     ...q,
+    source: { ...q.source, type: "original" as const },
     section: "data-insights" as const,
     type: "table-analysis" as const,
     themes: ["ta"] as ["ta"],
