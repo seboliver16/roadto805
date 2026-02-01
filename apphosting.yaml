@@ -1,0 +1,22 @@
+runConfig:
+  concurrency: 100
+  cpu: 1
+  memoryMiB: 512
+  minInstances: 0
+  maxInstances: 2
+
+env:
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: AIzaSyC6HV5OM8cY_1Wa4QNSyV3vpz2M9KwgEaU
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: roadto805.firebaseapp.com
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: roadto805
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: roadto805.firebasestorage.app
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "168689833281"
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: "1:168689833281:web:6b63faa8e0d6aa94b27dc0"
+  - variable: NEXT_PUBLIC_GEMINI_API_KEY
+    secret: gemini-api-key
