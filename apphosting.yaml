@@ -18,5 +18,8 @@ env:
     value: "168689833281"
   - variable: NEXT_PUBLIC_FIREBASE_APP_ID
     value: "1:168689833281:web:6b63faa8e0d6aa94b27dc0"
+  # Uncomment once you've created the secret: firebase apphosting:secrets:set gemini-api-key --project roadto805
+  # - variable: NEXT_PUBLIC_GEMINI_API_KEY
+  #   secret: gemini-api-key
   - variable: NEXT_PUBLIC_GEMINI_API_KEY
-    secret: gemini-api-key
+    value: ""
