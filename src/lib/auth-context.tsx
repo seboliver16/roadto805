@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from "react";
 import { User, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { getAuthInstance, getDbInstance, googleProvider } from "./firebase";
@@ -12,6 +12,7 @@ interface AuthContextType {
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
+  refreshProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -20,22 +21,27 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   signInWithGoogle: async () => {},
   logout: async () => {},
+  refreshProfile: async () => {},
 });
+
+function isFirebaseConfigured(): boolean {
+  try {
+    getAuthInstance();
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(isFirebaseConfigured);
 
   useEffect(() => {
-    let auth;
-    try {
-      auth = getAuthInstance();
-    } catch {
-      setLoading(false);
-      return;
-    }
+    if (!loading) return;
 
+    const auth = getAuthInstance();
     const db = getDbInstance();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
@@ -63,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     });
     return () => unsubscribe();
-  }, []);
+  }, [loading]);
 
   const signInWithGoogle = async () => {
     const auth = getAuthInstance();
@@ -75,8 +81,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await signOut(auth);
   };
 
+  const refreshProfile = useCallback(async () => {
+    if (!user) return;
+    const db = getDbInstance();
+    const profileRef = doc(db, "users", user.uid);
+    const profileSnap = await getDoc(profileRef);
+    if (profileSnap.exists()) {
+      setProfile(profileSnap.data() as UserProfile);
+    }
+  }, [user]);
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, logout, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   );

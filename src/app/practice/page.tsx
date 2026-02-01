@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth-context";
 import { questions } from "@/data/questions";
 import { Question, ThemeCategory, THEME_CATEGORIES } from "@/types";
 import { createSession, updateSession, saveAttempt, updateProfileStats } from "@/lib/store";
+import { PageSkeleton } from "@/components/loading-skeleton";
 
 function shuffleArray<T>(arr: T[]): T[] {
   const shuffled = [...arr];
@@ -65,6 +66,18 @@ function PracticeContent() {
       }).then(setSessionId);
     }
   }, [user, sessionQuestions, sessionId]);
+
+  // Warn on accidental navigation during active session
+  useEffect(() => {
+    if (sessionQuestions.length === 0 || finished) return;
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [sessionQuestions.length, finished]);
 
   const currentQuestion = sessionQuestions[currentIndex];
 
@@ -135,19 +148,11 @@ function PracticeContent() {
   }, [user, loading, router]);
 
   if (!user || sessionQuestions.length === 0) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-pulse text-lg text-gray-500">Loading questions...</div>
-      </div>
-    );
+    return <PageSkeleton label="Loading questions..." />;
   }
 
   if (finished) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-pulse text-lg text-gray-500">Loading results...</div>
-      </div>
-    );
+    return <PageSkeleton label="Loading results..." />;
   }
 
   if (!currentQuestion) return null;
@@ -156,21 +161,28 @@ function PracticeContent() {
     <div className="min-h-screen">
       <header className="border-b bg-white">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
-          <button onClick={() => router.push("/")} className="text-sm text-gray-500 hover:text-gray-700">
+          <button
+            onClick={() => {
+              if (window.confirm("Leave this session? Your progress will be lost.")) {
+                router.push("/");
+              }
+            }}
+            className="text-sm text-gray-500 hover:text-gray-700"
+          >
             &larr; Exit
           </button>
           <span className="text-sm font-medium text-gray-600">
             Question {currentIndex + 1} of {sessionQuestions.length}
           </span>
-          <div className="flex gap-1">
+          <div className="flex items-center gap-0.5 w-32">
             {sessionQuestions.map((_, i) => (
               <div
                 key={i}
-                className={`h-2 w-6 rounded-full ${
+                className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
                   i < currentIndex
                     ? "bg-blue-600"
                     : i === currentIndex
-                    ? "bg-blue-300"
+                    ? "bg-blue-400"
                     : "bg-gray-200"
                 }`}
               />
@@ -180,94 +192,96 @@ function PracticeContent() {
       </header>
 
       <main className="mx-auto max-w-3xl px-4 py-8">
-        {/* Question type badge */}
-        <div className="mb-4 flex items-center gap-2">
-          <span className={`rounded-full px-3 py-1 text-xs font-medium ${
-            currentQuestion.type === "data-sufficiency"
-              ? "bg-purple-100 text-purple-700"
-              : "bg-blue-100 text-blue-700"
-          }`}>
-            {currentQuestion.type === "data-sufficiency" ? "Data Sufficiency" : "Problem Solving"}
-          </span>
-          <span className={`rounded-full px-3 py-1 text-xs font-medium ${
-            currentQuestion.difficulty === "easy"
-              ? "bg-green-100 text-green-700"
-              : currentQuestion.difficulty === "medium"
-              ? "bg-yellow-100 text-yellow-700"
-              : "bg-red-100 text-red-700"
-          }`}>
-            {currentQuestion.difficulty}
-          </span>
-        </div>
-
-        {/* Question text */}
-        <div className="mb-8 rounded-xl bg-white p-6 shadow-sm border">
-          <p className="text-lg leading-relaxed whitespace-pre-line">{currentQuestion.text}</p>
-        </div>
-
-        {/* Choices */}
-        <div className="space-y-3">
-          {currentQuestion.choices.map((choice, i) => {
-            let borderColor = "border-gray-200";
-            let bg = "bg-white";
-
-            if (showResult) {
-              if (i === currentQuestion.correctAnswer) {
-                borderColor = "border-green-500";
-                bg = "bg-green-50";
-              } else if (i === selectedAnswer && i !== currentQuestion.correctAnswer) {
-                borderColor = "border-red-500";
-                bg = "bg-red-50";
-              }
-            } else if (selectedAnswer === i) {
-              borderColor = "border-blue-500";
-              bg = "bg-blue-50";
-            }
-
-            return (
-              <button
-                key={i}
-                onClick={() => !showResult && setSelectedAnswer(i)}
-                disabled={showResult}
-                className={`w-full rounded-lg border-2 ${borderColor} ${bg} p-4 text-left transition-colors ${
-                  !showResult ? "hover:border-blue-300 hover:bg-blue-50" : ""
-                }`}
-              >
-                <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold">
-                  {String.fromCharCode(65 + i)}
-                </span>
-                {choice}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Explanation */}
-        {showResult && (
-          <div className="mt-6 rounded-xl bg-amber-50 border border-amber-200 p-6">
-            <h3 className="font-semibold text-amber-800 mb-2">Explanation</h3>
-            <p className="text-amber-900 text-sm leading-relaxed">{currentQuestion.explanation}</p>
+        <div key={currentIndex} className="animate-fade-in">
+          {/* Question type badge */}
+          <div className="mb-4 flex items-center gap-2">
+            <span className={`rounded-full px-3 py-1 text-xs font-medium ${
+              currentQuestion.type === "data-sufficiency"
+                ? "bg-purple-100 text-purple-700"
+                : "bg-blue-100 text-blue-700"
+            }`}>
+              {currentQuestion.type === "data-sufficiency" ? "Data Sufficiency" : "Problem Solving"}
+            </span>
+            <span className={`rounded-full px-3 py-1 text-xs font-medium ${
+              currentQuestion.difficulty === "easy"
+                ? "bg-green-100 text-green-700"
+                : currentQuestion.difficulty === "medium"
+                ? "bg-yellow-100 text-yellow-700"
+                : "bg-red-100 text-red-700"
+            }`}>
+              {currentQuestion.difficulty.charAt(0).toUpperCase() + currentQuestion.difficulty.slice(1)}
+            </span>
           </div>
-        )}
 
-        {/* Action button */}
-        <div className="mt-8">
-          {!showResult ? (
-            <button
-              onClick={handleSubmit}
-              disabled={selectedAnswer === null}
-              className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              Submit Answer
-            </button>
-          ) : (
-            <button
-              onClick={handleNext}
-              className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors"
-            >
-              {currentIndex < sessionQuestions.length - 1 ? "Next Question" : "See Results"}
-            </button>
+          {/* Question text */}
+          <div className="mb-8 rounded-xl bg-white p-6 shadow-sm border">
+            <p className="text-lg leading-relaxed whitespace-pre-line">{currentQuestion.text}</p>
+          </div>
+
+          {/* Choices */}
+          <div className="space-y-3">
+            {currentQuestion.choices.map((choice, i) => {
+              let borderColor = "border-gray-200";
+              let bg = "bg-white";
+
+              if (showResult) {
+                if (i === currentQuestion.correctAnswer) {
+                  borderColor = "border-green-500";
+                  bg = "bg-green-50";
+                } else if (i === selectedAnswer && i !== currentQuestion.correctAnswer) {
+                  borderColor = "border-red-500";
+                  bg = "bg-red-50";
+                }
+              } else if (selectedAnswer === i) {
+                borderColor = "border-blue-500";
+                bg = "bg-blue-50";
+              }
+
+              return (
+                <button
+                  key={i}
+                  onClick={() => !showResult && setSelectedAnswer(i)}
+                  disabled={showResult}
+                  className={`w-full rounded-lg border-2 ${borderColor} ${bg} p-4 text-left transition-colors ${
+                    !showResult ? "hover:border-blue-300 hover:bg-blue-50" : ""
+                  }`}
+                >
+                  <span className="mr-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold">
+                    {String.fromCharCode(65 + i)}
+                  </span>
+                  {choice}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Explanation */}
+          {showResult && (
+            <div className="mt-6 rounded-xl bg-amber-50 border border-amber-200 p-6">
+              <h3 className="font-semibold text-amber-800 mb-2">Explanation</h3>
+              <p className="text-amber-900 text-sm leading-relaxed">{currentQuestion.explanation}</p>
+            </div>
           )}
+
+          {/* Action button */}
+          <div className="mt-8">
+            {!showResult ? (
+              <button
+                onClick={handleSubmit}
+                disabled={selectedAnswer === null}
+                className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                Submit Answer
+              </button>
+            ) : (
+              <button
+                onClick={handleNext}
+                className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-md hover:bg-blue-700 transition-colors"
+              >
+                {currentIndex < sessionQuestions.length - 1 ? "Next Question" : "See Results"}
+              </button>
+            )}
+          </div>
         </div>
       </main>
     </div>
@@ -276,13 +290,7 @@ function PracticeContent() {
 
 export default function PracticePage() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="animate-pulse text-lg text-gray-500">Loading...</div>
-        </div>
-      }
-    >
+    <Suspense fallback={<PageSkeleton label="Loading..." />}>
       <PracticeContent />
     </Suspense>
   );

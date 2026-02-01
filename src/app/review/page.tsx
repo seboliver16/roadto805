@@ -7,6 +7,8 @@ import { getSession, getUserAttempts } from "@/lib/store";
 import { questions } from "@/data/questions";
 import { Question, Theme, THEME_LABELS } from "@/types";
 import { generateWalkthrough, generateThemeSummary } from "@/lib/gemini";
+import { PageSkeleton } from "@/components/loading-skeleton";
+import { Markdown } from "@/components/markdown";
 
 interface ReviewItem {
   question: Question;
@@ -22,9 +24,9 @@ function ReviewContent() {
 
   const [reviewItems, setReviewItems] = useState<ReviewItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [walkthrough, setWalkthrough] = useState<string>("");
-  const [loadingWalkthrough, setLoadingWalkthrough] = useState(false);
+  const [walkthroughs, setWalkthroughs] = useState<Record<number, { content: string; error: boolean }>>({});
   const [themeSummary, setThemeSummary] = useState<string>("");
+  const [showThemeSummary, setShowThemeSummary] = useState(true);
   const [weakThemes, setWeakThemes] = useState<Theme[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -46,9 +48,9 @@ function ReviewContent() {
         });
         setReviewItems(items);
 
-        // Find weak themes from this session
+        // Find weak themes from this session (< 75%)
         const weak = Object.entries(session.themeBreakdown)
-          .filter(([, data]) => data.correct < data.total)
+          .filter(([, data]) => data.correct / data.total < 0.75)
           .map(([theme]) => theme as Theme);
         setWeakThemes(weak);
       } else {
@@ -65,7 +67,7 @@ function ReviewContent() {
         });
 
         const weak = Object.entries(themeStats)
-          .filter(([, data]) => data.correct / data.total < 0.7)
+          .filter(([, data]) => data.correct / data.total < 0.75)
           .sort(([, a], [, b]) => a.correct / a.total - b.correct / b.total)
           .map(([theme]) => theme as Theme);
 
@@ -92,9 +94,8 @@ function ReviewContent() {
   const currentItem = reviewItems[currentIndex];
 
   useEffect(() => {
-    if (!currentItem) return;
-    setLoadingWalkthrough(true);
-    setWalkthrough("");
+    if (!currentItem || walkthroughs[currentIndex]) return;
+    let cancelled = false;
     generateWalkthrough(
       currentItem.question.text,
       currentItem.question.choices,
@@ -102,10 +103,14 @@ function ReviewContent() {
       currentItem.userAnswer,
       currentItem.question.explanation
     )
-      .then(setWalkthrough)
-      .catch(() => setWalkthrough("Unable to generate walkthrough. Here's the explanation:\n\n" + currentItem.question.explanation))
-      .finally(() => setLoadingWalkthrough(false));
-  }, [currentItem]);
+      .then((content) => {
+        if (!cancelled) setWalkthroughs((prev) => ({ ...prev, [currentIndex]: { content, error: false } }));
+      })
+      .catch(() => {
+        if (!cancelled) setWalkthroughs((prev) => ({ ...prev, [currentIndex]: { content: currentItem.question.explanation, error: true } }));
+      });
+    return () => { cancelled = true; };
+  }, [currentItem, currentIndex, walkthroughs]);
 
   // Load theme summary when we first enter
   useEffect(() => {
@@ -132,11 +137,7 @@ function ReviewContent() {
   }, [user, authLoading, router]);
 
   if (!user || loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-pulse text-lg text-gray-500">Loading review...</div>
-      </div>
-    );
+    return <PageSkeleton label="Loading review..." />;
   }
 
   if (reviewItems.length === 0) {
@@ -168,8 +169,8 @@ function ReviewContent() {
       </header>
 
       <main className="mx-auto max-w-3xl px-4 py-8">
-        {/* Weak themes banner */}
-        {weakThemes.length > 0 && currentIndex === 0 && (
+        {/* Weak themes banner -- always visible */}
+        {weakThemes.length > 0 && (
           <div className="mb-6 rounded-xl bg-red-50 border border-red-200 p-5">
             <h3 className="font-semibold text-red-800 mb-2">Your Weak Areas</h3>
             <div className="flex flex-wrap gap-2">
@@ -182,17 +183,29 @@ function ReviewContent() {
           </div>
         )}
 
-        {/* Theme summary */}
-        {themeSummary && currentIndex === 0 && (
-          <div className="mb-6 rounded-xl bg-blue-50 border border-blue-200 p-5">
-            <h3 className="font-semibold text-blue-800 mb-2">Theme Summary</h3>
-            <div className="prose prose-sm text-blue-900 max-w-none" dangerouslySetInnerHTML={{ __html: themeSummary.replace(/\n/g, "<br/>") }} />
+        {/* Theme summary -- collapsible */}
+        {themeSummary && (
+          <div className="mb-6 rounded-xl bg-blue-50 border border-blue-200">
+            <button
+              onClick={() => setShowThemeSummary((v) => !v)}
+              className="flex w-full items-center justify-between p-5 text-left"
+            >
+              <h3 className="font-semibold text-blue-800">Theme Summary</h3>
+              <span className="text-blue-600 text-sm">
+                {showThemeSummary ? "Hide" : "Show"}
+              </span>
+            </button>
+            {showThemeSummary && (
+              <div className="px-5 pb-5">
+                <Markdown className="text-blue-900">{themeSummary}</Markdown>
+              </div>
+            )}
           </div>
         )}
 
         {/* Question */}
         {currentItem && (
-          <>
+          <div key={currentIndex} className="animate-fade-in">
             <div className="mb-4 flex items-center gap-2">
               {currentItem.question.themes.map((theme) => (
                 <span key={theme} className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
@@ -233,20 +246,33 @@ function ReviewContent() {
             </div>
 
             {/* AI Walkthrough */}
-            <div className="mb-8 rounded-xl bg-amber-50 border border-amber-200 p-6">
-              <h3 className="font-semibold text-amber-800 mb-3">Step-by-Step Walkthrough</h3>
-              {loadingWalkthrough ? (
-                <div className="flex items-center gap-2 text-amber-700">
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-amber-700 border-t-transparent" />
-                  Generating personalized walkthrough...
+            {(() => {
+              const cached = walkthroughs[currentIndex];
+              const isLoading = !cached;
+              return (
+                <div className="mb-8 rounded-xl bg-amber-50 border border-amber-200 p-6">
+                  <h3 className="font-semibold text-amber-800 mb-3">
+                    {cached?.error ? "Explanation" : "Step-by-Step Walkthrough"}
+                  </h3>
+                  {cached?.error && (
+                    <div className="mb-3 flex items-center gap-2 rounded-lg bg-amber-100 px-3 py-2 text-sm text-amber-700">
+                      <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      AI walkthrough unavailable. Showing static explanation.
+                    </div>
+                  )}
+                  {isLoading ? (
+                    <div className="flex items-center gap-2 text-amber-700">
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-amber-700 border-t-transparent" />
+                      Generating personalized walkthrough...
+                    </div>
+                  ) : (
+                    <Markdown className="text-amber-900">{cached.content}</Markdown>
+                  )}
                 </div>
-              ) : (
-                <div
-                  className="prose prose-sm text-amber-900 max-w-none"
-                  dangerouslySetInnerHTML={{ __html: walkthrough.replace(/\n/g, "<br/>") }}
-                />
-              )}
-            </div>
+              );
+            })()}
 
             {/* Navigation */}
             <div className="flex gap-3">
@@ -277,7 +303,7 @@ function ReviewContent() {
                 </button>
               )}
             </div>
-          </>
+          </div>
         )}
       </main>
     </div>
@@ -286,13 +312,7 @@ function ReviewContent() {
 
 export default function ReviewPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="animate-pulse text-lg text-gray-500">Loading...</div>
-        </div>
-      }
-    >
+    <Suspense fallback={<PageSkeleton label="Loading review..." />}>
       <ReviewContent />
     </Suspense>
   );

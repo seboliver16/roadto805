@@ -1,19 +1,23 @@
 "use client";
 
+import { useEffect } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
 import { THEME_CATEGORIES, ThemeCategory, THEME_LABELS } from "@/types";
+import { PageSkeleton } from "@/components/loading-skeleton";
 
 export default function Home() {
-  const { user, profile, loading, signInWithGoogle, logout } = useAuth();
+  const { user, profile, loading, signInWithGoogle, logout, refreshProfile } = useAuth();
   const router = useRouter();
 
+  useEffect(() => {
+    if (user) {
+      refreshProfile();
+    }
+  }, [user, refreshProfile]);
+
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-pulse text-lg text-gray-500">Loading...</div>
-      </div>
-    );
+    return <PageSkeleton />;
   }
 
   if (!user) {
@@ -80,9 +84,20 @@ export default function Home() {
       </header>
 
       <main className="mx-auto max-w-5xl px-4 py-8">
+        {/* Welcome for new users */}
+        {profile && profile.totalQuestions === 0 && (
+          <div className="mb-8 rounded-xl border-2 border-dashed border-blue-200 bg-blue-50 p-8 text-center">
+            <h2 className="text-2xl font-bold text-blue-900">Welcome to Road to 805!</h2>
+            <p className="mt-2 text-blue-700">
+              Start your first practice session to build your GMAT Quant profile.
+              Each session is 10 questions with instant feedback and AI-powered explanations.
+            </p>
+          </div>
+        )}
+
         {/* Stats */}
         {profile && profile.totalQuestions > 0 && (
-          <div className="mb-8 grid grid-cols-3 gap-4">
+          <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div className="rounded-xl bg-white p-5 shadow-sm border">
               <p className="text-sm text-gray-500">Questions Answered</p>
               <p className="text-3xl font-bold">{profile.totalQuestions}</p>

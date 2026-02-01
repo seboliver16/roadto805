@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth-context";
 import { getSession } from "@/lib/store";
 import { PracticeSession, THEME_LABELS, Theme } from "@/types";
 import { questions } from "@/data/questions";
+import { PageSkeleton } from "@/components/loading-skeleton";
 
 function ResultsContent() {
   const searchParams = useSearchParams();
@@ -31,22 +32,18 @@ function ResultsContent() {
   }, [sessionId, user]);
 
   if (!user || loading || !session) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-pulse text-lg text-gray-500">Loading results...</div>
-      </div>
-    );
+    return <PageSkeleton label="Loading results..." />;
   }
 
   const percentage = Math.round((session.score / session.total) * 100);
 
-  // Find weak themes (< 100% accuracy)
+  // Find weak themes (< 75% accuracy)
   const weakThemes = Object.entries(session.themeBreakdown)
-    .filter(([, data]) => data.correct < data.total)
+    .filter(([, data]) => data.correct / data.total < 0.75)
     .sort(([, a], [, b]) => a.correct / a.total - b.correct / b.total);
 
   const strongThemes = Object.entries(session.themeBreakdown)
-    .filter(([, data]) => data.correct === data.total);
+    .filter(([, data]) => data.correct / data.total >= 0.75);
 
   // Get missed question IDs
   const missedQuestionIds = session.questionIds.filter((qId) => {
@@ -152,13 +149,7 @@ function ResultsContent() {
 
 export default function ResultsPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="animate-pulse text-lg text-gray-500">Loading...</div>
-        </div>
-      }
-    >
+    <Suspense fallback={<PageSkeleton label="Loading results..." />}>
       <ResultsContent />
     </Suspense>
   );
