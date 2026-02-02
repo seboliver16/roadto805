@@ -292,6 +292,62 @@ export interface TableData {
   rows: string[][];
 }
 
+// === Chart Data for Graphics Interpretation ===
+
+export type ChartType =
+  | "bar"
+  | "horizontal-bar"
+  | "grouped-bar"
+  | "stacked-bar"
+  | "stacked-bar-100"
+  | "line"
+  | "multi-line"
+  | "dual-axis"
+  | "pie"
+  | "scatter"
+  | "scatter-trend"
+  | "histogram"
+  | "bubble"
+  | "box-plot";
+
+export interface ChartDataSeries {
+  name: string;
+  dataKey: string;
+  color?: string;
+  yAxisId?: "left" | "right";
+}
+
+export interface ChartAxisConfig {
+  label?: string;
+  unit?: string;
+  domain?: [number, number];
+}
+
+export interface BoxPlotDataPoint {
+  name: string;
+  min: number;
+  q1: number;
+  median: number;
+  q3: number;
+  max: number;
+}
+
+export interface ChartData {
+  type: ChartType;
+  title?: string;
+  data: Record<string, string | number>[];
+  series: ChartDataSeries[];
+  xAxisKey: string;
+  xAxis?: ChartAxisConfig;
+  yAxis?: ChartAxisConfig;
+  yAxisRight?: ChartAxisConfig;
+  boxPlotData?: BoxPlotDataPoint[];
+  trendLineSlope?: number;
+  trendLineIntercept?: number;
+  sizeKey?: string;
+  sizeLabel?: string;
+}
+
 // === Question ===
 
 export interface Question {
@@ -311,6 +367,7 @@ export interface Question {
   passage?: string;
   dataSources?: DataSource[];
   tableData?: TableData;
+  chartData?: ChartData;
   twoPartColumns?: [string, string];
 }
 

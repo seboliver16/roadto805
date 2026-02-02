@@ -1,9 +1,18 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { Question, QUESTION_TYPE_LABELS } from "@/types";
 import { Badge } from "../badge";
 import { SourceBadge } from "../source-badge";
 import { SelectablePassage } from "../selectable-passage";
+
+const ChartRenderer = dynamic(
+  () => import("../chart-renderer").then((m) => ({ default: m.ChartRenderer })),
+  {
+    ssr: false,
+    loading: () => <div className="h-[280px] rounded-lg bg-[#fafafa] animate-pulse" />,
+  }
+);
 
 interface Props {
   question: Question;
@@ -12,7 +21,25 @@ interface Props {
   onSelectAnswer: (index: number) => void;
 }
 
+function extractQuestionText(text: string): string {
+  const separators = [
+    "Based on the graph described above,",
+    "Based on the graph described above",
+    "Based on the chart described above,",
+  ];
+  for (const sep of separators) {
+    const idx = text.indexOf(sep);
+    if (idx !== -1) {
+      return text.substring(idx).trim();
+    }
+  }
+  return text;
+}
+
 export function GraphicsInterpretation({ question, selectedAnswer, showResult, onSelectAnswer }: Props) {
+  const hasChart = !!question.chartData;
+  const questionText = hasChart ? extractQuestionText(question.text) : question.text;
+
   return (
     <div>
       <div className="mb-2 flex flex-wrap items-center gap-2">
@@ -26,15 +53,33 @@ export function GraphicsInterpretation({ question, selectedAnswer, showResult, o
         </Badge>
       </div>
 
-      <div className="mb-3 rounded-lg bg-white p-4 border border-[#e5e7eb]">
-        <div className="mb-3 flex items-center gap-2 text-sm text-[#6b7280]">
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-          </svg>
-          Graph / Chart Data
+      {/* Chart + Question area */}
+      {hasChart ? (
+        <div className="mb-3 space-y-3">
+          <div className="rounded-lg bg-white p-4 border border-[#e5e7eb]">
+            <div className="mb-3 flex items-center gap-2 text-sm font-medium text-[#374151]">
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+              {question.chartData!.title ?? "Graph / Chart Data"}
+            </div>
+            <ChartRenderer chartData={question.chartData!} />
+          </div>
+          <div className="rounded-lg bg-white p-4 border border-[#e5e7eb]">
+            <SelectablePassage passage={questionText} className="text-base" />
+          </div>
         </div>
-        <SelectablePassage passage={question.text} className="text-base" />
-      </div>
+      ) : (
+        <div className="mb-3 rounded-lg bg-white p-4 border border-[#e5e7eb]">
+          <div className="mb-3 flex items-center gap-2 text-sm text-[#6b7280]">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            Graph / Chart Data
+          </div>
+          <SelectablePassage passage={question.text} className="text-base" />
+        </div>
+      )}
 
       <div className="space-y-1.5">
         {question.choices.map((choice, i) => {

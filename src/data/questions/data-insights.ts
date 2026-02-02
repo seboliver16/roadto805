@@ -13,21 +13,22 @@ const SOURCE = { name: "Road to 805 Original", type: "original" as const };
 export const dataInsightsQuestions: Question[] = [
   // ============================================================
   // DATA SUFFICIENCY — ds-number-properties (dq1–dq5, dn1–dn4)
+  // VERIFIED OFFICIAL QUESTIONS: dq1-dq2 from GMAC mba.com, dq3 from GMAT Club
   // ============================================================
   {
     id: "dq1",
     section: "data-insights",
     type: "data-sufficiency",
-    themes: ["ds-number-properties"],
-    difficulty: "easy",
-    text: "Is the positive integer n odd?\n\n(1) n² is odd.\n(2) n + 1 is even.",
+    themes: ["ds-word-problems"],
+    difficulty: "medium",
+    text: "If a certain city is losing 12 percent of its daily water supply each day because of water-main breaks, what is the dollar cost to the city per day for this loss?\n\n(1) The city's daily water supply is 350 million gallons.\n(2) The cost to the city for each 12,000 gallons of water lost is $2.",
     choices: DS_CHOICES,
-    correctAnswer: 3,
+    correctAnswer: 2,
     explanation:
-      "Statement (1): If n² is odd, then n must be odd — if n were even, n² would be even. SUFFICIENT.\n\nStatement (2): If n + 1 is even, then n must be odd. SUFFICIENT.\n\nSince EACH statement ALONE is sufficient, the answer is (D).",
-    source: { name: "Road to 805 Original — Number Properties", type: "original" },
+      "We need to find the daily dollar cost of the water loss. The loss is 12% of the daily supply.\n\nStatement (1): Supply = 350 million gallons, so loss = 0.12 × 350M = 42 million gallons. But we don't know the cost per gallon. NOT sufficient.\n\nStatement (2): Cost is $2 per 12,000 gallons lost. But we don't know how many gallons are lost. NOT sufficient.\n\nCombined: Loss = 42 million gallons. Cost = 42,000,000/12,000 × $2 = 3,500 × $2 = $7,000 per day. SUFFICIENT.\n\nThe answer is (C).",
+    source: { name: "GMAC Official Sample Questions — mba.com", type: "official", url: "https://www.mba.com/exams/gmat-exam/about/sample-questions" },
     conceptExplanation:
-      "An integer squared preserves its parity: odd² = odd, even² = even. Similarly, adding 1 to an odd number yields an even number, and vice versa. In Data Sufficiency, when both statements independently answer the question, the answer is (D).",
+      "This is a classic 'two missing pieces' DS problem. You need both the quantity lost AND the unit cost to compute total cost. Neither alone suffices, but together they do. When a question asks for a specific dollar amount, identify all variables needed in the calculation.",
     chapterId: "di-data-sufficiency",
   },
   {
@@ -36,30 +37,30 @@ export const dataInsightsQuestions: Question[] = [
     type: "data-sufficiency",
     themes: ["ds-number-properties"],
     difficulty: "medium",
-    text: "What is the value of the positive integer k?\n\n(1) k is a prime number less than 10.\n(2) k³ = 8.",
+    text: "Buckets X and Y contained only water and bucket Y was 1/2 full. If all of the water in bucket X was then poured into bucket Y, what fraction of the capacity of Y was then filled with water?\n\n(1) Before the water from X was poured, X was 1/3 full.\n(2) X and Y have the same capacity.",
     choices: DS_CHOICES,
-    correctAnswer: 1,
+    correctAnswer: 2,
     explanation:
-      "Statement (1): Primes less than 10 are 2, 3, 5, 7 — four possible values. NOT sufficient.\n\nStatement (2): k³ = 8 gives k = 2, a unique value. SUFFICIENT.\n\nThe answer is (B).",
-    source: { name: "Road to 805 Original — Number Properties", type: "original" },
+      "Let capacity of X = Cx and capacity of Y = Cy. Water in Y before = Cy/2. Water in X = some amount. After pouring: fraction of Y filled = (Cy/2 + water in X) / Cy.\n\nStatement (1): Water in X = Cx/3. So fraction = (Cy/2 + Cx/3) / Cy = 1/2 + Cx/(3Cy). We don't know the ratio Cx/Cy. NOT sufficient.\n\nStatement (2): Cx = Cy. But we don't know how full X was. NOT sufficient.\n\nCombined: Cx = Cy, water in X = Cx/3 = Cy/3. Fraction = (Cy/2 + Cy/3) / Cy = 1/2 + 1/3 = 5/6. SUFFICIENT.\n\nThe answer is (C).",
+    source: { name: "GMAC Official Sample Questions — mba.com", type: "official", url: "https://www.mba.com/exams/gmat-exam/about/sample-questions" },
     conceptExplanation:
-      "Data Sufficiency tests whether you can determine a unique value, not whether you can compute it. Statement (1) narrows possibilities but does not determine a single value. Statement (2) yields exactly one solution. Always check whether a statement gives one answer or multiple.",
+      "When dealing with fractions of capacity, you need to know both the fraction filled AND the relative sizes of the containers. Without knowing the ratio of capacities, you can't combine fractions from different containers.",
     chapterId: "di-data-sufficiency",
   },
   {
     id: "dq3",
     section: "data-insights",
     type: "data-sufficiency",
-    themes: ["ds-number-properties"],
+    themes: ["ds-algebra"],
     difficulty: "medium",
-    text: "Is the integer n divisible by 6?\n\n(1) n is divisible by 3.\n(2) n is divisible by 12.",
+    text: "If r and s are the roots of the equation x² + bx + c = 0, where b and c are constants, is rs < 0?\n\n(1) b < 0\n(2) c < 0",
     choices: DS_CHOICES,
     correctAnswer: 1,
     explanation:
-      "Statement (1): n divisible by 3 does not guarantee divisibility by 2. For example, n = 3 is not divisible by 6, but n = 6 is. NOT sufficient.\n\nStatement (2): n divisible by 12 means n = 12m for some integer m. Since 12 = 2 × 2 × 3, n is divisible by both 2 and 3, hence by 6. SUFFICIENT.\n\nThe answer is (B).",
-    source: { name: "Road to 805 Original — Number Properties", type: "original" },
+      "By Vieta's formulas: r + s = −b and rs = c.\n\nStatement (1): b < 0 means r + s = −b > 0. The roots sum to a positive number. But rs = c could be positive or negative depending on c. For example: r = 3, s = 1 gives rs = 3 > 0; roots could also be r = 4, s = −1 giving rs = −4 < 0 (but r + s = 3 > 0). NOT sufficient.\n\nStatement (2): c < 0 means rs = c < 0. This directly answers the question: YES, rs < 0. SUFFICIENT.\n\nThe answer is (B).",
+    source: { name: "GMAT Club — Verified Official Question", type: "community", url: "https://gmatclub.com/blog/free-sample-gmat-practice-questions/" },
     conceptExplanation:
-      "To determine divisibility by 6, you need divisibility by both 2 and 3. Knowing only one prime factor is insufficient. Being divisible by 12 guarantees both factors. When testing divisibility, always check the complete prime factorization of the target number.",
+      "Vieta's formulas connect roots to coefficients: for x² + bx + c = 0, the sum of roots = −b and product of roots = c. Knowing the sign of c directly tells you the sign of the product of roots. This is a frequently tested relationship on the GMAT.",
     chapterId: "di-data-sufficiency",
   },
   {
@@ -78,52 +79,55 @@ export const dataInsightsQuestions: Question[] = [
       "A fraction p/q (in lowest terms) terminates in decimal form if and only if q has no prime factors other than 2 and 5. This is because our decimal system is base 10 = 2 × 5. Any denominator composed solely of these primes can be converted to a power of 10.",
     chapterId: "di-data-sufficiency",
   },
+  // dq5: VERIFIED from GMAT Club (widely discussed official question)
   {
     id: "dq5",
     section: "data-insights",
     type: "data-sufficiency",
-    themes: ["ds-number-properties"],
+    themes: ["ds-algebra"],
     difficulty: "hard",
-    text: "If n is a positive integer, what is the remainder when n is divided by 12?\n\n(1) The remainder when n is divided by 4 is 3.\n(2) The remainder when n is divided by 3 is 2.",
+    text: "Is |x − y| > |x| − |y|?\n\n(1) y < x\n(2) xy < 0",
     choices: DS_CHOICES,
-    correctAnswer: 2,
+    correctAnswer: 1,
     explanation:
-      "Statement (1): n = 4k + 3. Possible values: 3, 7, 11, 15, 19, 23... Remainders mod 12: 3, 7, 11, 3, 7, 11... Multiple remainders. NOT sufficient.\n\nStatement (2): n = 3m + 2. Possible values: 2, 5, 8, 11, 14, 17... Remainders mod 12: 2, 5, 8, 11, 2, 5... Multiple remainders. NOT sufficient.\n\nCombined: By the Chinese Remainder Theorem (gcd(4,3) = 1), there is a unique solution mod 12. Testing: n = 11 gives 11 mod 4 = 3 and 11 mod 3 = 2. So n ≡ 11 (mod 12). The remainder is always 11. SUFFICIENT.\n\nThe answer is (C).",
-    source: { name: "Road to 805 Original — Number Properties", type: "original" },
+      "By the Triangle Inequality, |x − y| ≥ |x| − |y| always. Equality holds when x and y have the same sign (or y = 0). Strict inequality holds when x and y have different signs.\n\nStatement (1): y < x. This tells us the relative order but not the signs. If x = 3, y = 1: |2| = 2 and |3| − |1| = 2 → NOT greater. If x = 3, y = −1: |4| = 4 and |3| − |1| = 2 → greater. NOT sufficient.\n\nStatement (2): xy < 0 means x and y have opposite signs. When signs differ, |x − y| = |x| + |y| > |x| − |y| (since |y| > 0). The answer is always YES. SUFFICIENT.\n\nThe answer is (B).",
+    source: { name: "GMAT Club — Verified Official Question", type: "community", url: "https://gmatclub.com/blog/free-sample-gmat-practice-questions/" },
     conceptExplanation:
-      "The Chinese Remainder Theorem states that if gcd(m, n) = 1, then knowing the remainders when an integer is divided by both m and n uniquely determines its remainder when divided by m × n. Here 4 and 3 are coprime, so knowing both remainders determines the remainder mod 12.",
+      "The Triangle Inequality states |x − y| ≥ ||x| − |y||. The inequality is strict when x and y have opposite signs, because the subtraction effectively becomes addition of absolute values. Knowing xy < 0 (opposite signs) guarantees the strict inequality.",
     chapterId: "di-data-sufficiency",
   },
+  // dn1: VERIFIED from GMAT Club (widely discussed official question)
   {
     id: "dn1",
     section: "data-insights",
     type: "data-sufficiency",
-    themes: ["ds-number-properties"],
-    difficulty: "easy",
-    text: "Is the integer x even?\n\n(1) x is divisible by 4.\n(2) x² is even.",
+    themes: ["ds-statistics"],
+    difficulty: "hard",
+    text: "What is the probability that a student randomly selected from a class of 60 students will be a male who has brown hair?\n\n(1) One-half of the students have brown hair.\n(2) One-third of the students are males.",
     choices: DS_CHOICES,
-    correctAnswer: 3,
+    correctAnswer: 4,
     explanation:
-      "Statement (1): If x is divisible by 4, then x = 4k for some integer k, so x is even. SUFFICIENT.\n\nStatement (2): If x² is even, then x must be even (if x were odd, x² would be odd). SUFFICIENT.\n\nEach statement alone is sufficient. The answer is (D).",
-    source: { name: "Road to 805 Original — DS", type: "original" },
+      "We need to find P(male AND brown hair).\n\nStatement (1): 30 students have brown hair. But we don't know how many of these are male. NOT sufficient.\n\nStatement (2): 20 students are male. But we don't know how many of these have brown hair. NOT sufficient.\n\nCombined: 30 have brown hair, 20 are male. But we still don't know the overlap — how many males have brown hair could range from 0 to 20. For example: 0 males have brown hair → P = 0. Or all 20 males have brown hair → P = 20/60 = 1/3. The overlap is undetermined. NOT sufficient.\n\nThe answer is (E).",
+    source: { name: "GMAT Club — Verified Official Question", type: "community", url: "https://gmatclub.com/blog/free-sample-gmat-practice-questions/" },
     conceptExplanation:
-      "Divisibility by 4 implies divisibility by 2 (since 4 = 2²). For parity of squares: even² = even and odd² = odd. Both approaches independently confirm x is even, giving answer (D).",
+      "Knowing the probability of each individual event does NOT determine the joint probability unless you know the events are independent or know their overlap. P(A and B) requires knowing the intersection, not just P(A) and P(B) separately.",
     chapterId: "di-data-sufficiency",
   },
+  // dn2: VERIFIED from Menlo Coaching (official practice material)
   {
     id: "dn2",
     section: "data-insights",
     type: "data-sufficiency",
-    themes: ["ds-number-properties"],
+    themes: ["ds-word-problems"],
     difficulty: "medium",
-    text: "If m and n are positive integers, is the product mn divisible by 6?\n\n(1) m is divisible by 3.\n(2) n is an even number.",
+    text: "The cost of a certain phone call was $0.75 for the first 3 minutes and $0.20 for each additional minute after the first 3 minutes. Did the phone call last longer than 15 minutes?\n\n(1) The cost of the phone call was less than $4.16.\n(2) The cost of the phone call was greater than $3.35.",
     choices: DS_CHOICES,
-    correctAnswer: 2,
+    correctAnswer: 1,
     explanation:
-      "Statement (1): m is divisible by 3, so mn is divisible by 3. But we don't know whether mn is divisible by 2. If m = 3, n = 1, then mn = 3 — not divisible by 6. If m = 3, n = 2, then mn = 6 — divisible by 6. NOT sufficient.\n\nStatement (2): n is even, so mn is divisible by 2. But we don't know whether mn is divisible by 3. If n = 2, m = 1, then mn = 2 — not divisible by 6. If n = 2, m = 3, then mn = 6 — divisible by 6. NOT sufficient.\n\nCombined: m divisible by 3 and n even means mn is divisible by both 3 and 2, hence by 6. SUFFICIENT.\n\nThe answer is (C).",
-    source: { name: "Road to 805 Original — DS", type: "original" },
+      "Cost for a call of t minutes (t > 3): $0.75 + $0.20(t − 3). Cost for exactly 15 min: $0.75 + $0.20(12) = $0.75 + $2.40 = $3.15.\n\nStatement (1): Cost < $4.16. A 15-min call costs $3.15 and a 20-min call costs $4.15. So cost < $4.16 means t < about 20 min, but t could be 10 min or 18 min. We can't determine if t > 15. NOT sufficient.\n\nStatement (2): Cost > $3.35. Since cost at 15 min is $3.15, and cost > $3.35 means $0.75 + $0.20(t − 3) > $3.35 → $0.20(t − 3) > $2.60 → t − 3 > 13 → t > 16. So YES, the call lasted longer than 15 minutes. SUFFICIENT.\n\nThe answer is (B).",
+    source: { name: "Official GMAT Practice Test (Menlo Coaching verified)", type: "official", url: "https://menlocoaching.com/gmat/official-gmat-practice-questions/data-sufficiency/" },
     conceptExplanation:
-      "For mn to be divisible by 6 = 2 × 3, we need mn to contain both 2 and 3 as prime factors. Statement (1) provides the factor of 3, and Statement (2) provides the factor of 2. Neither alone guarantees both factors, but together they do.",
+      "Convert the cost threshold into a time threshold using the rate formula. If the cost at the boundary (15 minutes) is $3.15, any cost greater than $3.15 implies more than 15 minutes. Statement (2)'s threshold of $3.35 > $3.15, so it guarantees t > 15.",
     chapterId: "di-data-sufficiency",
   },
   {
@@ -1602,6 +1606,19 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "Quarter-over-quarter change = current quarter minus previous quarter. A positive change is an increase, negative is a decrease. When asked about the 'greatest increase,' compare all positive changes and select the largest.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "bar",
+      title: "Quarterly Revenue (2024)",
+      data: [
+        { quarter: "Q1", revenue: 12 },
+        { quarter: "Q2", revenue: 18 },
+        { quarter: "Q3", revenue: 15 },
+        { quarter: "Q4", revenue: 21 },
+      ],
+      series: [{ name: "Revenue ($M)", dataKey: "revenue" }],
+      xAxisKey: "quarter",
+      yAxis: { label: "Revenue ($M)" },
+    },
   },
   {
     id: "dq47",
@@ -1618,6 +1635,19 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "To find the number of employees from a percentage: multiply the total by the percentage (as a decimal). Then subtract to find the difference between departments.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "pie",
+      title: "Employee Distribution by Department (500 total)",
+      data: [
+        { department: "Engineering", percentage: 30 },
+        { department: "Sales", percentage: 25 },
+        { department: "Marketing", percentage: 20 },
+        { department: "Operations", percentage: 15 },
+        { department: "HR", percentage: 10 },
+      ],
+      series: [{ name: "Percentage", dataKey: "percentage" }],
+      xAxisKey: "department",
+    },
   },
   {
     id: "dq48",
@@ -1634,6 +1664,27 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "Systematically check each data point against the threshold. Count carefully — common errors include missing boundary values or miscounting. Here, October at 58°F is just below the threshold.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "line",
+      title: "Monthly Average Temperature",
+      data: [
+        { month: "Jan", temp: 32 },
+        { month: "Feb", temp: 35 },
+        { month: "Mar", temp: 45 },
+        { month: "Apr", temp: 55 },
+        { month: "May", temp: 65 },
+        { month: "Jun", temp: 75 },
+        { month: "Jul", temp: 82 },
+        { month: "Aug", temp: 80 },
+        { month: "Sep", temp: 72 },
+        { month: "Oct", temp: 58 },
+        { month: "Nov", temp: 45 },
+        { month: "Dec", temp: 35 },
+      ],
+      series: [{ name: "Temperature (°F)", dataKey: "temp" }],
+      xAxisKey: "month",
+      yAxis: { label: "Temp (°F)" },
+    },
   },
   {
     id: "dq49",
@@ -1650,6 +1701,24 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "Extrapolation uses the observed trend to predict beyond the data range. Estimate the line of best fit using two representative points, calculate the slope, and extend. Caution: extrapolation assumes the trend continues linearly beyond the observed data.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "scatter",
+      title: "Hours Studied vs. Test Score",
+      data: [
+        { hours: 1, score: 55 },
+        { hours: 2, score: 60 },
+        { hours: 3, score: 65 },
+        { hours: 4, score: 72 },
+        { hours: 5, score: 78 },
+        { hours: 6, score: 82 },
+        { hours: 7, score: 88 },
+        { hours: 8, score: 92 },
+      ],
+      series: [{ name: "Students", dataKey: "score" }],
+      xAxisKey: "hours",
+      xAxis: { label: "Hours Studied" },
+      yAxis: { label: "Test Score" },
+    },
   },
   {
     id: "dq50",
@@ -1672,6 +1741,21 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "Percentage increase = (New - Old)/Old × 100. Compare percentages, not absolute increases. Electronics grew by $30K (25%) while Food grew by only $10K (20%). Absolute and percentage changes can rank differently.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "stacked-bar",
+      title: "Sales by Product Category ($K)",
+      data: [
+        { year: "2023", electronics: 120, clothing: 80, food: 50 },
+        { year: "2024", electronics: 150, clothing: 90, food: 60 },
+      ],
+      series: [
+        { name: "Electronics", dataKey: "electronics" },
+        { name: "Clothing", dataKey: "clothing" },
+        { name: "Food", dataKey: "food" },
+      ],
+      xAxisKey: "year",
+      yAxis: { label: "Sales ($K)" },
+    },
   },
   {
     id: "dq51",
@@ -1694,6 +1778,24 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "Revenue per employee is a productivity metric. Divide total revenue by total employees for each year. The fact that both revenue and headcount grew does not mean per-employee productivity stayed constant — it depends on the relative growth rates.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "dual-axis",
+      title: "Revenue vs. Employees",
+      data: [
+        { year: "2020", revenue: 10, employees: 100 },
+        { year: "2021", revenue: 15, employees: 120 },
+        { year: "2022", revenue: 22, employees: 150 },
+        { year: "2023", revenue: 28, employees: 200 },
+        { year: "2024", revenue: 35, employees: 250 },
+      ],
+      series: [
+        { name: "Revenue ($M)", dataKey: "revenue", yAxisId: "left" },
+        { name: "Employees", dataKey: "employees", yAxisId: "right" },
+      ],
+      xAxisKey: "year",
+      yAxis: { label: "Revenue ($M)" },
+      yAxisRight: { label: "Employees" },
+    },
   },
   {
     id: "dq52",
@@ -1710,6 +1812,22 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "For histogram questions, sum the frequencies of all bins that meet the criterion. Here, sum bins 30-40, 40-50, and 50-60. Then divide by total count to get the percentage. Always check which bins are included based on the inequality (≥ 30 includes the 30-40 bin).",
     chapterId: "di-graphics",
+    chartData: {
+      type: "histogram",
+      title: "Commute Time Distribution (200 employees)",
+      data: [
+        { bin: "0-10", count: 15 },
+        { bin: "10-20", count: 35 },
+        { bin: "20-30", count: 60 },
+        { bin: "30-40", count: 50 },
+        { bin: "40-50", count: 25 },
+        { bin: "50-60", count: 15 },
+      ],
+      series: [{ name: "Employees", dataKey: "count" }],
+      xAxisKey: "bin",
+      xAxis: { label: "Commute Time (min)" },
+      yAxis: { label: "Employees" },
+    },
   },
   {
     id: "dq53",
@@ -1732,6 +1850,22 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "The Sharpe Ratio measures risk-adjusted return: excess return per unit of risk. Higher is better. Portfolio C has the best risk-return tradeoff despite not having the highest absolute return. This metric is fundamental in portfolio analysis.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "bubble",
+      title: "Investment Portfolios: Return vs. Risk",
+      data: [
+        { name: "A", return: 6, risk: 8, assets: 2 },
+        { name: "B", return: 10, risk: 15, assets: 5 },
+        { name: "C", return: 8, risk: 10, assets: 3 },
+        { name: "D", return: 12, risk: 20, assets: 1 },
+      ],
+      series: [{ name: "Portfolio", dataKey: "risk" }],
+      xAxisKey: "return",
+      xAxis: { label: "Annual Return (%)" },
+      yAxis: { label: "Risk / Std Dev (%)" },
+      sizeKey: "assets",
+      sizeLabel: "Total Assets ($M)",
+    },
   },
   {
     id: "dn41",
@@ -1748,6 +1882,20 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "Sum all bar heights to find the total. This is a straightforward addition problem testing your ability to read values from a bar chart accurately.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "bar",
+      title: "Units Sold by Region",
+      data: [
+        { region: "North", units: 450 },
+        { region: "South", units: 380 },
+        { region: "East", units: 520 },
+        { region: "West", units: 290 },
+        { region: "Central", units: 360 },
+      ],
+      series: [{ name: "Units Sold", dataKey: "units" }],
+      xAxisKey: "region",
+      yAxis: { label: "Units" },
+    },
   },
   {
     id: "dn42",
@@ -1764,6 +1912,21 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "Compute the difference between consecutive months. The greatest positive difference indicates the largest month-over-month increase. When there's a tie, typically the earlier month is the correct answer unless the question specifies otherwise.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "line",
+      title: "Monthly Website Visitors (thousands)",
+      data: [
+        { month: "Jan", visitors: 20 },
+        { month: "Feb", visitors: 22 },
+        { month: "Mar", visitors: 28 },
+        { month: "Apr", visitors: 35 },
+        { month: "May", visitors: 42 },
+        { month: "Jun", visitors: 38 },
+      ],
+      series: [{ name: "Visitors (K)", dataKey: "visitors" }],
+      xAxisKey: "month",
+      yAxis: { label: "Visitors (K)" },
+    },
   },
   {
     id: "dn43",
@@ -1780,6 +1943,19 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "The interquartile range (IQR) measures the spread of the middle 50% of data. IQR = Q3 - Q1. A larger IQR indicates more variability in the central portion of the distribution. Do not confuse IQR with range (Max - Min).",
     chapterId: "di-graphics",
+    chartData: {
+      type: "box-plot",
+      title: "Test Score Distributions by Class",
+      data: [],
+      series: [],
+      xAxisKey: "name",
+      boxPlotData: [
+        { name: "Class A", min: 55, q1: 65, median: 75, q3: 85, max: 95 },
+        { name: "Class B", min: 60, q1: 70, median: 72, q3: 80, max: 90 },
+        { name: "Class C", min: 50, q1: 62, median: 78, q3: 88, max: 98 },
+      ],
+      yAxis: { label: "Test Score" },
+    },
   },
   {
     id: "dn44",
@@ -1796,6 +1972,22 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "The slope of the best-fit line represents the rate of change: revenue change per unit of advertising change. Use two well-separated points for a reliable estimate. The slope = (y₂ - y₁)/(x₂ - x₁) gives the marginal return on advertising.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "scatter",
+      title: "Advertising Spend vs. Revenue",
+      data: [
+        { adSpend: 10, revenue: 80 },
+        { adSpend: 15, revenue: 110 },
+        { adSpend: 20, revenue: 130 },
+        { adSpend: 25, revenue: 155 },
+        { adSpend: 30, revenue: 170 },
+        { adSpend: 35, revenue: 200 },
+      ],
+      series: [{ name: "Stores", dataKey: "revenue" }],
+      xAxisKey: "adSpend",
+      xAxis: { label: "Ad Spend ($K)" },
+      yAxis: { label: "Revenue ($K)" },
+    },
   },
   {
     id: "dn45",
@@ -1812,6 +2004,20 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "When comparing groups of categories from a pie chart, sum the percentages for each group, convert to dollar amounts, then find the difference. Alternatively, find the percentage difference first (55% - 40% = 15%) and multiply by the total ($5,000 × 0.15 = $750).",
     chapterId: "di-graphics",
+    chartData: {
+      type: "pie",
+      title: "Monthly Budget ($5,000)",
+      data: [
+        { category: "Housing", percentage: 35 },
+        { category: "Food", percentage: 20 },
+        { category: "Transportation", percentage: 15 },
+        { category: "Savings", percentage: 15 },
+        { category: "Entertainment", percentage: 10 },
+        { category: "Other", percentage: 5 },
+      ],
+      series: [{ name: "Percentage", dataKey: "percentage" }],
+      xAxisKey: "category",
+    },
   },
   {
     id: "dn46",
@@ -1828,6 +2034,24 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "Compute the absolute difference between the two lines at each time point. The smallest gap is where the lines are closest together. When there's a tie, multiple correct answers may exist — check all choices.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "multi-line",
+      title: "Stock Prices Over 6 Months",
+      data: [
+        { month: "Jan", companyX: 40, companyY: 30 },
+        { month: "Feb", companyX: 45, companyY: 28 },
+        { month: "Mar", companyX: 42, companyY: 35 },
+        { month: "Apr", companyX: 50, companyY: 38 },
+        { month: "May", companyX: 55, companyY: 40 },
+        { month: "Jun", companyX: 52, companyY: 45 },
+      ],
+      series: [
+        { name: "Company X", dataKey: "companyX" },
+        { name: "Company Y", dataKey: "companyY" },
+      ],
+      xAxisKey: "month",
+      yAxis: { label: "Stock Price ($)" },
+    },
   },
   {
     id: "dn47",
@@ -1844,6 +2068,22 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "Compare the two divisions quarter by quarter. Count the number of quarters where Division A's value exceeds Division B's. Be careful to compare corresponding quarters and not confuse which division is which.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "grouped-bar",
+      title: "Quarterly Profit Margins (%)",
+      data: [
+        { quarter: "Q1", divA: 12, divB: 8 },
+        { quarter: "Q2", divA: 15, divB: 14 },
+        { quarter: "Q3", divA: 10, divB: 16 },
+        { quarter: "Q4", divA: 18, divB: 12 },
+      ],
+      series: [
+        { name: "Division A", dataKey: "divA" },
+        { name: "Division B", dataKey: "divB" },
+      ],
+      xAxisKey: "quarter",
+      yAxis: { label: "Profit Margin (%)" },
+    },
   },
   {
     id: "dn48",
@@ -1860,6 +2100,26 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "Linear regression equations predict values by substituting the x-value into the equation. The slope (3.5) represents the average salary increase per additional year of experience ($3,500/year). The y-intercept (35) represents the predicted starting salary in thousands.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "scatter-trend",
+      title: "Years of Experience vs. Annual Salary",
+      data: [
+        { experience: 2, salary: 43 },
+        { experience: 4, salary: 48 },
+        { experience: 6, salary: 57 },
+        { experience: 8, salary: 62 },
+        { experience: 10, salary: 71 },
+        { experience: 12, salary: 76 },
+        { experience: 14, salary: 85 },
+        { experience: 16, salary: 90 },
+      ],
+      series: [{ name: "Employees", dataKey: "salary" }],
+      xAxisKey: "experience",
+      xAxis: { label: "Years of Experience" },
+      yAxis: { label: "Salary ($K)" },
+      trendLineSlope: 3.5,
+      trendLineIntercept: 35,
+    },
   },
   {
     id: "dn49",
@@ -1876,6 +2136,22 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "In a 100% stacked bar, changes are measured in percentage points, not percent. A change from 20% to 28% is an 8 percentage-point increase (not a 40% increase). Always distinguish between percentage points and percent changes in GI questions.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "stacked-bar-100",
+      title: "Energy Mix (%)",
+      data: [
+        { year: "2020", coal: 40, naturalGas: 25, nuclear: 15, renewables: 20 },
+        { year: "2024", coal: 28, naturalGas: 30, nuclear: 14, renewables: 28 },
+      ],
+      series: [
+        { name: "Coal", dataKey: "coal" },
+        { name: "Natural Gas", dataKey: "naturalGas" },
+        { name: "Nuclear", dataKey: "nuclear" },
+        { name: "Renewables", dataKey: "renewables" },
+      ],
+      xAxisKey: "year",
+      yAxis: { label: "Percentage (%)", domain: [0, 100] },
+    },
   },
   {
     id: "dn50",
@@ -1892,6 +2168,19 @@ export const dataInsightsQuestions: Question[] = [
     conceptExplanation:
       "To find what percentage one value represents of a total: divide the individual value by the sum of all values, then multiply by 100. Estimation skills are useful when exact computation yields messy numbers.",
     chapterId: "di-graphics",
+    chartData: {
+      type: "horizontal-bar",
+      title: "City Population (millions)",
+      data: [
+        { city: "City A", population: 8.3 },
+        { city: "City B", population: 5.1 },
+        { city: "City C", population: 3.7 },
+        { city: "City D", population: 2.9 },
+        { city: "City E", population: 1.8 },
+      ],
+      series: [{ name: "Population (M)", dataKey: "population" }],
+      xAxisKey: "city",
+    },
   },
 
   // ============================================================
