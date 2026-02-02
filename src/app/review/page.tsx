@@ -125,7 +125,7 @@ function SessionReview({ sessionId }: { sessionId: string }) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4">
         <p className="text-lg text-[#6b7280]">No questions to review. Great job!</p>
-        <button onClick={() => router.push("/")} className="rounded-lg bg-[#0d0d0d] px-6 py-3 text-white hover:bg-[#1a1a1a]">Back to Home</button>
+        <button onClick={() => router.push("/dashboard")} className="rounded-lg bg-[#0d0d0d] px-6 py-3 text-white font-semibold hover:bg-[#1a1a1a]">Back to Home</button>
       </div>
     );
   }
@@ -134,7 +134,7 @@ function SessionReview({ sessionId }: { sessionId: string }) {
     <div className="min-h-screen">
       <header className="border-b border-[#e5e7eb] bg-white">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
-          <button onClick={() => router.push("/")} className="text-sm text-[#6b7280] hover:text-[#0d0d0d]">&larr; Home</button>
+          <button onClick={() => router.push("/dashboard")} className="text-sm text-[#6b7280] hover:text-[#0d0d0d]">&larr; Home</button>
           <h1 className="text-lg font-semibold text-[#0d0d0d]">Review Session</h1>
           <span className="text-sm text-[#6b7280]">{currentIndex + 1} of {reviewItems.length}</span>
         </div>
@@ -469,7 +469,7 @@ function DashboardReview() {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4">
         <p className="text-lg text-[#6b7280]">No practice history yet. Complete some questions first!</p>
-        <button onClick={() => router.push("/practice")} className="rounded-lg bg-[#0d0d0d] px-6 py-3 text-white hover:bg-[#1a1a1a]">Start Practicing</button>
+        <button onClick={() => router.push("/practice")} className="rounded-lg bg-[#0d0d0d] px-6 py-3 text-white font-semibold hover:bg-[#1a1a1a]">Start Practicing</button>
       </div>
     );
   }
@@ -480,7 +480,7 @@ function DashboardReview() {
     <div className="min-h-screen bg-white">
       <header className="border-b border-[#e5e7eb] bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-          <button onClick={() => router.push("/")} className="text-sm text-[#6b7280] hover:text-[#0d0d0d]">&larr; Home</button>
+          <button onClick={() => router.push("/dashboard")} className="text-sm text-[#6b7280] hover:text-[#0d0d0d]">&larr; Home</button>
           <h1 className="text-lg font-semibold text-[#0d0d0d]">Review Dashboard</h1>
           <div />
         </div>

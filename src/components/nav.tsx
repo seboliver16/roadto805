@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth-context";
 const NAV_LINKS = [
   { href: "/learn", label: "Learn" },
   { href: "/practice", label: "Practice" },
+  { href: "/mock", label: "Mock Exam" },
   { href: "/review", label: "Review" },
   { href: "/study-guide", label: "Study Guide" },
 ];
@@ -20,8 +21,14 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-[#e5e7eb]">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="text-lg font-bold tracking-tight text-[#0d0d0d]">
-          Road to <span className="font-bold">805</span>
+        <Link href="/dashboard" className="text-lg font-bold tracking-tight text-[#0d0d0d]">
+          Road to{" "}
+          <span className="relative inline-block font-bold">
+            805
+            <svg className="absolute -bottom-1 left-0 w-full" height="6" viewBox="0 0 100 8" preserveAspectRatio="none">
+              <path d="M0 7 Q25 0, 50 4 Q75 8, 100 1" stroke="#0d0d0d" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            </svg>
+          </span>
         </Link>
 
         <nav className="flex items-center gap-1">

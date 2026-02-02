@@ -10,7 +10,7 @@ interface AuthContextType {
   user: User | null;
   profile: UserProfile | null;
   loading: boolean;
-  signInWithGoogle: () => Promise<void>;
+  signInWithGoogle: () => Promise<boolean>;
   logout: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 }
@@ -19,7 +19,7 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   profile: null,
   loading: true,
-  signInWithGoogle: async () => {},
+  signInWithGoogle: async () => false,
   logout: async () => {},
   refreshProfile: async () => {},
 });
@@ -71,12 +71,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = async (): Promise<boolean> => {
     try {
       const auth = getAuthInstance();
       await signInWithPopup(auth, googleProvider);
+      return true;
     } catch (error) {
       console.error("Sign-in failed:", error);
+      return false;
     }
   };
 

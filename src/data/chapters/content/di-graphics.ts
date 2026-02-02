@@ -30,6 +30,18 @@ Bar charts use rectangular bars to compare quantities across categories. They ca
 - **Stacked:** Each bar is divided into segments showing the composition of the total. Useful for part-to-whole comparisons.
 - **Grouped (clustered):** Multiple bars per category, showing comparisons within each category.
 
+Here is an example of a vertical bar chart showing quarterly sales:
+
+\`\`\`chart
+{"type":"bar","title":"Quarterly Sales ($K)","data":[{"quarter":"Q1","sales":85},{"quarter":"Q2","sales":120},{"quarter":"Q3","sales":95},{"quarter":"Q4","sales":145}],"series":[{"name":"Sales ($K)","dataKey":"sales"}],"xAxisKey":"quarter","yAxis":{"label":"Sales ($K)"}}
+\`\`\`
+
+And a grouped bar chart comparing two product lines:
+
+\`\`\`chart
+{"type":"grouped-bar","title":"Revenue by Product Line ($K)","data":[{"quarter":"Q1","productA":50,"productB":35},{"quarter":"Q2","productA":65,"productB":55},{"quarter":"Q3","productA":55,"productB":40},{"quarter":"Q4","productA":80,"productB":65}],"series":[{"name":"Product A","dataKey":"productA"},{"name":"Product B","dataKey":"productB"}],"xAxisKey":"quarter","yAxis":{"label":"Revenue ($K)"}}
+\`\`\`
+
 **What to watch for:** The scale of the y-axis. Does it start at zero? If not, the visual difference between bars may be misleading. Always read the actual numbers, not just the visual heights.
 
 ### Line Graphs
@@ -39,6 +51,12 @@ Line graphs show data points connected by lines, typically displaying **change o
 - The x-axis usually represents time (months, years, quarters).
 - The y-axis represents the measured value.
 - Multiple lines on the same graph compare trends across groups.
+
+\`\`\`chart
+{"type":"multi-line","title":"Monthly Revenue Trends ($M)","data":[{"month":"Jan","online":1.2,"retail":2.1},{"month":"Feb","online":1.5,"retail":2.0},{"month":"Mar","online":1.8,"retail":1.9},{"month":"Apr","online":2.2,"retail":1.8},{"month":"May","online":2.6,"retail":1.7},{"month":"Jun","online":3.0,"retail":1.6}],"series":[{"name":"Online","dataKey":"online"},{"name":"Retail","dataKey":"retail"}],"xAxisKey":"month","yAxis":{"label":"Revenue ($M)"}}
+\`\`\`
+
+Notice how the two lines cross between March and April --- this is an **intersection point** where online revenue overtakes retail revenue.
 
 **What to watch for:**
 - **Slope = rate of change.** A steeper line means faster growth or decline.
@@ -53,6 +71,12 @@ Scatter plots display individual data points on a two-dimensional plane, showing
 - The x-axis represents one variable; the y-axis represents the other.
 - A **trend line** (line of best fit) may be drawn through the data to show the overall direction of the relationship.
 
+\`\`\`chart
+{"type":"scatter","title":"Study Hours vs. Exam Score","data":[{"hours":2,"score":52},{"hours":3,"score":58},{"hours":4,"score":63},{"hours":5,"score":70},{"hours":5,"score":66},{"hours":6,"score":74},{"hours":7,"score":79},{"hours":8,"score":85},{"hours":9,"score":88},{"hours":10,"score":93}],"series":[{"name":"Students","dataKey":"score"}],"xAxisKey":"hours","xAxis":{"label":"Study Hours"},"yAxis":{"label":"Exam Score"}}
+\`\`\`
+
+This scatter plot shows a **strong positive correlation** --- as study hours increase, exam scores tend to increase as well.
+
 **Key concepts:**
 - **Positive correlation:** As $x$ increases, $y$ tends to increase. Dots trend upward from left to right.
 - **Negative correlation:** As $x$ increases, $y$ tends to decrease. Dots trend downward from left to right.
@@ -66,6 +90,10 @@ Pie charts show **parts of a whole** as slices of a circle. Each slice's angle i
 - The entire circle represents 100% of the data.
 - Each slice is typically labeled with a percentage or value.
 
+\`\`\`chart
+{"type":"pie","title":"Company Revenue by Region","data":[{"region":"North America","share":40},{"region":"Europe","share":28},{"region":"Asia-Pacific","share":20},{"region":"Other","share":12}],"series":[{"name":"Share","dataKey":"share"}],"xAxisKey":"region"}
+\`\`\`
+
 **What to watch for:** Pie charts make it easy to compare proportions visually, but exact values require calculation. If a slice represents 25% and the total is \\$400,000, the slice's value is $0.25 \\times 400{,}000 = \\$100{,}000$.
 
 ### Bubble Charts
@@ -75,6 +103,10 @@ Bubble charts are an extension of scatter plots where each data point is represe
 - x-axis: Variable 1
 - y-axis: Variable 2
 - Bubble size: Variable 3
+
+\`\`\`chart
+{"type":"bubble","title":"Countries: GDP Growth vs. Unemployment","data":[{"name":"US","growth":2.5,"unemployment":3.8,"population":330},{"name":"UK","growth":1.8,"unemployment":4.2,"population":67},{"name":"DE","growth":1.2,"unemployment":3.1,"population":83},{"name":"JP","growth":0.9,"unemployment":2.6,"population":125}],"series":[{"name":"Country","dataKey":"unemployment"}],"xAxisKey":"growth","xAxis":{"label":"GDP Growth (%)"},"yAxis":{"label":"Unemployment (%)"},"sizeKey":"population","sizeLabel":"Population (M)"}
+\`\`\`
 
 **What to watch for:** Bubble size represents area, not diameter. A bubble that looks twice as wide actually represents about four times the value (since area $= \\pi r^2$). Always refer to the legend or scale for bubble sizes.
 
@@ -188,7 +220,11 @@ $$\\frac{360{,}000 - 300{,}000}{300{,}000} \\times 100 = \\frac{60{,}000}{300{,}
 
 ### Example 1: Line Graph --- Revenue Trends
 
-**Graph description:** A line graph shows quarterly revenue for two products (Product X and Product Y) over eight quarters (Q1 2022 through Q4 2023). Product X starts at \\$2M in Q1 2022 and rises steadily to \\$3.5M by Q4 2023. Product Y starts at \\$3M and declines to \\$2.5M over the same period. The two lines intersect in Q2 2023.
+A line graph shows quarterly revenue for two products over eight quarters:
+
+\`\`\`chart
+{"type":"multi-line","title":"Quarterly Revenue: Product X vs. Product Y ($M)","data":[{"quarter":"Q1 '22","productX":2.0,"productY":3.0},{"quarter":"Q2 '22","productX":2.2,"productY":2.9},{"quarter":"Q3 '22","productX":2.4,"productY":2.8},{"quarter":"Q4 '22","productX":2.6,"productY":2.7},{"quarter":"Q1 '23","productX":2.8,"productY":2.7},{"quarter":"Q2 '23","productX":3.0,"productY":3.0},{"quarter":"Q3 '23","productX":3.2,"productY":2.6},{"quarter":"Q4 '23","productX":3.5,"productY":2.5}],"series":[{"name":"Product X","dataKey":"productX"},{"name":"Product Y","dataKey":"productY"}],"xAxisKey":"quarter","yAxis":{"label":"Revenue ($M)"}}
+\`\`\`
 
 **Statement:** "Product X's revenue first exceeded Product Y's revenue in **[Q1 2023 / Q2 2023 / Q3 2023 / Q4 2023]**."
 
@@ -198,7 +234,13 @@ $$\\frac{360{,}000 - 300{,}000}{300{,}000} \\times 100 = \\frac{60{,}000}{300{,}
 
 ### Example 2: Scatter Plot --- Correlation
 
-**Graph description:** A scatter plot shows advertising spending (x-axis, in thousands) vs. monthly sales (y-axis, in thousands) for 20 stores. Most points cluster along an upward trend, with one outlier: Store #14, which spent \\$50K on advertising but had sales of only \\$30K (far below the trend line, where similar spending levels correspond to roughly \\$70K--\\$80K in sales).
+A scatter plot shows advertising spending vs. monthly sales for several stores, with one clear outlier (Store #14):
+
+\`\`\`chart
+{"type":"scatter","title":"Ad Spending vs. Monthly Sales ($K)","data":[{"adSpend":10,"sales":25},{"adSpend":15,"sales":35},{"adSpend":20,"sales":42},{"adSpend":22,"sales":48},{"adSpend":25,"sales":52},{"adSpend":28,"sales":55},{"adSpend":30,"sales":62},{"adSpend":32,"sales":60},{"adSpend":35,"sales":68},{"adSpend":38,"sales":72},{"adSpend":40,"sales":70},{"adSpend":42,"sales":75},{"adSpend":45,"sales":78},{"adSpend":48,"sales":76},{"adSpend":50,"sales":30}],"series":[{"name":"Stores","dataKey":"sales"}],"xAxisKey":"adSpend","xAxis":{"label":"Ad Spending ($K)"},"yAxis":{"label":"Monthly Sales ($K)"}}
+\`\`\`
+
+Notice the outlier at the far right --- a store that spent \\$50K on advertising but only achieved \\$30K in sales, far below the upward trend.
 
 **Statement 1:** "The relationship between advertising spending and monthly sales is best described as a **[strong positive / weak positive / strong negative / no]** correlation."
 
@@ -210,7 +252,11 @@ $$\\frac{360{,}000 - 300{,}000}{300{,}000} \\times 100 = \\frac{60{,}000}{300{,}
 
 ### Example 3: Stacked Bar Chart --- Composition
 
-**Graph description:** A stacked bar chart shows total employee count at a company from 2019 to 2023. Each bar is divided into three segments: Engineering (blue, bottom), Sales (green, middle), and Operations (orange, top). The total grows from 200 in 2019 to 350 in 2023. Engineering grows from about 80 to 160, Sales stays roughly constant at about 70, and Operations grows from about 50 to 120.
+A stacked bar chart shows employee headcount by department over time:
+
+\`\`\`chart
+{"type":"stacked-bar","title":"Employee Headcount by Department","data":[{"year":"2019","engineering":80,"sales":70,"operations":50},{"year":"2020","engineering":95,"sales":72,"operations":63},{"year":"2021","engineering":115,"sales":68,"operations":82},{"year":"2022","engineering":140,"sales":70,"operations":100},{"year":"2023","engineering":160,"sales":70,"operations":120}],"series":[{"name":"Engineering","dataKey":"engineering"},{"name":"Sales","dataKey":"sales"},{"name":"Operations","dataKey":"operations"}],"xAxisKey":"year","yAxis":{"label":"Employees"}}
+\`\`\`
 
 **Statement:** "From 2019 to 2023, the department whose share of total employees decreased is **[Engineering / Sales / Operations]**."
 
@@ -225,7 +271,21 @@ Engineering's share increased (40% to 46%). Sales' share decreased (35% to 20%).
 
 **Trap:** Students might think Operations decreased because its segment appears smaller relative to the growing bar. But its absolute number and percentage both increased. Only Sales lost share.
 
-### Example 4: Venn Diagram --- Set Relationships
+### Example 4: Histogram --- Distribution Analysis
+
+A histogram shows the distribution of employee commute times:
+
+\`\`\`chart
+{"type":"histogram","title":"Commute Time Distribution (200 employees)","data":[{"bin":"0-10","count":12},{"bin":"10-20","count":28},{"bin":"20-30","count":55},{"bin":"30-40","count":48},{"bin":"40-50","count":35},{"bin":"50-60","count":22}],"series":[{"name":"Employees","dataKey":"count"}],"xAxisKey":"bin","xAxis":{"label":"Commute Time (min)"},"yAxis":{"label":"Employees"}}
+\`\`\`
+
+**Statement:** "The percentage of employees with a commute time of 30 minutes or more is closest to **[40% / 45% / 50% / 53%]**."
+
+**Analysis:** Employees with commute ≥ 30 min: 48 + 35 + 22 = 105. Total = 200. Percentage = 105/200 = **52.5%**, closest to **53%**.
+
+**Key technique:** For histograms, sum the frequencies of all bins that meet the criterion, then divide by total count. Pay close attention to whether the boundary value is included (≥ 30 includes the 30-40 bin).
+
+### Example 5: Venn Diagram --- Set Relationships
 
 **Graph description:** A Venn diagram shows students enrolled in three elective courses: Art, Music, and Drama. Art circle: 45 students. Music circle: 38 students. Drama circle: 30 students. Art-Music overlap: 12. Art-Drama overlap: 8. Music-Drama overlap: 10. All three overlap: 5. Total students in the school: 120.
 

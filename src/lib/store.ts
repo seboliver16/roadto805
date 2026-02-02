@@ -146,6 +146,11 @@ export async function markChapterComplete(userId: string, chapterId: string, cha
   }));
 }
 
+export async function unmarkChapterComplete(userId: string, chapterId: string) {
+  const ref = doc(db(), "users", userId, "chapterProgress", chapterId);
+  await updateDoc(ref, { completed: false, completedAt: null });
+}
+
 export async function getChapterProgress(userId: string, chapterId: string): Promise<ChapterProgress | null> {
   const ref = doc(db(), "users", userId, "chapterProgress", chapterId);
   const snap = await getDoc(ref);

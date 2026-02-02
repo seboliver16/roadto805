@@ -57,7 +57,7 @@ function ResultsContent() {
     <div className="min-h-screen bg-white">
       <header className="border-b border-[#e5e7eb] bg-white">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
-          <button onClick={() => router.push("/")} className="text-sm text-[#6b7280] hover:text-[#374151]">
+          <button onClick={() => router.push("/dashboard")} className="text-sm text-[#6b7280] hover:text-[#374151]">
             &larr; Home
           </button>
           <h1 className="text-lg font-semibold text-[#0d0d0d]">Session Results</h1>

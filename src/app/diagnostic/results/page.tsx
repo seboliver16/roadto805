@@ -126,7 +126,7 @@ function DiagnosticResultsContent() {
       </button>
 
       <button
-        onClick={() => router.push("/")}
+        onClick={() => router.push("/dashboard")}
         className="mt-3 w-full rounded-lg border border-[#e5e7eb] bg-white py-3 text-base font-medium text-[#0d0d0d] hover:bg-[#fafafa] transition-colors"
       >
         Back to Home

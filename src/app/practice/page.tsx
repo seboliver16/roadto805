@@ -4,8 +4,8 @@ import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { allQuestions } from "@/data/questions";
-import { Question, Section, ThemeCategory, THEME_CATEGORIES, SECTION_LABELS } from "@/types";
-import { createSession, updateSession, saveAttempt, updateProfileStats } from "@/lib/store";
+import { Question, Section, Theme, ThemeCategory, THEME_CATEGORIES, SECTION_LABELS } from "@/types";
+import { createSession, updateSession, saveAttempt, updateProfileStats, getUserAttempts } from "@/lib/store";
 import { PageSkeleton } from "@/components/loading-skeleton";
 import { QuestionRenderer } from "@/components/question-renderer";
 import { AiHelpButton } from "@/components/ai-help-button";
@@ -20,11 +20,102 @@ function shuffleArray<T>(arr: T[]): T[] {
   return shuffled;
 }
 
+const questionMap = new Map(allQuestions.map((q) => [q.id, q]));
+
+/** Build a smart review session from user's missed questions */
+async function buildReviewSession(
+  userId: string,
+  sectionFilter: Section | null
+): Promise<Question[]> {
+  const attempts = await getUserAttempts(userId, 500);
+  const now = Date.now();
+  const DAY = 86_400_000;
+
+  // Build miss stats per question
+  const missStats = new Map<string, { missCount: number; lastMissedAt: number; themes: Theme[] }>();
+  for (const a of attempts) {
+    if (a.correct) continue;
+    const existing = missStats.get(a.questionId);
+    if (existing) {
+      existing.missCount++;
+      existing.lastMissedAt = Math.max(existing.lastMissedAt, a.timestamp);
+    } else {
+      missStats.set(a.questionId, {
+        missCount: 1,
+        lastMissedAt: a.timestamp,
+        themes: a.themes as Theme[],
+      });
+    }
+  }
+
+  if (missStats.size === 0) return [];
+
+  // Score each missed question
+  const scored: { questionId: string; score: number }[] = [];
+  for (const [qId, stats] of missStats) {
+    const q = questionMap.get(qId);
+    if (!q) continue;
+    if (sectionFilter && q.section !== sectionFilter) continue;
+
+    const ageMs = now - stats.lastMissedAt;
+    let recencyBonus = 0;
+    if (ageMs < DAY) recencyBonus = 5;
+    else if (ageMs < 7 * DAY) recencyBonus = 3;
+    else if (ageMs < 30 * DAY) recencyBonus = 1;
+
+    scored.push({ questionId: qId, score: stats.missCount * 2 + recencyBonus });
+  }
+
+  scored.sort((a, b) => b.score - a.score);
+
+  // Take top missed questions (up to 7)
+  const selected = new Set<string>();
+  const result: Question[] = [];
+  for (const { questionId } of scored) {
+    if (result.length >= 7) break;
+    const q = questionMap.get(questionId);
+    if (q) {
+      result.push(q);
+      selected.add(questionId);
+    }
+  }
+
+  // Collect weakest themes from missed questions
+  const themeFailCount = new Map<string, number>();
+  for (const [, stats] of missStats) {
+    for (const t of stats.themes) {
+      themeFailCount.set(t, (themeFailCount.get(t) ?? 0) + stats.missCount);
+    }
+  }
+  const weakThemes = [...themeFailCount.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([t]) => t);
+
+  // Fill remaining slots with same-theme questions not yet selected
+  const themePool = allQuestions.filter((q) => {
+    if (selected.has(q.id)) return false;
+    if (sectionFilter && q.section !== sectionFilter) return false;
+    return q.themes.some((t) => weakThemes.includes(t));
+  });
+
+  const shuffledPool = shuffleArray(themePool);
+  for (const q of shuffledPool) {
+    if (result.length >= 10) break;
+    result.push(q);
+    selected.add(q.id);
+  }
+
+  return shuffleArray(result);
+}
+
 function PracticeContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { user, loading } = useAuth();
+  const { user, profile, loading } = useAuth();
+  const firstName = (profile?.displayName ?? user?.displayName ?? "").split(" ")[0] || undefined;
 
+  const mode = searchParams.get("mode");
   const category = searchParams.get("category") as ThemeCategory | null;
   const sectionParam = searchParams.get("section") as Section | null;
   const themesParam = searchParams.get("themes");
@@ -38,8 +129,11 @@ function PracticeContent() {
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [finished, setFinished] = useState(false);
+  const [reviewEmpty, setReviewEmpty] = useState(false);
 
+  // Standard mode: filter from allQuestions
   useEffect(() => {
+    if (mode === "review") return; // handled separately
     let filtered = allQuestions;
 
     if (sectionParam) {
@@ -59,7 +153,19 @@ function PracticeContent() {
 
     const selected = shuffleArray(filtered).slice(0, 10);
     setSessionQuestions(selected);
-  }, [category, themes, sectionParam]);
+  }, [category, themes, sectionParam, mode]);
+
+  // Review mode: smart question selection
+  useEffect(() => {
+    if (mode !== "review" || !user) return;
+    buildReviewSession(user.uid, sectionParam).then((questions) => {
+      if (questions.length === 0) {
+        setReviewEmpty(true);
+      } else {
+        setSessionQuestions(questions);
+      }
+    });
+  }, [mode, user, sectionParam]);
 
   useEffect(() => {
     if (user && sessionQuestions.length > 0 && !sessionId) {
@@ -153,8 +259,31 @@ function PracticeContent() {
     if (!loading && !user) router.push("/");
   }, [user, loading, router]);
 
+  // Review mode with no missed questions
+  if (reviewEmpty) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="max-w-md text-center px-4">
+          <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-[#f3f4f6]">
+            <svg className="h-7 w-7 text-[#9ca3af]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-[#0d0d0d] mb-2">No missed questions yet</h2>
+          <p className="text-[#6b7280] mb-6">Complete some practice sessions first, and we will build a personalized review from the questions you get wrong.</p>
+          <button
+            onClick={() => router.push("/practice")}
+            className="rounded-lg bg-[#0d0d0d] px-6 py-3 text-sm font-semibold text-white hover:bg-[#1a1a1a] transition-colors"
+          >
+            Start Practice Session
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (!user || sessionQuestions.length === 0) {
-    return <PageSkeleton label="Loading questions..." />;
+    return <PageSkeleton label={mode === "review" ? "Building your review session..." : "Loading questions..."} />;
   }
   if (finished) return <PageSkeleton label="Loading results..." />;
   if (!currentQuestion) return null;
@@ -166,7 +295,7 @@ function PracticeContent() {
           <button
             onClick={() => {
               if (window.confirm("Leave this session? Your progress will be lost.")) {
-                router.push("/");
+                router.push("/dashboard");
               }
             }}
             className="text-sm text-[#6b7280] hover:text-[#0d0d0d] font-medium transition-colors"
@@ -174,6 +303,7 @@ function PracticeContent() {
             &larr; Exit
           </button>
           <div className="flex items-center gap-3">
+            {mode === "review" && <Badge variant="yellow">Review</Badge>}
             <Badge variant={currentQuestion.section === "quant" ? "blue" : currentQuestion.section === "verbal" ? "green" : "purple"}>
               {SECTION_LABELS[currentQuestion.section]}
             </Badge>
@@ -210,6 +340,7 @@ function PracticeContent() {
             question={currentQuestion}
             showResult={showResult}
             selectedAnswer={selectedAnswer}
+            userName={firstName}
           />
 
           <div className="mt-3">

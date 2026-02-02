@@ -35,12 +35,14 @@ export async function generateWalkthrough(
   correctAnswer: number,
   userAnswer: number,
   explanation: string,
-  section: Section = "quant"
+  section: Section = "quant",
+  userName?: string
 ): Promise<string> {
   const role = SECTION_TUTOR_ROLE[section];
   const instructions = SECTION_WALKTHROUGH_INSTRUCTIONS[section];
+  const nameClause = userName ? ` The student's name is ${userName} — address them by name occasionally to keep the tone personal and encouraging.` : "";
 
-  const prompt = `You are a ${role}. A student got a question wrong. Walk them through the solution step by step.
+  const prompt = `You are a ${role}.${nameClause} A student got a question wrong. Walk them through the solution step by step. Be warm and encouraging — like a great tutor who genuinely wants them to succeed.
 
 QUESTION:
 ${questionText}
@@ -93,13 +95,15 @@ export async function generateHint(
   questionText: string,
   choices: string[],
   section: Section = "quant",
-  passage?: string
+  passage?: string,
+  userName?: string
 ): Promise<string> {
   const role = SECTION_TUTOR_ROLE[section];
 
   const passageBlock = passage ? `\nPASSAGE:\n${passage}\n` : "";
+  const nameClause = userName ? ` The student's name is ${userName} — you can address them by name.` : "";
 
-  const prompt = `You are a ${role}. A student is stuck on a question and wants a small nudge — NOT a walkthrough.
+  const prompt = `You are a ${role}.${nameClause} A student is stuck on a question and wants a small nudge — NOT a walkthrough.
 ${passageBlock}
 QUESTION:
 ${questionText}
@@ -201,13 +205,15 @@ Rules:
 
 export async function sendFollowUp(
   messages: ChatMessage[],
-  section?: Section
+  section?: Section,
+  userName?: string
 ): Promise<string> {
   const role = section ? SECTION_TUTOR_ROLE[section] : "GMAT tutor";
+  const nameClause = userName ? ` The student's name is ${userName} — address them by name occasionally.` : "";
 
   const systemMessage: ChatMessage = {
     role: "system",
-    content: `You are a ${role}. Continue the conversation helpfully and concisely. Stay focused on the topic being discussed. Use clean markdown formatting. Keep responses to 2-4 sentences unless the student asks for more detail.`,
+    content: `You are a ${role}.${nameClause} Continue the conversation helpfully and concisely. Be warm and encouraging. Stay focused on the topic being discussed. Use clean markdown formatting. Keep responses to 2-4 sentences unless the student asks for more detail.`,
   };
 
   const result = await client.chat.complete({

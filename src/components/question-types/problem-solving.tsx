@@ -81,15 +81,29 @@ export function ProblemSolving({ question, selectedAnswer, showResult, onSelectA
 
       {showResult && (
         <div className="mt-3 space-y-3">
-          <div className="rounded-lg bg-[#fafafa] border border-[#e5e7eb] p-4">
-            <h3 className="font-semibold text-[#0d0d0d] mb-2">Explanation</h3>
+          <div className="rounded-xl border-l-4 border-l-emerald-400 border border-[#e5e7eb] bg-white p-5 shadow-sm">
+            <div className="flex items-center gap-2 mb-2.5">
+              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-[#0d0d0d] text-sm">Why this is the answer</h3>
+            </div>
             <p className="text-[#374151] text-sm leading-relaxed whitespace-pre-line">
               {question.explanation}
             </p>
           </div>
           {question.conceptExplanation && (
-            <div className="rounded-lg bg-[#fafafa] border border-[#e5e7eb] p-4">
-              <h3 className="font-semibold text-[#0d0d0d] mb-2">Concept Review</h3>
+            <div className="rounded-xl border-l-4 border-l-violet-400 border border-[#e5e7eb] bg-white p-5 shadow-sm">
+              <div className="flex items-center gap-2 mb-2.5">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-50 text-violet-600">
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                  </svg>
+                </div>
+                <h3 className="font-semibold text-[#0d0d0d] text-sm">Key Concept</h3>
+              </div>
               <p className="text-[#374151] text-sm leading-relaxed whitespace-pre-line">
                 {question.conceptExplanation}
               </p>
