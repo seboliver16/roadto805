@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { useExam } from "@/exams/exam-context";
-import { allQuestions } from "@/data/questions";
+import { getExamQuestions } from "@/exams/registry";
+import { questionMap as globalQuestionMap } from "@/data/questions";
 import { Question, Section, Theme, ThemeCategory } from "@/types";
 import { createSession, updateSession, saveAttempt, updateProfileStats, getUserAttempts } from "@/lib/store";
 import { PageSkeleton } from "@/components/loading-skeleton";
@@ -21,12 +22,11 @@ function shuffleArray<T>(arr: T[]): T[] {
   return shuffled;
 }
 
-const questionLookup = new Map(allQuestions.map((q) => [q.id, q]));
-
 /** Build a smart review session from user's missed questions */
 async function buildReviewSession(
   userId: string,
-  sectionFilter: Section | null
+  sectionFilter: Section | null,
+  examQuestions: Question[]
 ): Promise<Question[]> {
   const attempts = await getUserAttempts(userId, 500);
   const now = Date.now();
@@ -54,7 +54,7 @@ async function buildReviewSession(
   // Score each missed question
   const scored: { questionId: string; score: number }[] = [];
   for (const [qId, stats] of missStats) {
-    const q = questionLookup.get(qId);
+    const q = globalQuestionMap[qId];
     if (!q) continue;
     if (sectionFilter && q.section !== sectionFilter) continue;
 
@@ -74,7 +74,7 @@ async function buildReviewSession(
   const result: Question[] = [];
   for (const { questionId } of scored) {
     if (result.length >= 7) break;
-    const q = questionLookup.get(questionId);
+    const q = globalQuestionMap[questionId];
     if (q) {
       result.push(q);
       selected.add(questionId);
@@ -94,7 +94,7 @@ async function buildReviewSession(
     .map(([t]) => t);
 
   // Fill remaining slots with same-theme questions not yet selected
-  const themePool = allQuestions.filter((q) => {
+  const themePool = examQuestions.filter((q) => {
     if (selected.has(q.id)) return false;
     if (sectionFilter && q.section !== sectionFilter) return false;
     return q.themes.some((t) => weakThemes.includes(t));
@@ -116,6 +116,7 @@ function PracticeContent() {
   const { user, profile, loading } = useAuth();
   const exam = useExam();
   const basePath = `/${exam.slug}`;
+  const examQuestions = getExamQuestions(exam.slug);
   const firstName = (profile?.displayName ?? user?.displayName ?? "").split(" ")[0] || undefined;
 
   const mode = searchParams.get("mode");
@@ -134,10 +135,10 @@ function PracticeContent() {
   const [finished, setFinished] = useState(false);
   const [reviewEmpty, setReviewEmpty] = useState(false);
 
-  // Standard mode: filter from allQuestions
+  // Standard mode: filter from exam question pool
   useEffect(() => {
     if (mode === "review") return; // handled separately
-    let filtered = allQuestions;
+    let filtered = examQuestions;
 
     if (sectionParam) {
       filtered = filtered.filter((q) => q.section === sectionParam);
@@ -164,7 +165,7 @@ function PracticeContent() {
   // Review mode: smart question selection
   useEffect(() => {
     if (mode !== "review" || !user) return;
-    buildReviewSession(user.uid, sectionParam).then((questions) => {
+    buildReviewSession(user.uid, sectionParam, examQuestions).then((questions) => {
       if (questions.length === 0) {
         setReviewEmpty(true);
       } else {

@@ -2,16 +2,25 @@
 
 import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { PageSkeleton } from "@/components/loading-skeleton";
 import { getAllExams } from "@/exams/registry";
+import { updateProfile } from "@/lib/store";
 import { DiagnosticIcon, LearnIcon, PracticeIcon, ReviewIcon } from "@/components/icons";
 
 export default function Home() {
-  const { user, loading, signInWithGoogle } = useAuth();
+  const { user, profile, loading, signInWithGoogle } = useAuth();
   const router = useRouter();
   const exams = getAllExams();
 
-  if (loading) {
+  // Auto-redirect returning users to their active exam dashboard
+  useEffect(() => {
+    if (!loading && user && profile?.activeExam) {
+      router.replace(`/${profile.activeExam}/dashboard`);
+    }
+  }, [loading, user, profile, router]);
+
+  if (loading || (user && profile?.activeExam)) {
     return <PageSkeleton />;
   }
 
@@ -19,10 +28,15 @@ export default function Home() {
 
   const handleGetStarted = async (examSlug: string) => {
     if (isLoggedIn) {
+      // Save their exam choice
+      await updateProfile(user.uid, { activeExam: examSlug });
       router.push(`/${examSlug}/dashboard`);
     } else {
       const success = await signInWithGoogle();
-      if (success) router.push(`/${examSlug}/dashboard`);
+      if (success) {
+        // Profile will be created by auth listener; we'll set activeExam on next visit
+        router.push(`/${examSlug}/dashboard`);
+      }
     }
   };
 

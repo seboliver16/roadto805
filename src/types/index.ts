@@ -216,6 +216,7 @@ export interface UserProfile {
   totalCorrect: number;
   hasTakenDiagnostic?: boolean;
   currentStudyPlanId?: string;
+  activeExam?: string;
   sectionStats?: Record<string, { totalQuestions: number; totalCorrect: number }>;
 }
 

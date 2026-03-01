@@ -8,7 +8,7 @@ import { PracticeSession } from "@/types";
 import { PageSkeleton } from "@/components/loading-skeleton";
 import { ProgressRing } from "@/components/progress-ring";
 import { useExam } from "@/exams/exam-context";
-import { allQuestions, questionMap } from "@/data/questions";
+import { questionMap } from "@/data/questions";
 
 function MockResultsContent() {
   const searchParams = useSearchParams();

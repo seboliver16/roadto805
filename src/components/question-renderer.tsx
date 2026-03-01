@@ -13,7 +13,7 @@ import { SentenceEquivalence } from "./question-types/sentence-equivalence";
 import { QuantitativeComparison } from "./question-types/quantitative-comparison";
 import { NumericEntry } from "./question-types/numeric-entry";
 
-interface QuestionRendererProps {
+export interface QuestionRendererProps {
   question: Question;
   selectedAnswer: number | null;
   selectedAnswerB?: number | null;
@@ -24,6 +24,8 @@ interface QuestionRendererProps {
   onSelectAnswerC?: (index: number) => void;
   numericValue?: string;
   onNumericChange?: (value: string) => void;
+  strikethroughs?: Set<number>;
+  onToggleStrikethrough?: (choiceIdx: number) => void;
 }
 
 export function QuestionRenderer(props: QuestionRendererProps) {
