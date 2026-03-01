@@ -3,40 +3,42 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
+import { useExamOptional } from "@/exams/exam-context";
 
-const NAV_LINKS = [
-  { href: "/learn", label: "Learn" },
-  { href: "/practice", label: "Practice" },
-  { href: "/mock", label: "Mock Exam" },
-  { href: "/review", label: "Review" },
-  { href: "/study-guide", label: "Study Guide" },
+const NAV_ITEMS = [
+  { path: "learn", label: "Learn" },
+  { path: "practice", label: "Practice" },
+  { path: "mock", label: "Mock Exam" },
+  { path: "review", label: "Review" },
+  { path: "study-guide", label: "Study Guide" },
 ];
 
 export function Nav() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
+  const exam = useExamOptional();
 
   if (!user) return null;
+
+  // Derive the exam slug from the current URL path, e.g. /gmat/practice -> "gmat"
+  const pathParts = pathname.split("/").filter(Boolean);
+  const examSlug = exam?.slug ?? pathParts[0] ?? "gmat";
+  const basePath = `/${examSlug}`;
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-[#e5e7eb]">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <Link href="/dashboard" className="text-lg font-bold tracking-tight text-[#0d0d0d]">
-          Road to{" "}
-          <span className="relative inline-block font-bold">
-            805
-            <svg className="absolute -bottom-1 left-0 w-full" height="6" viewBox="0 0 100 8" preserveAspectRatio="none">
-              <path d="M0 7 Q25 0, 50 4 Q75 8, 100 1" stroke="#0d0d0d" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-            </svg>
-          </span>
+        <Link href={`${basePath}/dashboard`} className="text-lg font-bold tracking-tight text-[#0d0d0d]">
+          {exam?.shortName ?? "Exam"} Prep
         </Link>
 
         <nav className="flex items-center gap-1">
-          {NAV_LINKS.map(({ href, label }) => {
+          {NAV_ITEMS.map(({ path, label }) => {
+            const href = `${basePath}/${path}`;
             const isActive = pathname.startsWith(href);
             return (
               <Link
-                key={href}
+                key={path}
                 href={href}
                 className={`px-4 py-1.5 text-sm font-medium transition-colors ${
                   isActive

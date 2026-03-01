@@ -1,0 +1,40 @@
+import { Chapter } from "@/types";
+
+export const greVerbalChapters: Chapter[] = [
+  {
+    id: "gre-verbal-text-completion",
+    section: "verbal",
+    title: "Text Completion Strategies",
+    description: "Learn techniques for solving single-, double-, and triple-blank text completion questions on the GRE.",
+    order: 1,
+    topics: ["text-completion-single", "text-completion-double", "text-completion-triple"],
+    frequency: "high",
+    frequencyPercent: 28,
+    estimatedMinutes: 30,
+    practiceQuestionIds: ["gre-v-001", "gre-v-004"],
+  },
+  {
+    id: "gre-verbal-sentence-equivalence",
+    section: "verbal",
+    title: "Sentence Equivalence",
+    description: "Master the strategy of finding two answer choices that produce sentences with the same meaning.",
+    order: 2,
+    topics: ["sentence-equivalence", "vocabulary-in-context"],
+    frequency: "high",
+    frequencyPercent: 20,
+    estimatedMinutes: 25,
+    practiceQuestionIds: ["gre-v-002", "gre-v-006", "gre-v-008"],
+  },
+  {
+    id: "gre-verbal-reading-comp",
+    section: "verbal",
+    title: "Reading Comprehension",
+    description: "Develop strategies for main idea, detail, inference, and structure questions on GRE passages.",
+    order: 3,
+    topics: ["rc-main-idea", "rc-detail", "rc-inference", "rc-structure", "rc-strengthen-weaken", "rc-vocab-in-passage", "rc-select-sentence"],
+    frequency: "high",
+    frequencyPercent: 50,
+    estimatedMinutes: 40,
+    practiceQuestionIds: ["gre-v-003", "gre-v-005", "gre-v-007"],
+  },
+];

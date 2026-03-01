@@ -2,11 +2,19 @@ import { Chapter, Section } from "@/types";
 import { quantChapters } from "./quant";
 import { verbalChapters } from "./verbal";
 import { dataInsightsChapters } from "./data-insights";
+import { greChapters } from "@/exams/gre/chapters";
 
-export const allChapters: Chapter[] = [
+// GMAT chapters (backward compatible)
+export const gmatChapterList: Chapter[] = [
   ...quantChapters,
   ...verbalChapters,
   ...dataInsightsChapters,
+];
+
+// All chapters across all exams
+export const allChapters: Chapter[] = [
+  ...gmatChapterList,
+  ...greChapters,
 ];
 
 export const chapterMap: Record<string, Chapter> = Object.fromEntries(

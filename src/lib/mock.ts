@@ -1,19 +1,11 @@
 import { Question, Section } from "@/types";
+import { ExamConfig, MockSectionConfig } from "@/exams/types";
 import { allQuestions } from "@/data/questions";
+import { gmatConfig } from "@/exams/gmat/config";
 
-export interface MockSectionConfig {
-  section: Section;
-  label: string;
-  questionCount: number;
-  timeMinutes: number;
-}
-
-export const MOCK_SECTIONS: MockSectionConfig[] = [
-  { section: "quant", label: "Quantitative Reasoning", questionCount: 21, timeMinutes: 45 },
-  { section: "verbal", label: "Verbal Reasoning", questionCount: 23, timeMinutes: 45 },
-  { section: "data-insights", label: "Data Insights", questionCount: 20, timeMinutes: 45 },
-];
-
+// Re-export for backward compatibility
+export type { MockSectionConfig } from "@/exams/types";
+export const MOCK_SECTIONS = gmatConfig.mockSections;
 export const MOCK_TOTAL_QUESTIONS = MOCK_SECTIONS.reduce((s, c) => s + c.questionCount, 0);
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -26,17 +18,21 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 /**
- * Select questions for a mock section with proportional difficulty distribution:
- * ~30% easy, ~40% medium, ~30% hard
+ * Select questions for a mock section with proportional difficulty distribution.
  */
-function selectSectionQuestions(section: Section, count: number): Question[] {
-  const pool = allQuestions.filter((q) => q.section === section);
+function selectSectionQuestions(
+  questionPool: Question[],
+  section: string,
+  count: number,
+  distribution: { easy: number; medium: number; hard: number }
+): Question[] {
+  const pool = questionPool.filter((q) => q.section === section);
   const easy = shuffleArray(pool.filter((q) => q.difficulty === "easy"));
   const medium = shuffleArray(pool.filter((q) => q.difficulty === "medium"));
   const hard = shuffleArray(pool.filter((q) => q.difficulty === "hard"));
 
-  const easyCount = Math.round(count * 0.3);
-  const hardCount = Math.round(count * 0.3);
+  const easyCount = Math.round(count * distribution.easy);
+  const hardCount = Math.round(count * distribution.hard);
   const mediumCount = count - easyCount - hardCount;
 
   const selected = [
@@ -56,38 +52,32 @@ function selectSectionQuestions(section: Section, count: number): Question[] {
 }
 
 /**
- * Generate the full set of questions for a mock exam, grouped by section.
- * Returns an array of arrays, one per section in MOCK_SECTIONS order.
+ * Generate mock exam questions using an exam config.
+ * Returns an array of arrays, one per section in config order.
  */
-export function getMockExamQuestions(): Question[][] {
-  return MOCK_SECTIONS.map((cfg) => selectSectionQuestions(cfg.section, cfg.questionCount));
+export function getMockExamQuestionsForExam(
+  config: ExamConfig,
+  questionPool: Question[]
+): Question[][] {
+  return config.mockSections.map((cfg) =>
+    selectSectionQuestions(questionPool, cfg.section, cfg.questionCount, config.difficultyDistribution)
+  );
 }
 
 /**
- * Estimate a GMAT Focus Edition score (205-805) from section results.
- *
- * GMAT Focus Edition: each section 60-90, total 205-805.
- * We use a linear mapping from accuracy percentage.
+ * Backward-compatible: Generate mock exam using GMAT config and default question pool.
+ */
+export function getMockExamQuestions(): Question[][] {
+  return getMockExamQuestionsForExam(gmatConfig, allQuestions);
+}
+
+/**
+ * Backward-compatible: Estimate a GMAT score.
  */
 export function estimateGmatScore(
-  sectionResults: Record<Section, { score: number; total: number }>
-): { total: number; sections: Record<Section, number> } {
-  const sections = {} as Record<Section, number>;
-
-  for (const [section, data] of Object.entries(sectionResults)) {
-    const accuracy = data.total > 0 ? data.score / data.total : 0;
-    // Map 0–100% accuracy to 60–90 section score
-    sections[section as Section] = Math.round(60 + accuracy * 30);
-  }
-
-  const sectionSum = Object.values(sections).reduce((a, b) => a + b, 0);
-  // Section scores range 180 (3×60) to 270 (3×90), map to 205-805
-  const total = Math.round(205 + ((sectionSum - 180) / 90) * 600);
-
-  return {
-    total: Math.min(805, Math.max(205, total)),
-    sections,
-  };
+  sectionResults: Record<string, { score: number; total: number }>
+): { total: number; sections: Record<string, number> } {
+  return gmatConfig.estimateScore(sectionResults);
 }
 
 /**

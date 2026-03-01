@@ -5,8 +5,8 @@ import { AuthProvider } from "@/lib/auth-context";
 import { NavWrapper } from "@/components/nav-wrapper";
 
 export const metadata: Metadata = {
-  title: "Road to 805 — GMAT Focus Edition Prep",
-  description: "Full GMAT Focus Edition prep with diagnostic tests, study plans, lessons, and AI-powered walkthroughs",
+  title: "Test Prep — GMAT, GRE & More",
+  description: "Diagnostic-driven test prep with study plans, lessons, and AI-powered walkthroughs for GMAT, GRE, and more",
 };
 
 export default function RootLayout({
