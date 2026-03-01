@@ -8,18 +8,27 @@ import { MultiSourceReasoning } from "./question-types/multi-source-reasoning";
 import { TwoPartAnalysis } from "./question-types/two-part-analysis";
 import { GraphicsInterpretation } from "./question-types/graphics-interpretation";
 import { TableAnalysis } from "./question-types/table-analysis";
+import { TextCompletion } from "./question-types/text-completion";
+import { SentenceEquivalence } from "./question-types/sentence-equivalence";
+import { QuantitativeComparison } from "./question-types/quantitative-comparison";
+import { NumericEntry } from "./question-types/numeric-entry";
 
 interface QuestionRendererProps {
   question: Question;
   selectedAnswer: number | null;
   selectedAnswerB?: number | null;
+  selectedAnswerC?: number | null;
   showResult: boolean;
   onSelectAnswer: (index: number) => void;
   onSelectAnswerB?: (index: number) => void;
+  onSelectAnswerC?: (index: number) => void;
+  numericValue?: string;
+  onNumericChange?: (value: string) => void;
 }
 
 export function QuestionRenderer(props: QuestionRendererProps) {
   switch (props.question.type) {
+    // GMAT types
     case "problem-solving":
     case "data-sufficiency":
       return <ProblemSolving {...props} />;
@@ -35,6 +44,18 @@ export function QuestionRenderer(props: QuestionRendererProps) {
       return <GraphicsInterpretation {...props} />;
     case "table-analysis":
       return <TableAnalysis {...props} />;
+    // GRE types
+    case "text-completion":
+      return <TextCompletion {...props} />;
+    case "sentence-equivalence":
+      return <SentenceEquivalence {...props} />;
+    case "quantitative-comparison":
+      return <QuantitativeComparison {...props} />;
+    case "numeric-entry":
+      return <NumericEntry {...props} />;
+    // GRE data-interpretation uses the same renderer as problem-solving (chart/table shown via passage/chartData)
+    case "data-interpretation":
+      return <ProblemSolving {...props} />;
     default:
       return <ProblemSolving {...props} />;
   }

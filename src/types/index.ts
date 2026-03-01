@@ -5,272 +5,43 @@ export interface ChatMessage {
   content: string;
 }
 
-// === Sections ===
+// === Sections (generic — exam-specific values come from ExamConfig) ===
 
-export type Section = "quant" | "verbal" | "data-insights";
-
-export const SECTION_LABELS: Record<Section, string> = {
-  quant: "Quantitative Reasoning",
-  verbal: "Verbal Reasoning",
-  "data-insights": "Data Insights",
-};
-
-export const SECTION_SHORT_LABELS: Record<Section, string> = {
-  quant: "Quant",
-  verbal: "Verbal",
-  "data-insights": "Data Insights",
-};
-
-export const SECTION_COLORS: Record<Section, { bg: string; text: string; border: string; accent: string }> = {
-  quant: { bg: "bg-gray-50", text: "text-gray-700", border: "border-gray-200", accent: "bg-gray-800" },
-  verbal: { bg: "bg-gray-50", text: "text-gray-700", border: "border-gray-200", accent: "bg-gray-700" },
-  "data-insights": { bg: "bg-gray-50", text: "text-gray-700", border: "border-gray-200", accent: "bg-gray-600" },
-};
-
-// === Themes ===
-
-export type Theme =
-  // Quant themes
-  | "number-properties"
-  | "divisibility-primes"
-  | "remainders"
-  | "fractions-decimals"
-  | "percentages"
-  | "ratios"
-  | "exponents-roots"
-  | "linear-equations"
-  | "quadratic-equations"
-  | "inequalities"
-  | "absolute-value"
-  | "functions"
-  | "sequences"
-  | "triangles"
-  | "circles"
-  | "coordinate-geometry"
-  | "polygons"
-  | "3d-geometry"
-  | "rate-work"
-  | "mixtures"
-  | "overlapping-sets"
-  | "probability"
-  | "combinatorics"
-  | "statistics"
-  | "data-sufficiency-logic"
-  // Verbal -- Critical Reasoning
-  | "cr-weaken"
-  | "cr-strengthen"
-  | "cr-assumption"
-  | "cr-evaluate"
-  | "cr-inference"
-  | "cr-paradox"
-  | "cr-boldface"
-  | "cr-complete-passage"
-  // Verbal -- Reading Comprehension
-  | "rc-main-idea"
-  | "rc-detail"
-  | "rc-inference"
-  | "rc-structure"
-  | "rc-tone"
-  | "rc-application"
-  // Data Insights
-  | "ds-number-properties"
-  | "ds-algebra"
-  | "ds-word-problems"
-  | "ds-statistics"
-  | "msr"
-  | "tpa"
-  | "gi"
-  | "ta";
-
-export const THEME_LABELS: Record<Theme, string> = {
-  // Quant
-  "number-properties": "Number Properties",
-  "divisibility-primes": "Divisibility & Primes",
-  "remainders": "Remainders",
-  "fractions-decimals": "Fractions & Decimals",
-  "percentages": "Percentages",
-  "ratios": "Ratios",
-  "exponents-roots": "Exponents & Roots",
-  "linear-equations": "Linear Equations",
-  "quadratic-equations": "Quadratic Equations",
-  "inequalities": "Inequalities",
-  "absolute-value": "Absolute Value",
-  "functions": "Functions",
-  "sequences": "Sequences",
-  "triangles": "Triangles",
-  "circles": "Circles",
-  "coordinate-geometry": "Coordinate Geometry",
-  "polygons": "Polygons",
-  "3d-geometry": "3D Geometry",
-  "rate-work": "Rate & Work",
-  "mixtures": "Mixtures",
-  "overlapping-sets": "Overlapping Sets",
-  "probability": "Probability",
-  "combinatorics": "Combinatorics",
-  "statistics": "Statistics",
-  "data-sufficiency-logic": "Data Sufficiency Logic",
-  // Verbal -- CR
-  "cr-weaken": "Weaken",
-  "cr-strengthen": "Strengthen",
-  "cr-assumption": "Assumption",
-  "cr-evaluate": "Evaluate",
-  "cr-inference": "Inference",
-  "cr-paradox": "Resolve Paradox",
-  "cr-boldface": "Boldface / Structure",
-  "cr-complete-passage": "Complete the Passage",
-  // Verbal -- RC
-  "rc-main-idea": "Main Idea",
-  "rc-detail": "Supporting Detail",
-  "rc-inference": "Inference",
-  "rc-structure": "Passage Structure",
-  "rc-tone": "Author's Tone",
-  "rc-application": "Application",
-  // Data Insights
-  "ds-number-properties": "DS: Number Properties",
-  "ds-algebra": "DS: Algebra",
-  "ds-word-problems": "DS: Word Problems",
-  "ds-statistics": "DS: Statistics",
-  "msr": "Multi-Source Reasoning",
-  "tpa": "Two-Part Analysis",
-  "gi": "Graphics Interpretation",
-  "ta": "Table Analysis",
-};
-
-// === Theme Categories (per section) ===
-
-export type ThemeCategory =
-  | "arithmetic"
-  | "algebra"
-  | "geometry"
-  | "word-problems"
-  | "data-sufficiency"
-  | "critical-reasoning"
-  | "reading-comprehension"
-  | "di-data-sufficiency"
-  | "di-multi-source"
-  | "di-two-part"
-  | "di-graphics"
-  | "di-table";
-
-export const THEME_CATEGORIES: Record<ThemeCategory, { label: string; section: Section; themes: Theme[] }> = {
-  arithmetic: {
-    label: "Arithmetic",
-    section: "quant",
-    themes: ["number-properties", "divisibility-primes", "remainders", "fractions-decimals", "percentages", "ratios", "exponents-roots"],
-  },
-  algebra: {
-    label: "Algebra",
-    section: "quant",
-    themes: ["linear-equations", "quadratic-equations", "inequalities", "absolute-value", "functions", "sequences"],
-  },
-  geometry: {
-    label: "Geometry",
-    section: "quant",
-    themes: ["triangles", "circles", "coordinate-geometry", "polygons", "3d-geometry"],
-  },
-  "word-problems": {
-    label: "Word Problems",
-    section: "quant",
-    themes: ["rate-work", "mixtures", "overlapping-sets", "probability", "combinatorics", "statistics"],
-  },
-  "data-sufficiency": {
-    label: "Data Sufficiency",
-    section: "quant",
-    themes: ["data-sufficiency-logic"],
-  },
-  "critical-reasoning": {
-    label: "Critical Reasoning",
-    section: "verbal",
-    themes: ["cr-weaken", "cr-strengthen", "cr-assumption", "cr-evaluate", "cr-inference", "cr-paradox", "cr-boldface", "cr-complete-passage"],
-  },
-  "reading-comprehension": {
-    label: "Reading Comprehension",
-    section: "verbal",
-    themes: ["rc-main-idea", "rc-detail", "rc-inference", "rc-structure", "rc-tone", "rc-application"],
-  },
-  "di-data-sufficiency": {
-    label: "Data Sufficiency",
-    section: "data-insights",
-    themes: ["ds-number-properties", "ds-algebra", "ds-word-problems", "ds-statistics"],
-  },
-  "di-multi-source": {
-    label: "Multi-Source Reasoning",
-    section: "data-insights",
-    themes: ["msr"],
-  },
-  "di-two-part": {
-    label: "Two-Part Analysis",
-    section: "data-insights",
-    themes: ["tpa"],
-  },
-  "di-graphics": {
-    label: "Graphics Interpretation",
-    section: "data-insights",
-    themes: ["gi"],
-  },
-  "di-table": {
-    label: "Table Analysis",
-    section: "data-insights",
-    themes: ["ta"],
-  },
-};
-
-export function getCategoriesBySection(section: Section): [ThemeCategory, { label: string; section: Section; themes: Theme[] }][] {
-  return (Object.entries(THEME_CATEGORIES) as [ThemeCategory, { label: string; section: Section; themes: Theme[] }][])
-    .filter(([, cat]) => cat.section === section);
-}
-
-// === GMAT Frequency Data (from analysis of 766 official questions) ===
-
-export const GMAT_FREQUENCY: Partial<Record<Theme, number>> = {
-  "number-properties": 13.83,
-  "divisibility-primes": 13.83,
-  "remainders": 13.83,
-  "percentages": 8.72,
-  "statistics": 8.30,
-  "exponents-roots": 6.30,
-  "linear-equations": 5.53,
-  "probability": 5.0,
-  "combinatorics": 5.0,
-  "ratios": 4.89,
-  "inequalities": 4.70,
-  "absolute-value": 4.70,
-  "coordinate-geometry": 3.19,
-  "sequences": 3.2,
-  "fractions-decimals": 3.0,
-  "rate-work": 3.0,
-  "circles": 2.98,
-  "triangles": 2.77,
-  "quadratic-equations": 2.5,
-  "overlapping-sets": 2.0,
-  "mixtures": 2.0,
-  "functions": 0.4,
-};
-
-// === Question Types ===
-
+export type Section = string;
+export type Theme = string;
+export type ThemeCategory = string;
+export type QuestionType = string;
 export type Difficulty = "easy" | "medium" | "hard";
 
-export type QuestionType =
-  | "problem-solving"
-  | "data-sufficiency"
-  | "critical-reasoning"
-  | "reading-comprehension"
-  | "multi-source-reasoning"
-  | "two-part-analysis"
-  | "graphics-interpretation"
-  | "table-analysis";
+// === Backward-compatible GMAT constants ===
+// These re-export from the GMAT config so existing code doesn't break.
+// New code should use useExam() / examConfig instead.
 
-export const QUESTION_TYPE_LABELS: Record<QuestionType, string> = {
-  "problem-solving": "Problem Solving",
-  "data-sufficiency": "Data Sufficiency",
-  "critical-reasoning": "Critical Reasoning",
-  "reading-comprehension": "Reading Comprehension",
-  "multi-source-reasoning": "Multi-Source Reasoning",
-  "two-part-analysis": "Two-Part Analysis",
-  "graphics-interpretation": "Graphics Interpretation",
-  "table-analysis": "Table Analysis",
-};
+import { gmatConfig } from "@/exams/gmat/config";
+
+export const SECTION_LABELS: Record<string, string> = Object.fromEntries(
+  gmatConfig.sections.map((s) => [s.id, s.label])
+);
+
+export const SECTION_SHORT_LABELS: Record<string, string> = Object.fromEntries(
+  gmatConfig.sections.map((s) => [s.id, s.shortLabel])
+);
+
+export const SECTION_COLORS = gmatConfig.sectionColors;
+
+export const THEME_LABELS: Record<string, string> = gmatConfig.themes;
+
+export const THEME_CATEGORIES: Record<string, { label: string; section: string; themes: string[] }> = Object.fromEntries(
+  gmatConfig.themeCategories.map((cat) => [cat.id, { label: cat.label, section: cat.section, themes: cat.themes }])
+);
+
+export function getCategoriesBySection(section: string): [string, { label: string; section: string; themes: string[] }][] {
+  return Object.entries(THEME_CATEGORIES).filter(([, cat]) => cat.section === section);
+}
+
+export const GMAT_FREQUENCY: Record<string, number> = gmatConfig.frequencyData;
+
+export const QUESTION_TYPE_LABELS: Record<string, string> = gmatConfig.questionTypes;
 
 // === Source Citations ===
 
@@ -369,6 +140,13 @@ export interface Question {
   tableData?: TableData;
   chartData?: ChartData;
   twoPartColumns?: [string, string];
+  // GRE-specific fields
+  correctAnswerC?: number;                       // Third blank for triple-blank Text Completion
+  threePartColumns?: [string, string, string];   // Column labels for triple-blank TC
+  numericAnswer?: string;                        // Expected answer for Numeric Entry (e.g. "3.5", "7/4")
+  quantityA?: string;                            // Quantity A for Quantitative Comparison
+  quantityB?: string;                            // Quantity B for Quantitative Comparison
+  givenInfo?: string;                            // Given information for QC (displayed above quantities)
 }
 
 // === Chapter ===
@@ -397,6 +175,7 @@ export interface UserAttempt {
   themes: Theme[];
   timestamp: number;
   sessionId: string;
+  exam?: string;
 }
 
 export interface PracticeSession {
@@ -409,20 +188,22 @@ export interface PracticeSession {
   score: number;
   total: number;
   themeBreakdown: Record<string, { correct: number; total: number }>;
-  sectionBreakdown?: Record<Section, { score: number; total: number }>;
+  sectionBreakdown?: Record<string, { score: number; total: number }>;
   timestamp: number;
   completed: boolean;
+  exam?: string;
 }
 
 export interface StudyPlan {
   id?: string;
   userId: string;
   diagnosticSessionId: string;
-  sectionScores: Record<Section, { score: number; total: number }>;
-  weakAreas: { section: Section; themes: Theme[]; priority: "high" | "medium" | "low" }[];
+  sectionScores: Record<string, { score: number; total: number }>;
+  weakAreas: { section: string; themes: string[]; priority: "high" | "medium" | "low" }[];
   recommendedChapters: { chapterId: string; completed: boolean; priority: number }[];
   createdAt: number;
   updatedAt: number;
+  exam?: string;
 }
 
 export interface UserProfile {
@@ -435,7 +216,7 @@ export interface UserProfile {
   totalCorrect: number;
   hasTakenDiagnostic?: boolean;
   currentStudyPlanId?: string;
-  sectionStats?: Record<Section, { totalQuestions: number; totalCorrect: number }>;
+  sectionStats?: Record<string, { totalQuestions: number; totalCorrect: number }>;
 }
 
 // === Study Guide ===

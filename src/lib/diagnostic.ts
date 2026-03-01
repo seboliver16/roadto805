@@ -1,46 +1,50 @@
-import { Section, Theme, StudyPlan, GMAT_FREQUENCY } from "@/types";
+import { Section, Theme, StudyPlan } from "@/types";
 import { allChapters } from "@/data/chapters";
+import { ExamConfig } from "@/exams/types";
+import { gmatConfig } from "@/exams/gmat/config";
 
 interface DiagnosticResults {
-  sectionScores: Record<Section, { score: number; total: number }>;
+  sectionScores: Record<string, { score: number; total: number }>;
   themeBreakdown: Record<string, { correct: number; total: number }>;
 }
 
 export function generateStudyPlanFromDiagnostic(
   userId: string,
   sessionId: string,
-  results: DiagnosticResults
+  results: DiagnosticResults,
+  config?: ExamConfig
 ): Omit<StudyPlan, "id"> {
+  const examConfig = config ?? gmatConfig;
   const { sectionScores, themeBreakdown } = results;
 
-  // Identify weak areas: themes where accuracy < 75% or zero attempts
+  // Identify weak areas: themes where accuracy < threshold or zero attempts
   const weakAreas: StudyPlan["weakAreas"] = [];
-  const sections: Section[] = ["quant", "verbal", "data-insights"];
 
-  for (const section of sections) {
-    const sectionData = sectionScores[section];
+  for (const section of examConfig.sections) {
+    const sectionData = sectionScores[section.id];
+    if (!sectionData) continue;
     const accuracy = sectionData.total > 0 ? sectionData.score / sectionData.total : 0;
 
-    const weakThemes: Theme[] = [];
+    const weakThemes: string[] = [];
     for (const [theme, data] of Object.entries(themeBreakdown)) {
       // Check if this theme belongs to this section by looking at chapters
-      const chapter = allChapters.find((ch) => ch.section === section && ch.topics.includes(theme as Theme));
+      const chapter = allChapters.find((ch) => ch.section === section.id && ch.topics.includes(theme));
       if (!chapter) continue;
 
       const themeAccuracy = data.total > 0 ? data.correct / data.total : 0;
-      if (themeAccuracy < 0.75) {
-        weakThemes.push(theme as Theme);
+      if (themeAccuracy < examConfig.weaknessThreshold) {
+        weakThemes.push(theme);
       }
     }
 
-    if (weakThemes.length > 0 || accuracy < 0.75) {
+    if (weakThemes.length > 0 || accuracy < examConfig.weaknessThreshold) {
       const priority = accuracy < 0.5 ? "high" : accuracy < 0.75 ? "medium" : "low";
-      weakAreas.push({ section, themes: weakThemes, priority });
+      weakAreas.push({ section: section.id, themes: weakThemes, priority });
     }
   }
 
   // Generate recommended chapters ordered by priority
-  // Priority score = (1 - section accuracy) * GMAT frequency weight * weakness factor
+  const frequencyData = examConfig.frequencyData;
   const recommendedChapters: StudyPlan["recommendedChapters"] = [];
 
   for (const chapter of allChapters) {
@@ -50,12 +54,12 @@ export function generateStudyPlanFromDiagnostic(
     // Check if any chapter topic is weak
     const hasWeakTopic = chapter.topics.some((topic) => {
       const data = themeBreakdown[topic];
-      return !data || (data.total > 0 && data.correct / data.total < 0.75);
+      return !data || (data.total > 0 && data.correct / data.total < examConfig.weaknessThreshold);
     });
 
     // Get max frequency weight for chapter topics
     const maxFreq = Math.max(
-      ...chapter.topics.map((t) => GMAT_FREQUENCY[t] ?? 1),
+      ...chapter.topics.map((t) => frequencyData[t] ?? 1),
       1
     );
 

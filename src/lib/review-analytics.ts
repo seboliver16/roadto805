@@ -4,11 +4,11 @@ import {
   Theme,
   Difficulty,
   QuestionType,
-  THEME_LABELS,
-  QUESTION_TYPE_LABELS,
   UserAttempt,
   PracticeSession,
 } from "@/types";
+import { ExamConfig } from "@/exams/types";
+import { gmatConfig } from "@/exams/gmat/config";
 
 // === Types ===
 
@@ -26,7 +26,7 @@ export interface ReviewAnalytics {
   totalCorrect: number;
   totalMissed: number;
   overallAccuracy: number;
-  sectionBreakdown: Record<Section, { total: number; correct: number; accuracy: number }>;
+  sectionBreakdown: Record<string, { total: number; correct: number; accuracy: number }>;
   themeBreakdown: ThemeStat[];
   difficultyBreakdown: Record<Difficulty, { total: number; correct: number; accuracy: number }>;
   questionTypeBreakdown: { type: QuestionType; label: string; total: number; correct: number; accuracy: number }[];
@@ -62,7 +62,7 @@ export function filterByTime(attempts: UserAttempt[], range: TimeRange): UserAtt
   return attempts.filter((a) => a.timestamp >= cutoff);
 }
 
-export function filterBySection(attempts: UserAttempt[], section: Section | "all"): UserAttempt[] {
+export function filterBySection(attempts: UserAttempt[], section: string | "all"): UserAttempt[] {
   if (section === "all") return attempts;
   return attempts.filter((a) => {
     const q = questionMap[a.questionId];
@@ -70,7 +70,7 @@ export function filterBySection(attempts: UserAttempt[], section: Section | "all
   });
 }
 
-export function filterByQuestionType(attempts: UserAttempt[], type: QuestionType | "all"): UserAttempt[] {
+export function filterByQuestionType(attempts: UserAttempt[], type: string | "all"): UserAttempt[] {
   if (type === "all") return attempts;
   return attempts.filter((a) => {
     const q = questionMap[a.questionId];
@@ -80,12 +80,14 @@ export function filterByQuestionType(attempts: UserAttempt[], type: QuestionType
 
 // === Analytics computation ===
 
-export function computeAnalytics(attempts: UserAttempt[]): ReviewAnalytics {
-  const sectionBreakdown: Record<Section, { total: number; correct: number; accuracy: number }> = {
-    quant: { total: 0, correct: 0, accuracy: 0 },
-    verbal: { total: 0, correct: 0, accuracy: 0 },
-    "data-insights": { total: 0, correct: 0, accuracy: 0 },
-  };
+export function computeAnalytics(attempts: UserAttempt[], config?: ExamConfig): ReviewAnalytics {
+  const examConfig = config ?? gmatConfig;
+
+  // Initialize section breakdown from exam config
+  const sectionBreakdown: Record<string, { total: number; correct: number; accuracy: number }> = {};
+  for (const section of examConfig.sections) {
+    sectionBreakdown[section.id] = { total: 0, correct: 0, accuracy: 0 };
+  }
 
   const themeMap: Record<string, { total: number; correct: number }> = {};
   const difficultyBreakdown: Record<Difficulty, { total: number; correct: number; accuracy: number }> = {
@@ -104,8 +106,10 @@ export function computeAnalytics(attempts: UserAttempt[]): ReviewAnalytics {
     if (attempt.correct) totalCorrect++;
 
     // Section
-    sectionBreakdown[q.section].total++;
-    if (attempt.correct) sectionBreakdown[q.section].correct++;
+    if (sectionBreakdown[q.section]) {
+      sectionBreakdown[q.section].total++;
+      if (attempt.correct) sectionBreakdown[q.section].correct++;
+    }
 
     // Themes
     for (const theme of q.themes) {
@@ -132,6 +136,8 @@ export function computeAnalytics(attempts: UserAttempt[]): ReviewAnalytics {
     d.accuracy = d.total > 0 ? Math.round((d.correct / d.total) * 100) : 0;
   }
 
+  const themeLabels = examConfig.themes;
+
   const themeBreakdown: ThemeStat[] = Object.entries(themeMap)
     .map(([theme, data]) => ({
       theme: theme as Theme,
@@ -141,10 +147,12 @@ export function computeAnalytics(attempts: UserAttempt[]): ReviewAnalytics {
     }))
     .sort((a, b) => a.accuracy - b.accuracy);
 
+  const questionTypeLabels = examConfig.questionTypes;
+
   const questionTypeBreakdown = Object.entries(qtMap)
     .map(([type, data]) => ({
       type: type as QuestionType,
-      label: QUESTION_TYPE_LABELS[type as QuestionType] || type,
+      label: questionTypeLabels[type] || type,
       total: data.total,
       correct: data.correct,
       accuracy: Math.round((data.correct / data.total) * 100),
@@ -165,7 +173,9 @@ export function computeAnalytics(attempts: UserAttempt[]): ReviewAnalytics {
 
 // === Recommendations ===
 
-export function computeRecommendations(analytics: ReviewAnalytics): Recommendation[] {
+export function computeRecommendations(analytics: ReviewAnalytics, config?: ExamConfig): Recommendation[] {
+  const examConfig = config ?? gmatConfig;
+  const themeLabels = examConfig.themes;
   const recs: Recommendation[] = [];
 
   // Top weak themes (accuracy < 60% with >= 2 attempts)
@@ -173,7 +183,7 @@ export function computeRecommendations(analytics: ReviewAnalytics): Recommendati
   for (const t of weakThemes.slice(0, 3)) {
     recs.push({
       id: `theme-${t.theme}`,
-      title: `Practice ${THEME_LABELS[t.theme]}`,
+      title: `Practice ${themeLabels[t.theme] || t.theme}`,
       reason: `${t.accuracy}% accuracy across ${t.total} questions`,
       practiceUrl: `/practice?themes=${t.theme}`,
     });
@@ -187,7 +197,7 @@ export function computeRecommendations(analytics: ReviewAnalytics): Recommendati
     for (const t of mediumWeak) {
       recs.push({
         id: `theme-${t.theme}`,
-        title: `Strengthen ${THEME_LABELS[t.theme]}`,
+        title: `Strengthen ${themeLabels[t.theme] || t.theme}`,
         reason: `${t.accuracy}% accuracy — room for improvement`,
         practiceUrl: `/practice?themes=${t.theme}`,
       });
@@ -195,15 +205,17 @@ export function computeRecommendations(analytics: ReviewAnalytics): Recommendati
   }
 
   // Weakest section recommendation
-  const weakestSection = (Object.entries(analytics.sectionBreakdown) as [Section, { total: number; accuracy: number }][])
+  const weakestSection = Object.entries(analytics.sectionBreakdown)
     .filter(([, data]) => data.total >= 3 && data.accuracy < 70)
     .sort(([, a], [, b]) => a.accuracy - b.accuracy)[0];
 
   if (weakestSection && recs.length < 4) {
     const [section, data] = weakestSection;
+    const sectionConfig = examConfig.sections.find((s) => s.id === section);
+    const label = sectionConfig?.shortLabel || section;
     recs.push({
       id: `section-${section}`,
-      title: `Focus on ${section === "data-insights" ? "Data Insights" : section.charAt(0).toUpperCase() + section.slice(1)}`,
+      title: `Focus on ${label}`,
       reason: `${data.accuracy}% overall section accuracy`,
       practiceUrl: `/practice?section=${section}`,
     });
@@ -227,13 +239,10 @@ export function formatRelativeTime(timestamp: number): string {
   return `${months}mo ago`;
 }
 
-export function getQuestionTypesForSection(section: Section): { value: QuestionType; label: string }[] {
-  const map: Record<Section, QuestionType[]> = {
-    quant: ["problem-solving", "data-sufficiency"],
-    verbal: ["critical-reasoning", "reading-comprehension"],
-    "data-insights": ["multi-source-reasoning", "two-part-analysis", "graphics-interpretation", "table-analysis"],
-  };
-  return map[section].map((t) => ({ value: t, label: QUESTION_TYPE_LABELS[t] }));
+export function getQuestionTypesForSection(section: string, config?: ExamConfig): { value: string; label: string }[] {
+  const examConfig = config ?? gmatConfig;
+  const types = examConfig.questionTypesPerSection[section] ?? [];
+  return types.map((t) => ({ value: t, label: examConfig.questionTypes[t] || t }));
 }
 
 export function countSessionsInRange(sessions: PracticeSession[], range: TimeRange): number {
@@ -264,8 +273,6 @@ function startOfWeek(ts: number): number {
 
 /**
  * Groups attempts into time buckets and computes accuracy per bucket.
- * Buckets are daily for ranges <= 30d, weekly for "all".
- * Returns points sorted oldest-first.
  */
 export function computeProgressTrend(attempts: UserAttempt[], range: TimeRange): TrendPoint[] {
   if (attempts.length === 0) return [];
@@ -275,7 +282,6 @@ export function computeProgressTrend(attempts: UserAttempt[], range: TimeRange):
 
   const buckets: Record<number, { total: number; correct: number }> = {};
 
-  // Attempts are already sorted newest-first from Firestore; iterate all
   for (const a of attempts) {
     const key = bucketFn(a.timestamp);
     if (!buckets[key]) buckets[key] = { total: 0, correct: 0 };
