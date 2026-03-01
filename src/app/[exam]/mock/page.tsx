@@ -10,7 +10,7 @@ import { createSession, updateSession, saveAttempt, updateProfileStats } from "@
 import { PageSkeleton } from "@/components/loading-skeleton";
 import { QuestionRenderer } from "@/components/question-renderer";
 import { Badge } from "@/components/badge";
-import { getMockExamQuestionsForExam, formatTime } from "@/lib/mock";
+import { getMockExamQuestionsForExam, getMockExamS1Questions, getMockExamS2Questions, getAdaptiveTier, formatTime } from "@/lib/mock";
 
 type Phase = "landing" | "section-intro" | "in-progress" | "section-transition" | "finishing";
 
@@ -22,6 +22,7 @@ function MockContent() {
 
   const MOCK_SECTIONS = exam.mockSections;
   const MOCK_TOTAL_QUESTIONS = MOCK_SECTIONS.reduce((s, c) => s + c.questionCount, 0);
+  const isAdaptive = MOCK_SECTIONS.some((cfg) => cfg.adaptiveRef !== undefined);
 
   const [phase, setPhase] = useState<Phase>("landing");
   const [sectionQuestions, setSectionQuestions] = useState<Question[][]>([]);
@@ -29,9 +30,12 @@ function MockContent() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [selectedAnswerB, setSelectedAnswerB] = useState<number | null>(null);
+  const [selectedAnswerC, setSelectedAnswerC] = useState<number | null>(null);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [finished, setFinished] = useState(false);
+  // Track per-section scores for adaptive S2 selection
+  const [sectionScores, setSectionScores] = useState<Record<number, { correct: number; total: number }>>({});
 
   // Timer: store the deadline (Date.now() + section time) for accuracy
   const [sectionDeadline, setSectionDeadline] = useState(0);
@@ -45,9 +49,12 @@ function MockContent() {
   const currentSectionQs = sectionQuestions[currentSectionIndex] ?? [];
   const currentQuestion = currentSectionQs[currentQuestionIndex];
   const isTPA = currentQuestion?.type === "two-part-analysis";
+  const isMultiAnswer = currentQuestion?.type === "text-completion" || currentQuestion?.type === "sentence-equivalence" || isTPA;
+  const needsAnswerB = isMultiAnswer && (currentQuestion?.twoPartColumns || currentQuestion?.threePartColumns || currentQuestion?.correctAnswerB !== undefined);
+  const needsAnswerC = currentQuestion?.threePartColumns != null;
 
-  const getSectionLabel = (sectionId: string) =>
-    exam.sections.find(s => s.id === sectionId)?.label || sectionId;
+  const getSectionLabel = (_sectionId: string) =>
+    currentSectionConfig?.label || exam.sections.find(s => s.id === _sectionId)?.label || _sectionId;
 
   // Countdown timer using Date.now() diffs
   useEffect(() => {
@@ -84,9 +91,18 @@ function MockContent() {
 
   const startExam = useCallback(async () => {
     if (!user) return;
-    const sections = getMockExamQuestionsForExam(exam, allQuestions);
+
+    let sections: Question[][];
+    if (isAdaptive) {
+      // Adaptive exam (GRE): generate S1 questions upfront, S2 deferred
+      const { questions } = getMockExamS1Questions(exam, allQuestions);
+      sections = questions;
+    } else {
+      sections = getMockExamQuestionsForExam(exam, allQuestions);
+    }
     setSectionQuestions(sections);
 
+    // For adaptive exams, S2 question IDs aren't known yet — use S1 IDs only
     const allIds = sections.flat().map((q) => q.id);
     const id = await createSession({
       userId: user.uid,
@@ -98,12 +114,13 @@ function MockContent() {
       themeBreakdown: {},
       timestamp: Date.now(),
       completed: false,
+      exam: exam.slug,
     });
     setSessionId(id);
     setCurrentSectionIndex(0);
     setCurrentQuestionIndex(0);
     setPhase("section-intro");
-  }, [user, exam, MOCK_TOTAL_QUESTIONS]);
+  }, [user, exam, MOCK_TOTAL_QUESTIONS, isAdaptive]);
 
   const startSection = useCallback(() => {
     const deadline = Date.now() + MOCK_SECTIONS[currentSectionIndex].timeMinutes * 60 * 1000;
@@ -114,13 +131,40 @@ function MockContent() {
 
   const handleSubmit = useCallback(async () => {
     if (selectedAnswer === null || !currentQuestion || !user || !sessionId) return;
-    if (isTPA && selectedAnswerB === null) return;
+    if (needsAnswerB && (selectedAnswerB === null || selectedAnswerB === -1)) return;
+    if (needsAnswerC && (selectedAnswerC === null || selectedAnswerC === -1)) return;
 
     setAnswers((prev) => ({ ...prev, [currentQuestion.id]: selectedAnswer }));
 
-    const isCorrect = isTPA
-      ? selectedAnswer === currentQuestion.correctAnswer && selectedAnswerB === currentQuestion.correctAnswerB
-      : selectedAnswer === currentQuestion.correctAnswer;
+    // Determine correctness based on question type
+    let isCorrect: boolean;
+    if (currentQuestion.correctAnswerC !== undefined) {
+      // Triple-blank TC
+      isCorrect = selectedAnswer === currentQuestion.correctAnswer
+        && selectedAnswerB === currentQuestion.correctAnswerB
+        && selectedAnswerC === currentQuestion.correctAnswerC;
+    } else if (currentQuestion.correctAnswerB !== undefined) {
+      // Double-blank TC, Sentence Equivalence, Two-Part Analysis
+      isCorrect = selectedAnswer === currentQuestion.correctAnswer
+        && selectedAnswerB === currentQuestion.correctAnswerB;
+    } else if (currentQuestion.numericAnswer !== undefined) {
+      // Numeric Entry — check via string comparison (simplified)
+      isCorrect = selectedAnswer === 1; // NumericEntry sets 1 for correct
+    } else {
+      isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+    }
+
+    // Track per-section score for adaptive S2
+    setSectionScores((prev) => {
+      const prevData = prev[currentSectionIndex] ?? { correct: 0, total: 0 };
+      return {
+        ...prev,
+        [currentSectionIndex]: {
+          correct: prevData.correct + (isCorrect ? 1 : 0),
+          total: prevData.total + 1,
+        },
+      };
+    });
 
     await saveAttempt({
       userId: user.uid,
@@ -130,6 +174,7 @@ function MockContent() {
       themes: currentQuestion.themes,
       timestamp: Date.now(),
       sessionId,
+      exam: exam.slug,
     });
 
     // Auto-advance to next question (no feedback in mock mode)
@@ -137,10 +182,12 @@ function MockContent() {
       setCurrentQuestionIndex((i) => i + 1);
       setSelectedAnswer(null);
       setSelectedAnswerB(null);
+      setSelectedAnswerC(null);
     } else {
       handleSectionComplete();
     }
-  }, [selectedAnswer, selectedAnswerB, currentQuestion, currentQuestionIndex, currentSectionQs.length, user, sessionId, isTPA]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedAnswer, selectedAnswerB, selectedAnswerC, currentQuestion, currentQuestionIndex, currentSectionQs.length, user, sessionId, needsAnswerB, needsAnswerC, currentSectionIndex, exam.slug]);
 
   const handleSectionComplete = useCallback(async () => {
     sectionEndTimesRef.current[currentSectionIndex] = Date.now();
@@ -158,12 +205,30 @@ function MockContent() {
 
   const advanceToNextSection = useCallback(() => {
     const nextIdx = currentSectionIndex + 1;
+    const nextConfig = MOCK_SECTIONS[nextIdx];
+
+    // If the next section is adaptive (S2), generate its questions now
+    if (nextConfig?.adaptiveRef !== undefined && isAdaptive) {
+      const refIdx = nextConfig.adaptiveRef;
+      const refScore = sectionScores[refIdx] ?? { correct: 0, total: 0 };
+      const usedIds = new Set(sectionQuestions.flat().map((q) => q.id));
+      const s2Questions = getMockExamS2Questions(
+        exam, allQuestions, nextIdx, refScore.correct, refScore.total, usedIds
+      );
+      setSectionQuestions((prev) => {
+        const updated = [...prev];
+        updated[nextIdx] = s2Questions;
+        return updated;
+      });
+    }
+
     setCurrentSectionIndex(nextIdx);
     setCurrentQuestionIndex(0);
     setSelectedAnswer(null);
     setSelectedAnswerB(null);
+    setSelectedAnswerC(null);
     setPhase("section-intro");
-  }, [currentSectionIndex]);
+  }, [currentSectionIndex, MOCK_SECTIONS, isAdaptive, sectionScores, sectionQuestions, exam]);
 
   const finishExam = useCallback(async () => {
     if (!user || !sessionId) return;
@@ -176,6 +241,15 @@ function MockContent() {
       exam.sections.map(s => [s.id, { score: 0, total: 0 }])
     );
 
+    // For adaptive exams, also track subsection breakdown (verbal-1, verbal-2, etc.)
+    const subsectionBreakdown: Record<string, { score: number; total: number }> = {};
+
+    // Build question-to-section-index mapping
+    const qToSectionIdx: Record<string, number> = {};
+    sectionQuestions.forEach((qs, idx) => {
+      qs.forEach((q) => { qToSectionIdx[q.id] = idx; });
+    });
+
     allQs.forEach((q) => {
       const userAns = answers[q.id];
       const isCorrect = userAns === q.correctAnswer;
@@ -186,6 +260,16 @@ function MockContent() {
         if (isCorrect) sectionBreakdown[q.section].score++;
       }
 
+      // Track subsection (e.g., "verbal-1", "verbal-2")
+      const sIdx = qToSectionIdx[q.id];
+      const cfg = MOCK_SECTIONS[sIdx];
+      if (cfg?.subsection) {
+        const key = `${cfg.section}-${cfg.subsection}`;
+        if (!subsectionBreakdown[key]) subsectionBreakdown[key] = { score: 0, total: 0 };
+        subsectionBreakdown[key].total++;
+        if (isCorrect) subsectionBreakdown[key].score++;
+      }
+
       q.themes.forEach((theme) => {
         if (!themeBreakdown[theme]) themeBreakdown[theme] = { correct: 0, total: 0 };
         themeBreakdown[theme].total++;
@@ -193,18 +277,22 @@ function MockContent() {
       });
     });
 
+    // For GRE adaptive scoring, merge subsection data into sectionBreakdown
+    // so the scoring function can use it
+    const finalSectionBreakdown = { ...sectionBreakdown, ...subsectionBreakdown };
+
     await updateSession(sessionId, {
       answers,
       score,
       themeBreakdown,
-      sectionBreakdown,
+      sectionBreakdown: finalSectionBreakdown,
       completed: true,
     });
     await updateProfileStats(user.uid, allQs.length, score);
 
     setFinished(true);
     router.push(`${basePath}/mock/results?session=${sessionId}`);
-  }, [user, sessionId, sectionQuestions, answers, router, exam, basePath]);
+  }, [user, sessionId, sectionQuestions, answers, router, exam, basePath, MOCK_SECTIONS]);
 
   // Overall progress across all sections
   const overallQuestionIndex = MOCK_SECTIONS.slice(0, currentSectionIndex).reduce(
@@ -230,7 +318,7 @@ function MockContent() {
 
           <div className="grid grid-cols-1 gap-3 mb-8">
             {MOCK_SECTIONS.map((cfg, i) => (
-              <div key={cfg.section} className="flex items-center justify-between rounded-xl border border-[#e5e7eb] bg-white p-5">
+              <div key={`${cfg.section}-${i}`} className="flex items-center justify-between rounded-xl border border-[#e5e7eb] bg-white p-5">
                 <div className="flex items-center gap-3">
                   <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f3f4f6] text-sm font-bold text-[#374151]">
                     {i + 1}
@@ -350,9 +438,8 @@ function MockContent() {
       <header className="border-b border-[#e5e7eb] bg-white sticky top-0 z-30">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            <Badge variant={currentSectionIndex === 0 ? "blue" : currentSectionIndex === 1 ? "green" : "purple"}>
-              {getSectionLabel(currentSectionConfig.section)}
-            </Badge>
+            <Badge variant={currentSectionConfig.section === "verbal" ? "green" : currentSectionConfig.section === "quant" ? "blue" : "purple"}>
+              {currentSectionConfig.label}</Badge>
             <span className="text-sm font-bold text-[#0d0d0d]">
               {currentQuestionIndex + 1}
               <span className="text-[#9ca3af] font-normal"> / {currentSectionQs.length}</span>
@@ -384,15 +471,21 @@ function MockContent() {
             question={currentQuestion}
             selectedAnswer={selectedAnswer}
             selectedAnswerB={selectedAnswerB}
+            selectedAnswerC={selectedAnswerC}
             showResult={false}
             onSelectAnswer={setSelectedAnswer}
             onSelectAnswerB={setSelectedAnswerB}
+            onSelectAnswerC={setSelectedAnswerC}
           />
 
           <div className="mt-4">
             <button
               onClick={handleSubmit}
-              disabled={selectedAnswer === null || (isTPA && selectedAnswerB === null)}
+              disabled={
+                selectedAnswer === null
+                || (needsAnswerB && (selectedAnswerB === null || selectedAnswerB === -1))
+                || (needsAnswerC && (selectedAnswerC === null || selectedAnswerC === -1))
+              }
               className="w-full rounded-lg py-3 text-base font-semibold text-white bg-[#0d0d0d] hover:bg-[#1a1a1a] transition-colors disabled:bg-[#d1d5db] disabled:text-[#9ca3af] disabled:cursor-not-allowed"
             >
               {currentQuestionIndex < currentSectionQs.length - 1 ? "Submit & Next" : "Submit & Finish Section"}

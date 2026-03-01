@@ -140,6 +140,13 @@ export interface Question {
   tableData?: TableData;
   chartData?: ChartData;
   twoPartColumns?: [string, string];
+  // GRE-specific fields
+  correctAnswerC?: number;                       // Third blank for triple-blank Text Completion
+  threePartColumns?: [string, string, string];   // Column labels for triple-blank TC
+  numericAnswer?: string;                        // Expected answer for Numeric Entry (e.g. "3.5", "7/4")
+  quantityA?: string;                            // Quantity A for Quantitative Comparison
+  quantityB?: string;                            // Quantity B for Quantitative Comparison
+  givenInfo?: string;                            // Given information for QC (displayed above quantities)
 }
 
 // === Chapter ===

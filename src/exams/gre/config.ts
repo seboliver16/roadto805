@@ -147,20 +147,24 @@ export const greConfig: ExamConfig = {
     "reading-comprehension": "Reading Comprehension",
     "quantitative-comparison": "Quantitative Comparison",
     "problem-solving": "Problem Solving",
+    "numeric-entry": "Numeric Entry",
     "data-interpretation": "Data Interpretation",
   },
 
   questionTypesPerSection: {
     verbal: ["text-completion", "sentence-equivalence", "reading-comprehension"],
-    quant: ["quantitative-comparison", "problem-solving", "data-interpretation"],
+    quant: ["quantitative-comparison", "problem-solving", "numeric-entry", "data-interpretation"],
   },
 
   // === Mock Exam Config ===
-  // GRE has 2 Verbal sections (27 questions each) and 2 Quant sections (27 questions each)
-  // For simplicity, we combine each pair into one section
+  // Real GRE: 4 scored sections in this order —
+  //   Verbal S1 (12q, 18min) → Quant S1 (12q, 21min) → Verbal S2 (15q, 23min) → Quant S2 (15q, 26min)
+  // S2 difficulty is adaptive based on S1 performance.
   mockSections: [
-    { section: "verbal", label: "Verbal Reasoning", questionCount: 27, timeMinutes: 41 },
-    { section: "quant", label: "Quantitative Reasoning", questionCount: 27, timeMinutes: 47 },
+    { section: "verbal", label: "Verbal Reasoning — Section 1", questionCount: 12, timeMinutes: 18, subsection: 1 },
+    { section: "quant", label: "Quantitative Reasoning — Section 1", questionCount: 12, timeMinutes: 21, subsection: 1 },
+    { section: "verbal", label: "Verbal Reasoning — Section 2", questionCount: 15, timeMinutes: 23, subsection: 2, adaptiveRef: 0 },
+    { section: "quant", label: "Quantitative Reasoning — Section 2", questionCount: 15, timeMinutes: 26, subsection: 2, adaptiveRef: 1 },
   ],
 
   difficultyDistribution: { easy: 0.3, medium: 0.4, hard: 0.3 },

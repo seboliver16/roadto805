@@ -27,6 +27,8 @@ export interface MockSectionConfig {
   label: string;
   questionCount: number;
   timeMinutes: number;
+  subsection?: number;      // 1 or 2 — for adaptive GRE sections
+  adaptiveRef?: number;     // Index of the S1 section whose score determines this S2's difficulty
 }
 
 export interface ExamConfig {
