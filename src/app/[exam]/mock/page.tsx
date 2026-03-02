@@ -128,8 +128,10 @@ function MockContent() {
   }, [user, exam, MOCK_TOTAL_QUESTIONS, isAdaptive]);
 
   const startSection = useCallback(() => {
-    const deadline = Date.now() + MOCK_SECTIONS[currentSectionIndex].timeMinutes * 60 * 1000;
+    const totalSeconds = MOCK_SECTIONS[currentSectionIndex].timeMinutes * 60;
+    const deadline = Date.now() + totalSeconds * 1000;
     setSectionDeadline(deadline);
+    setTimeRemaining(totalSeconds); // Set immediately to prevent auto-advance race
     sectionStartTimesRef.current[currentSectionIndex] = Date.now();
     setPhase("in-progress");
   }, [currentSectionIndex, MOCK_SECTIONS]);

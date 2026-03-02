@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { useExamOptional } from "@/exams/exam-context";
 import { getAllExams } from "@/exams/registry";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const NAV_ITEMS = [
   {
@@ -64,13 +64,30 @@ const NAV_ITEMS = [
   },
 ];
 
-export function Sidebar() {
+export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const exam = useExamOptional();
   const allExams = getAllExams();
   const [examSwitcherOpen, setExamSwitcherOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+  const examMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!userMenuOpen && !examSwitcherOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (userMenuOpen && userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
+      }
+      if (examSwitcherOpen && examMenuRef.current && !examMenuRef.current.contains(e.target as Node)) {
+        setExamSwitcherOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [userMenuOpen, examSwitcherOpen]);
 
   if (!user) return null;
 
@@ -79,67 +96,77 @@ export function Sidebar() {
   const basePath = `/${examSlug}`;
   const currentExam = allExams.find((e) => e.slug === examSlug);
 
-  // Hide sidebar entirely during active mock/diagnostic exams
   const isExamInProgress =
     (pathname.includes("/mock") && !pathname.includes("/results")) ||
     (pathname.includes("/diagnostic") && !pathname.includes("/results"));
 
   if (isExamInProgress) return null;
 
-  const sidebarContent = (
-    <>
-      {/* Logo / Brand */}
-      <div className="px-4 pt-5 pb-2">
-        <Link href={`${basePath}/dashboard`} className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0d0d0d]">
-            <svg className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342" />
+  const sidebarInner = (
+    <div className="flex h-full flex-col">
+      {/* Top row */}
+      <div className={`flex items-center h-[52px] shrink-0 ${collapsed ? "justify-center px-2" : "justify-between px-3"}`}>
+        {!collapsed && (
+          <Link href={`${basePath}/dashboard`} className="flex items-center gap-2 min-w-0">
+            <span className="text-[14px] font-semibold text-white/90 truncate">Road to 805</span>
+          </Link>
+        )}
+        <button
+          onClick={onToggle}
+          className="flex h-8 w-8 items-center justify-center rounded-lg text-white/40 hover:text-white/80 hover:bg-white/[0.08] transition-colors shrink-0"
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {collapsed ? (
+            <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
-          </div>
-          <span className="text-[15px] font-bold text-[#0d0d0d] tracking-tight">Road to 805</span>
-        </Link>
+          ) : (
+            <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+          )}
+        </button>
       </div>
 
       {/* Exam Switcher */}
-      <div className="px-3 mt-4 mb-1">
-        <div className="relative">
-          <button
-            onClick={() => setExamSwitcherOpen(!examSwitcherOpen)}
-            className="flex w-full items-center justify-between rounded-lg border border-[#e5e7eb] bg-[#fafafa] px-3 py-2 text-left hover:bg-[#f3f4f6] transition-colors"
-          >
-            <div>
-              <p className="text-xs font-medium text-[#6b7280]">Studying for</p>
-              <p className="text-sm font-semibold text-[#0d0d0d]">{currentExam?.name ?? "Select Exam"}</p>
-            </div>
-            <svg className={`h-4 w-4 text-[#9ca3af] transition-transform ${examSwitcherOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-            </svg>
-          </button>
+      {!collapsed && (
+        <div className="px-2 mb-1" ref={examMenuRef}>
+          <div className="relative">
+            <button
+              onClick={() => setExamSwitcherOpen(!examSwitcherOpen)}
+              className="flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-left hover:bg-white/[0.06] transition-colors"
+            >
+              <span className="text-[13px] font-medium text-white/60">{currentExam?.shortName ?? "Exam"}</span>
+              <svg className={`h-3 w-3 text-white/30 transition-transform ${examSwitcherOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              </svg>
+            </button>
 
-          {examSwitcherOpen && (
-            <div className="absolute left-0 right-0 top-full mt-1 z-50 rounded-lg border border-[#e5e7eb] bg-white shadow-lg overflow-hidden">
-              {allExams.map((e) => (
-                <Link
-                  key={e.slug}
-                  href={`/${e.slug}/dashboard`}
-                  onClick={() => { setExamSwitcherOpen(false); setMobileOpen(false); }}
-                  className={`flex items-center gap-3 px-3 py-2.5 text-sm transition-colors ${
-                    e.slug === examSlug
-                      ? "bg-[#f3f4f6] font-semibold text-[#0d0d0d]"
-                      : "text-[#374151] hover:bg-[#fafafa]"
-                  }`}
-                >
-                  <span className={`h-2 w-2 rounded-full ${e.slug === examSlug ? "bg-[#0d0d0d]" : "bg-[#d1d5db]"}`} />
-                  {e.shortName} &mdash; {e.name}
-                </Link>
-              ))}
-            </div>
-          )}
+            {examSwitcherOpen && (
+              <div className="absolute left-0 right-0 top-full mt-1 z-50 rounded-lg bg-[#2f2f2f] shadow-xl overflow-hidden border border-white/[0.08]">
+                {allExams.map((e) => (
+                  <Link
+                    key={e.slug}
+                    href={`/${e.slug}/dashboard`}
+                    onClick={() => { setExamSwitcherOpen(false); setMobileOpen(false); }}
+                    className={`flex items-center gap-2.5 px-3 py-2 text-[13px] transition-colors ${
+                      e.slug === examSlug
+                        ? "bg-white/[0.08] text-white font-medium"
+                        : "text-white/50 hover:bg-white/[0.05] hover:text-white/70"
+                    }`}
+                  >
+                    <span className={`h-1.5 w-1.5 rounded-full ${e.slug === examSlug ? "bg-white" : "bg-white/20"}`} />
+                    {e.shortName}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Navigation */}
-      <nav className="mt-4 px-3 flex-1">
+      <nav className="flex-1 px-2 overflow-y-auto">
         <div className="space-y-0.5">
           {NAV_ITEMS.map(({ path, label, icon }) => {
             const href = `${basePath}/${path}`;
@@ -151,77 +178,107 @@ export function Sidebar() {
                 key={path}
                 href={href}
                 onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors ${
+                title={collapsed ? label : undefined}
+                className={`flex items-center rounded-lg transition-colors ${
+                  collapsed ? "justify-center h-10 w-10 mx-auto" : "gap-2.5 px-2.5 py-2"
+                } ${
                   isActive
-                    ? "bg-[#0d0d0d] text-white"
-                    : "text-[#374151] hover:bg-[#f3f4f6]"
+                    ? "bg-white/[0.1] text-white"
+                    : "text-white/50 hover:bg-white/[0.06] hover:text-white/80"
                 }`}
               >
-                <span className={isActive ? "text-white" : "text-[#6b7280]"}>{icon}</span>
-                {label}
+                <span className="shrink-0">{icon}</span>
+                {!collapsed && <span className="text-[13px] font-medium">{label}</span>}
               </Link>
             );
           })}
         </div>
       </nav>
 
-      {/* User section */}
-      <div className="border-t border-[#e5e7eb] px-3 py-3 mt-auto">
-        <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0d0d0d] text-xs font-bold text-white shrink-0">
-            {user.displayName?.[0]?.toUpperCase() ?? "U"}
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-medium text-[#0d0d0d] truncate">{user.displayName ?? "User"}</p>
-            <p className="text-xs text-[#9ca3af] truncate">{user.email}</p>
-          </div>
+      {/* User */}
+      <div className="pb-3 pt-2 mt-auto px-2" ref={userMenuRef}>
+        <div className="relative">
           <button
-            onClick={logout}
-            title="Sign out"
-            className="shrink-0 rounded-md p-1.5 text-[#9ca3af] hover:bg-[#f3f4f6] hover:text-[#374151] transition-colors"
+            onClick={() => setUserMenuOpen(!userMenuOpen)}
+            className={`flex w-full items-center rounded-lg hover:bg-white/[0.06] transition-colors ${
+              collapsed ? "justify-center p-2" : "gap-2.5 px-2.5 py-2"
+            }`}
           >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
-            </svg>
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 text-[11px] font-bold text-white shrink-0">
+              {user.displayName?.[0]?.toUpperCase() ?? "U"}
+            </div>
+            {!collapsed && (
+              <>
+                <span className="text-[13px] font-medium text-white/70 truncate flex-1 text-left">
+                  {user.displayName?.split(" ")[0] ?? "User"}
+                </span>
+                <svg className="h-3 w-3 text-white/30 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                </svg>
+              </>
+            )}
           </button>
+
+          {userMenuOpen && (
+            <div className={`absolute bottom-full mb-1 z-50 rounded-lg bg-[#2f2f2f] shadow-xl overflow-hidden border border-white/[0.08] min-w-[200px] ${
+              collapsed ? "left-full ml-2 bottom-0 mb-0" : "left-0 right-0"
+            }`}>
+              <div className="px-3 py-2.5 border-b border-white/[0.08]">
+                <p className="text-[13px] font-medium text-white/80 truncate">{user.displayName ?? "User"}</p>
+                <p className="text-[11px] text-white/40 truncate">{user.email}</p>
+              </div>
+              <button
+                onClick={() => { setUserMenuOpen(false); logout(); }}
+                className="flex w-full items-center gap-2 px-3 py-2 text-[13px] text-white/50 hover:bg-white/[0.06] hover:text-white/70 transition-colors"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                </svg>
+                Sign out
+              </button>
+            </div>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 
   return (
     <>
-      {/* Mobile hamburger */}
-      <button
-        onClick={() => setMobileOpen(true)}
-        className="fixed top-3 left-3 z-50 flex h-10 w-10 items-center justify-center rounded-lg border border-[#e5e7eb] bg-white shadow-sm lg:hidden"
-        aria-label="Open menu"
-      >
-        <svg className="h-5 w-5 text-[#374151]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-        </svg>
-      </button>
+      {!mobileOpen && (
+        <button
+          onClick={() => setMobileOpen(true)}
+          className="fixed top-3 left-3 z-50 flex h-9 w-9 items-center justify-center rounded-lg bg-[#171717] text-white/60 hover:text-white lg:hidden transition-colors"
+          aria-label="Open menu"
+        >
+          <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      )}
 
-      {/* Desktop sidebar */}
-      <aside className="hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:w-[240px] lg:border-r lg:border-[#e5e7eb] lg:bg-white z-40">
-        {sidebarContent}
+      <aside
+        className={`hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:bg-[#171717] z-40 transition-[width] duration-200 ease-in-out ${
+          collapsed ? "lg:w-[60px]" : "lg:w-[260px]"
+        }`}
+      >
+        {sidebarInner}
       </aside>
 
-      {/* Mobile overlay */}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-black/30" onClick={() => setMobileOpen(false)} />
-          <aside className="absolute inset-y-0 left-0 w-[280px] bg-white shadow-xl flex flex-col animate-fade-in">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} />
+          <aside className="absolute inset-y-0 left-0 w-[280px] bg-[#171717] flex flex-col animate-slide-in">
             <button
               onClick={() => setMobileOpen(false)}
-              className="absolute top-3 right-3 rounded-md p-1.5 text-[#6b7280] hover:bg-[#f3f4f6]"
+              className="absolute top-3 right-3 rounded-lg p-1.5 text-white/30 hover:text-white/60 hover:bg-white/[0.06] transition-colors"
               aria-label="Close menu"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
               </svg>
             </button>
-            {sidebarContent}
+            {sidebarInner}
           </aside>
         </div>
       )}
