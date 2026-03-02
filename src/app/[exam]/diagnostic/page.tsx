@@ -9,20 +9,8 @@ import { createSession, updateSession, saveAttempt, updateProfileStats, updatePr
 import { PageSkeleton } from "@/components/loading-skeleton";
 import { QuestionRenderer } from "@/components/question-renderer";
 import { Badge } from "@/components/badge";
-
-// We'll import diagnostic questions once the data files exist.
-// For now, use a dynamic import that falls back gracefully.
-function getDiagnosticQuestions(): Question[] {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const mod = require("@/data/questions");
-    return typeof mod.getDiagnosticQuestions === "function"
-      ? mod.getDiagnosticQuestions()
-      : mod.allQuestions?.slice(0, 18) ?? [];
-  } catch {
-    return [];
-  }
-}
+import { getDiagnosticQuestionsForExam } from "@/data/questions";
+import { getExamQuestions } from "@/exams/registry";
 
 function DiagnosticContent() {
   const router = useRouter();
@@ -52,11 +40,12 @@ function DiagnosticContent() {
     return () => clearInterval(interval);
   }, [startTime, finished]);
 
-  // Load diagnostic questions
+  // Load diagnostic questions for this exam
   useEffect(() => {
-    const qs = getDiagnosticQuestions();
+    const examQuestions = getExamQuestions(exam.slug);
+    const qs = getDiagnosticQuestionsForExam(exam, examQuestions);
     setQuestions(qs);
-  }, []);
+  }, [exam]);
 
   // Create session
   useEffect(() => {

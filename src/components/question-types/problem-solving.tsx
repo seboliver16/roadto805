@@ -10,9 +10,11 @@ interface Props {
   selectedAnswer: number | null;
   showResult: boolean;
   onSelectAnswer: (index: number) => void;
+  strikethroughs?: Set<number>;
+  onToggleStrikethrough?: (choiceIdx: number) => void;
 }
 
-export function ProblemSolving({ question, selectedAnswer, showResult, onSelectAnswer }: Props) {
+export function ProblemSolving({ question, selectedAnswer, showResult, onSelectAnswer, strikethroughs, onToggleStrikethrough }: Props) {
   return (
     <div>
       <div className="mb-2 flex flex-wrap items-center gap-2">
@@ -39,6 +41,7 @@ export function ProblemSolving({ question, selectedAnswer, showResult, onSelectA
 
       <div className="space-y-1.5">
         {question.choices.map((choice, i) => {
+          const isStruckThrough = strikethroughs?.has(i) ?? false;
           let borderColor = "border-[#e5e7eb]";
           let bg = "bg-white";
 
@@ -56,25 +59,43 @@ export function ProblemSolving({ question, selectedAnswer, showResult, onSelectA
           }
 
           return (
-            <button
-              key={i}
-              onClick={() => !showResult && onSelectAnswer(i)}
-              disabled={showResult}
-              className={`w-full rounded-md border ${borderColor} ${bg} p-2.5 text-left transition-colors ${
-                !showResult ? "hover:bg-[#fafafa]" : ""
-              }`}
-            >
-              <span className="mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#f3f4f6] text-xs font-semibold">
-                {String.fromCharCode(65 + i)}
-              </span>
-              {choice}
-              {showResult && i === question.correctAnswer && (
-                <span className="ml-2 text-sm font-medium text-green-600">Correct</span>
+            <div key={i} className="flex items-center gap-1.5">
+              <button
+                onClick={() => !showResult && onSelectAnswer(i)}
+                disabled={showResult}
+                className={`flex-1 rounded-md border ${borderColor} ${bg} p-2.5 text-left transition-colors ${
+                  !showResult ? "hover:bg-[#fafafa]" : ""
+                } ${isStruckThrough && !showResult ? "opacity-40" : ""}`}
+              >
+                <span className={`mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#f3f4f6] text-xs font-semibold ${isStruckThrough && !showResult ? "line-through" : ""}`}>
+                  {String.fromCharCode(65 + i)}
+                </span>
+                <span className={isStruckThrough && !showResult ? "line-through" : ""}>
+                  {choice}
+                </span>
+                {showResult && i === question.correctAnswer && (
+                  <span className="ml-2 text-sm font-medium text-green-600">Correct</span>
+                )}
+                {showResult && i === selectedAnswer && i !== question.correctAnswer && (
+                  <span className="ml-2 text-sm font-medium text-red-600">Your answer</span>
+                )}
+              </button>
+              {!showResult && onToggleStrikethrough && (
+                <button
+                  onClick={() => onToggleStrikethrough(i)}
+                  title="Strike through this choice"
+                  className={`shrink-0 rounded p-1 text-xs transition-colors ${
+                    isStruckThrough
+                      ? "text-[#374151] bg-[#f3f4f6]"
+                      : "text-[#d1d5db] hover:text-[#6b7280]"
+                  }`}
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 12H4m16 0h-4M6 6l12 12" />
+                  </svg>
+                </button>
               )}
-              {showResult && i === selectedAnswer && i !== question.correctAnswer && (
-                <span className="ml-2 text-sm font-medium text-red-600">Your answer</span>
-              )}
-            </button>
+            </div>
           );
         })}
       </div>

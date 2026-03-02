@@ -6,7 +6,8 @@ import { useAuth } from "@/lib/auth-context";
 import { useExam } from "@/exams/exam-context";
 import { StudyGuideItem, UserAttempt, Theme, Question } from "@/types";
 import { getStudyGuideItems, deleteStudyGuideItem, getUserAttempts } from "@/lib/store";
-import { questionMap, allQuestions } from "@/data/questions";
+import { questionMap } from "@/data/questions";
+import { getExamQuestions } from "@/exams/registry";
 import { PageSkeleton } from "@/components/loading-skeleton";
 import { WeaknessQuiz, WeakThemeInfo } from "@/components/weakness-quiz";
 
@@ -19,7 +20,7 @@ function shuffleArray<T>(arr: T[]): T[] {
   return shuffled;
 }
 
-function buildWeaknessQuiz(attempts: UserAttempt[]): { questions: Question[]; weakThemes: WeakThemeInfo[] } {
+function buildWeaknessQuiz(attempts: UserAttempt[], examQuestions: Question[]): { questions: Question[]; weakThemes: WeakThemeInfo[] } {
   // Compute per-theme accuracy
   const themeStats = new Map<string, { correct: number; total: number }>();
   for (const a of attempts) {
@@ -59,7 +60,7 @@ function buildWeaknessQuiz(attempts: UserAttempt[]): { questions: Question[]; we
   // Select questions for each theme
   const result: Question[] = [];
   for (const t of weakThemes) {
-    const themeQuestions = allQuestions.filter((q) => q.themes.includes(t.theme));
+    const themeQuestions = examQuestions.filter((q) => q.themes.includes(t.theme));
     result.push(...shuffleArray(themeQuestions).slice(0, t.questionCount));
   }
 
@@ -82,6 +83,7 @@ export default function StudyGuidePage() {
   const { user, profile, loading } = useAuth();
   const exam = useExam();
   const basePath = `/${exam.slug}`;
+  const examQuestions = getExamQuestions(exam.slug);
   const [items, setItems] = useState<StudyGuideItem[]>([]);
   const [fetching, setFetching] = useState(true);
   const [activeTab, setActiveTab] = useState<"saved" | "missed" | "weakness">("saved");
@@ -143,8 +145,8 @@ export default function StudyGuidePage() {
 
   // Build weakness quiz data
   const { questions: weaknessQuestions, weakThemes } = useMemo(
-    () => buildWeaknessQuiz(attempts),
-    [attempts]
+    () => buildWeaknessQuiz(attempts, examQuestions),
+    [attempts, examQuestions]
   );
 
   if (loading || fetching) return <PageSkeleton />;

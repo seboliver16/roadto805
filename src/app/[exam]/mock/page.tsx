@@ -5,14 +5,14 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { useExam } from "@/exams/exam-context";
 import { Question, Section } from "@/types";
-import { allQuestions } from "@/data/questions";
+import { getExamQuestions } from "@/exams/registry";
 import { createSession, updateSession, saveAttempt, updateProfileStats } from "@/lib/store";
 import { PageSkeleton } from "@/components/loading-skeleton";
 import { QuestionRenderer } from "@/components/question-renderer";
 import { Badge } from "@/components/badge";
 import { getMockExamQuestionsForExam, getMockExamS1Questions, getMockExamS2Questions, getAdaptiveTier, formatTime } from "@/lib/mock";
 
-type Phase = "landing" | "section-intro" | "in-progress" | "section-transition" | "finishing";
+type Phase = "landing" | "section-intro" | "in-progress" | "section-review" | "section-transition" | "finishing";
 
 function MockContent() {
   const router = useRouter();
@@ -20,6 +20,7 @@ function MockContent() {
   const exam = useExam();
   const basePath = `/${exam.slug}`;
 
+  const examQuestions = getExamQuestions(exam.slug);
   const MOCK_SECTIONS = exam.mockSections;
   const MOCK_TOTAL_QUESTIONS = MOCK_SECTIONS.reduce((s, c) => s + c.questionCount, 0);
   const isAdaptive = MOCK_SECTIONS.some((cfg) => cfg.adaptiveRef !== undefined);
@@ -36,6 +37,10 @@ function MockContent() {
   const [finished, setFinished] = useState(false);
   // Track per-section scores for adaptive S2 selection
   const [sectionScores, setSectionScores] = useState<Record<number, { correct: number; total: number }>>({});
+  // Question flagging (for review before section end)
+  const [flaggedQuestions, setFlaggedQuestions] = useState<Set<string>>(new Set());
+  // Answer strikethrough per question: questionId -> Set of choice indices
+  const [strikethroughs, setStrikethroughs] = useState<Record<string, Set<number>>>({});
 
   // Timer: store the deadline (Date.now() + section time) for accuracy
   const [sectionDeadline, setSectionDeadline] = useState(0);
@@ -70,7 +75,7 @@ function MockContent() {
 
   // Auto-advance when time expires
   useEffect(() => {
-    if (phase === "in-progress" && timeRemaining === 0 && sectionDeadline > 0) {
+    if ((phase === "in-progress" || phase === "section-review") && timeRemaining === 0 && sectionDeadline > 0) {
       handleSectionComplete();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -95,10 +100,10 @@ function MockContent() {
     let sections: Question[][];
     if (isAdaptive) {
       // Adaptive exam (GRE): generate S1 questions upfront, S2 deferred
-      const { questions } = getMockExamS1Questions(exam, allQuestions);
+      const { questions } = getMockExamS1Questions(exam, examQuestions);
       sections = questions;
     } else {
-      sections = getMockExamQuestionsForExam(exam, allQuestions);
+      sections = getMockExamQuestionsForExam(exam, examQuestions);
     }
     setSectionQuestions(sections);
 
@@ -184,7 +189,8 @@ function MockContent() {
       setSelectedAnswerB(null);
       setSelectedAnswerC(null);
     } else {
-      handleSectionComplete();
+      // Show section review before completing
+      setPhase("section-review");
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedAnswer, selectedAnswerB, selectedAnswerC, currentQuestion, currentQuestionIndex, currentSectionQs.length, user, sessionId, needsAnswerB, needsAnswerC, currentSectionIndex, exam.slug]);
@@ -213,7 +219,7 @@ function MockContent() {
       const refScore = sectionScores[refIdx] ?? { correct: 0, total: 0 };
       const usedIds = new Set(sectionQuestions.flat().map((q) => q.id));
       const s2Questions = getMockExamS2Questions(
-        exam, allQuestions, nextIdx, refScore.correct, refScore.total, usedIds
+        exam, examQuestions, nextIdx, refScore.correct, refScore.total, usedIds
       );
       setSectionQuestions((prev) => {
         const updated = [...prev];
@@ -388,6 +394,84 @@ function MockContent() {
     );
   }
 
+  // === Section review (before ending section) ===
+  if (phase === "section-review" && currentSectionConfig) {
+    const flaggedInSection = currentSectionQs.filter((q) => flaggedQuestions.has(q.id));
+    const answeredCount = currentSectionQs.filter((q) => answers[q.id] !== undefined).length;
+    const unansweredCount = currentSectionQs.length - answeredCount;
+
+    return (
+      <div className="min-h-screen bg-white">
+        <header className="border-b border-[#e5e7eb] bg-white sticky top-0 z-30">
+          <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
+            <h2 className="text-sm font-bold text-[#0d0d0d]">{currentSectionConfig.label} — Review</h2>
+            <span className={`text-sm font-bold tabular-nums ${timeRemaining < 300 ? "text-red-600" : "text-[#0d0d0d]"}`}>
+              {formatTime(timeRemaining)}
+            </span>
+          </div>
+        </header>
+
+        <main className="mx-auto max-w-3xl px-4 py-6 animate-fade-in">
+          <div className="mb-6">
+            <p className="text-sm text-[#6b7280] mb-4">
+              {answeredCount} of {currentSectionQs.length} answered
+              {unansweredCount > 0 && <span className="text-amber-600 font-medium"> ({unansweredCount} unanswered)</span>}
+              {flaggedInSection.length > 0 && <span className="text-blue-600 font-medium"> &middot; {flaggedInSection.length} flagged</span>}
+            </p>
+
+            {/* Question grid */}
+            <div className="grid grid-cols-6 sm:grid-cols-10 gap-2">
+              {currentSectionQs.map((q, i) => {
+                const isAnswered = answers[q.id] !== undefined;
+                const isFlagged = flaggedQuestions.has(q.id);
+                return (
+                  <button
+                    key={q.id}
+                    onClick={() => {
+                      setCurrentQuestionIndex(i);
+                      setSelectedAnswer(answers[q.id] ?? null);
+                      setSelectedAnswerB(null);
+                      setSelectedAnswerC(null);
+                      setPhase("in-progress");
+                    }}
+                    className={`relative flex h-10 w-full items-center justify-center rounded-lg text-xs font-bold border transition-colors
+                      ${isFlagged ? "border-blue-400 bg-blue-50 text-blue-700" :
+                        isAnswered ? "border-[#e5e7eb] bg-[#0d0d0d] text-white" :
+                        "border-[#e5e7eb] bg-white text-[#374151] hover:bg-[#fafafa]"}`}
+                  >
+                    {i + 1}
+                    {isFlagged && (
+                      <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-blue-500" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex gap-3">
+            <button
+              onClick={() => {
+                setPhase("in-progress");
+              }}
+              className="flex-1 rounded-xl border border-[#e5e7eb] bg-white py-3 text-sm font-semibold text-[#374151] hover:bg-[#fafafa] transition-colors"
+            >
+              Go Back
+            </button>
+            <button
+              onClick={handleSectionComplete}
+              className="flex-1 rounded-xl bg-[#0d0d0d] py-3 text-sm font-semibold text-white hover:bg-[#1a1a1a] transition-colors"
+            >
+              {unansweredCount > 0
+                ? `End Section (${unansweredCount} unanswered)`
+                : "End Section"}
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   // === Section transition ===
   if (phase === "section-transition") {
     const completedConfig = MOCK_SECTIONS[currentSectionIndex];
@@ -446,9 +530,43 @@ function MockContent() {
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
+            {/* Flag button */}
+            <button
+              onClick={() => {
+                setFlaggedQuestions((prev) => {
+                  const next = new Set(prev);
+                  if (next.has(currentQuestion.id)) {
+                    next.delete(currentQuestion.id);
+                  } else {
+                    next.add(currentQuestion.id);
+                  }
+                  return next;
+                });
+              }}
+              title={flaggedQuestions.has(currentQuestion.id) ? "Unflag question" : "Flag for review"}
+              className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
+                flaggedQuestions.has(currentQuestion.id)
+                  ? "bg-blue-50 text-blue-700 border border-blue-200"
+                  : "text-[#6b7280] hover:bg-[#f3f4f6] border border-transparent"
+              }`}
+            >
+              <svg className="h-3.5 w-3.5" fill={flaggedQuestions.has(currentQuestion.id) ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" />
+              </svg>
+              Flag
+            </button>
+
+            {/* Review section button */}
+            <button
+              onClick={() => setPhase("section-review")}
+              className="text-xs text-[#6b7280] hover:text-[#0d0d0d] transition-colors font-medium"
+            >
+              Review
+            </button>
+
             <span className="text-xs text-[#9ca3af]">
-              {overallQuestionIndex + 1} of {MOCK_TOTAL_QUESTIONS} overall
+              {overallQuestionIndex + 1} of {MOCK_TOTAL_QUESTIONS}
             </span>
             <span className={`text-sm font-bold tabular-nums ${isLowTime ? "text-red-600" : "text-[#0d0d0d]"}`}>
               {formatTime(timeRemaining)}
@@ -476,9 +594,38 @@ function MockContent() {
             onSelectAnswer={setSelectedAnswer}
             onSelectAnswerB={setSelectedAnswerB}
             onSelectAnswerC={setSelectedAnswerC}
+            strikethroughs={strikethroughs[currentQuestion.id]}
+            onToggleStrikethrough={(choiceIdx) => {
+              setStrikethroughs((prev) => {
+                const current = prev[currentQuestion.id] ?? new Set<number>();
+                const next = new Set(current);
+                if (next.has(choiceIdx)) {
+                  next.delete(choiceIdx);
+                } else {
+                  next.add(choiceIdx);
+                }
+                return { ...prev, [currentQuestion.id]: next };
+              });
+            }}
           />
 
-          <div className="mt-4">
+          <div className="mt-4 flex gap-3">
+            {/* Previous question */}
+            {currentQuestionIndex > 0 && (
+              <button
+                onClick={() => {
+                  const prevIdx = currentQuestionIndex - 1;
+                  const prevQ = currentSectionQs[prevIdx];
+                  setCurrentQuestionIndex(prevIdx);
+                  setSelectedAnswer(answers[prevQ.id] ?? null);
+                  setSelectedAnswerB(null);
+                  setSelectedAnswerC(null);
+                }}
+                className="rounded-lg border border-[#e5e7eb] px-4 py-3 text-sm font-medium text-[#6b7280] hover:bg-[#fafafa] transition-colors"
+              >
+                Previous
+              </button>
+            )}
             <button
               onClick={handleSubmit}
               disabled={
@@ -486,9 +633,9 @@ function MockContent() {
                 || (needsAnswerB && (selectedAnswerB === null || selectedAnswerB === -1))
                 || (needsAnswerC && (selectedAnswerC === null || selectedAnswerC === -1))
               }
-              className="w-full rounded-lg py-3 text-base font-semibold text-white bg-[#0d0d0d] hover:bg-[#1a1a1a] transition-colors disabled:bg-[#d1d5db] disabled:text-[#9ca3af] disabled:cursor-not-allowed"
+              className="flex-1 rounded-lg py-3 text-base font-semibold text-white bg-[#0d0d0d] hover:bg-[#1a1a1a] transition-colors disabled:bg-[#d1d5db] disabled:text-[#9ca3af] disabled:cursor-not-allowed"
             >
-              {currentQuestionIndex < currentSectionQs.length - 1 ? "Submit & Next" : "Submit & Finish Section"}
+              {currentQuestionIndex < currentSectionQs.length - 1 ? "Next" : "Review Section"}
             </button>
           </div>
         </div>

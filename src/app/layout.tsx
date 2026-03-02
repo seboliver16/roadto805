@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth-context";
-import { NavWrapper } from "@/components/nav-wrapper";
+import { AppShell } from "@/components/app-shell";
 
 export const metadata: Metadata = {
   title: "Test Prep — GMAT, GRE & More",
@@ -36,8 +36,9 @@ export default function RootLayout({
       </head>
       <body className="antialiased bg-white text-[#0d0d0d]" style={{ fontFamily: "'Inter', ui-sans-serif, system-ui, sans-serif" }}>
         <AuthProvider>
-          <NavWrapper />
-          {children}
+          <AppShell>
+            {children}
+          </AppShell>
         </AuthProvider>
       </body>
     </html>
