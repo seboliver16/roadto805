@@ -14,6 +14,11 @@
   50% { opacity: 0.5; }
 }
 
+@keyframes slide-in-left {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
 .animate-fade-in {
   animation: fade-in 0.15s ease-out;
 }
@@ -21,4 +26,8 @@
 .animate-shimmer {
   background: #e5e7eb;
   animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.animate-slide-in {
+  animation: slide-in-left 0.2s ease-out;
 }
