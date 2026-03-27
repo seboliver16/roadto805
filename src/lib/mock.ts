@@ -180,15 +180,16 @@ export function getMockExamS2Questions(
 }
 
 /**
- * Select AWA (Analytical Writing) questions: 1 Issue + 1 Argument task.
+ * Select AWA (Analytical Writing) questions.
+ * Current GRE (Sept 2023+): 1 Issue essay only. No Argument task.
  */
-function selectAWAQuestions(questionPool: Question[]): Question[] {
+function selectAWAQuestions(questionPool: Question[], count: number = 1): Question[] {
   const awaPool = questionPool.filter((q) => q.type === "analytical-writing");
   const issues = shuffleArray(awaPool.filter((q) => q.essayType === "issue"));
-  const args = shuffleArray(awaPool.filter((q) => q.essayType === "argument"));
   const selected: Question[] = [];
-  if (issues.length > 0) selected.push(issues[0]);
-  if (args.length > 0) selected.push(args[0]);
+  for (let i = 0; i < count && i < issues.length; i++) {
+    selected.push(issues[i]);
+  }
   return selected;
 }
 

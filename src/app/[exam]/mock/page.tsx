@@ -245,10 +245,14 @@ function MockContent() {
     setPhase("finishing");
 
     const allQs = sectionQuestions.flat();
+    // Separate AWA essays from MC questions
+    const mcQuestions = allQs.filter((q) => q.type !== "analytical-writing");
+    const awaQuestions = allQs.filter((q) => q.type === "analytical-writing");
+
     let score = 0;
     const themeBreakdown: Record<string, { correct: number; total: number }> = {};
     const sectionBreakdown: Record<string, { score: number; total: number }> = Object.fromEntries(
-      exam.sections.map(s => [s.id, { score: 0, total: 0 }])
+      exam.sections.filter(s => s.id !== "awa").map(s => [s.id, { score: 0, total: 0 }])
     );
 
     // For adaptive exams, also track subsection breakdown (verbal-1, verbal-2, etc.)
@@ -260,7 +264,8 @@ function MockContent() {
       qs.forEach((q) => { qToSectionIdx[q.id] = idx; });
     });
 
-    allQs.forEach((q) => {
+    // Score MC questions (V + Q only)
+    mcQuestions.forEach((q) => {
       const userAns = answers[q.id];
       const isCorrect = userAns === q.correctAnswer;
       if (isCorrect) score++;
@@ -287,8 +292,28 @@ function MockContent() {
       });
     });
 
-    // For GRE adaptive scoring, merge subsection data into sectionBreakdown
-    // so the scoring function can use it
+    // Score AWA essays via AI (if any essays were written)
+    let awaScore: number | undefined;
+    if (awaQuestions.length > 0) {
+      try {
+        const { scoreEssay } = await import("@/lib/mistral");
+        const essayQ = awaQuestions[0];
+        const essayContent = essayTexts[essayQ.id];
+        if (essayContent && essayContent.trim().split(/\s+/).length >= 10) {
+          const result = await scoreEssay(
+            essayContent,
+            essayQ.essayType ?? "issue",
+            essayQ.essayPrompt ?? "",
+            essayQ.essayDirections ?? ""
+          );
+          awaScore = result.score;
+        }
+      } catch {
+        // AI scoring failed — skip AWA score
+      }
+    }
+
+    // Merge subsection data for adaptive scoring
     const finalSectionBreakdown = { ...sectionBreakdown, ...subsectionBreakdown };
 
     await updateSession(sessionId, {
@@ -298,11 +323,13 @@ function MockContent() {
       sectionBreakdown: finalSectionBreakdown,
       completed: true,
     });
-    await updateProfileStats(user.uid, allQs.length, score);
+    await updateProfileStats(user.uid, mcQuestions.length, score);
 
     setFinished(true);
-    router.push(`${basePath}/mock/results?session=${sessionId}`);
-  }, [user, sessionId, sectionQuestions, answers, router, exam, basePath, MOCK_SECTIONS]);
+    // Pass AWA score via URL if available
+    const awaParam = awaScore !== undefined ? `&awa=${awaScore}` : "";
+    router.push(`${basePath}/mock/results?session=${sessionId}${awaParam}`);
+  }, [user, sessionId, sectionQuestions, answers, essayTexts, router, exam, basePath, MOCK_SECTIONS]);
 
   // Overall progress across all sections
   const overallQuestionIndex = MOCK_SECTIONS.slice(0, currentSectionIndex).reduce(
@@ -386,13 +413,13 @@ function MockContent() {
 
           {isEssaySection && (
             <p className="mt-3 text-sm text-[#6b7280] leading-relaxed max-w-sm mx-auto">
-              You will write two essays: one &ldquo;Analyze an Issue&rdquo; task and one &ldquo;Analyze an Argument&rdquo; task. Your essays will be scored on a 0–6 scale by AI when you submit the exam.
+              You will write one &ldquo;Analyze an Issue&rdquo; essay. Take a position on the claim and support it with reasoning and examples. Your essay will be scored on a 0–6 scale by AI when you submit the exam.
             </p>
           )}
 
           <div className="mt-4 flex justify-center gap-4">
             <div className="rounded-lg bg-[#fafafa] border border-[#e5e7eb] px-4 py-2.5 text-sm text-[#374151] font-medium">
-              {isEssaySection ? "2 essays" : `${currentSectionConfig.questionCount} questions`}
+              {isEssaySection ? "1 essay" : `${currentSectionConfig.questionCount} questions`}
             </div>
             <div className="rounded-lg bg-[#fafafa] border border-[#e5e7eb] px-4 py-2.5 text-sm text-[#374151] font-medium">
               {currentSectionConfig.timeMinutes} minutes

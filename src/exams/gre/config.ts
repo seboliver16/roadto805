@@ -161,12 +161,12 @@ export const greConfig: ExamConfig = {
   },
 
   // === Mock Exam Config ===
-  // Real GRE: 5 sections —
-  //   AWA (2 essays, 30min each = 60min total) → Verbal S1 (12q, 18min) → Quant S1 (12q, 21min)
-  //   → Verbal S2 (15q, 23min) → Quant S2 (15q, 26min)
-  // S2 difficulty is adaptive based on S1 performance.
+  // Real GRE (Sept 2023+): 5 sections, 1 hr 58 min total —
+  //   AWA (1 Issue essay, 30 min) → V1 (12q, 18min) → Q1 (12q, 21min)
+  //   → V2 (15q, 23min) → Q2 (15q, 26min)
+  // No scheduled breaks. S2 difficulty is adaptive based on S1 performance.
   mockSections: [
-    { section: "awa", label: "Analytical Writing", questionCount: 2, timeMinutes: 60, isEssay: true },
+    { section: "awa", label: "Analytical Writing", questionCount: 1, timeMinutes: 30, isEssay: true },
     { section: "verbal", label: "Verbal Reasoning — Section 1", questionCount: 12, timeMinutes: 18, subsection: 1 },
     { section: "quant", label: "Quantitative Reasoning — Section 1", questionCount: 12, timeMinutes: 21, subsection: 1 },
     { section: "verbal", label: "Verbal Reasoning — Section 2", questionCount: 15, timeMinutes: 23, subsection: 2, adaptiveRef: 1 },

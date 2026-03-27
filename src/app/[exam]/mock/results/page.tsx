@@ -16,6 +16,7 @@ function MockResultsContent() {
   const { user, profile, loading: authLoading } = useAuth();
   const exam = useExam();
   const sessionId = searchParams.get("session");
+  const awaScoreParam = searchParams.get("awa");
   const basePath = `/${exam.slug}`;
 
   const [session, setSession] = useState<PracticeSession | null>(null);
@@ -65,8 +66,8 @@ function MockResultsContent() {
   const hasSubsections = "verbal-1" in sectionBreakdown || "quant-1" in sectionBreakdown;
   const isGre = exam.slug === "gre";
 
-  // Unique section display (for GRE with 4 sections, show 2 aggregate section scores)
-  const displaySections = exam.sections;
+  // For GRE: only show Verbal + Quant as scored sections (AWA is separate)
+  const scoredSections = exam.sections.filter(s => s.id !== "awa");
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
@@ -90,35 +91,51 @@ function MockResultsContent() {
         </p>
       </div>
 
-      {/* Section Scores */}
-      <div className={`mb-8 grid grid-cols-1 gap-4 ${displaySections.length <= 2 ? "sm:grid-cols-2" : "sm:grid-cols-3"} animate-fade-in`}>
-        {displaySections.map((sec) => {
+      {/* Section Scores (V + Q) */}
+      <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fade-in">
+        {scoredSections.map((sec) => {
           const data = sectionBreakdown[sec.id] ?? { score: 0, total: 0 };
           const percent = data.total > 0 ? Math.round((data.score / data.total) * 100) : 0;
           const sectionScore = estimated.sections[sec.id] ?? (exam.sectionScoreRange?.min ?? 0);
-
-          // Get difficulty tier if available
           const diffTier = (estimated as { difficultyTiers?: Record<string, string> }).difficultyTiers?.[sec.id];
+          const colors = exam.sectionColors[sec.id];
 
           return (
-            <div key={sec.id} className="rounded-xl border border-[#e5e7eb] bg-white p-5 text-center">
-              <p className="text-sm font-medium text-[#374151] mb-3">{sec.label}</p>
-              <div className="flex justify-center mb-2">
-                <ProgressRing percent={percent} size={72} strokeWidth={5} color="text-[#0d0d0d]" />
-              </div>
-              <p className="text-lg font-bold text-[#0d0d0d]">{sectionScore}</p>
-              <p className="text-xs text-[#6b7280]">
-                {data.score} / {data.total} correct
-              </p>
+            <div key={sec.id} className={`rounded-xl border bg-white p-5 text-center ${colors?.border ?? "border-[#e5e7eb]"}`}>
+              <p className="text-sm font-medium text-[#374151] mb-1">{sec.label}</p>
               {diffTier && (
-                <p className="mt-1 text-xs font-medium text-[#6b7280]">
-                  S2 tier: <span className={diffTier === "hard" ? "text-red-600" : diffTier === "medium" ? "text-yellow-600" : "text-green-600"}>{diffTier.charAt(0).toUpperCase() + diffTier.slice(1)}</span>
+                <p className="mb-3 text-xs font-medium">
+                  Section 2 difficulty:{" "}
+                  <span className={`rounded-full px-2 py-0.5 ${
+                    diffTier === "hard" ? "bg-red-50 text-red-700" :
+                    diffTier === "medium" ? "bg-yellow-50 text-yellow-700" :
+                    "bg-green-50 text-green-700"
+                  }`}>
+                    {diffTier.charAt(0).toUpperCase() + diffTier.slice(1)}
+                  </span>
                 </p>
               )}
+              <p className="text-4xl font-bold text-[#0d0d0d] mb-1">{sectionScore}</p>
+              <p className="text-sm text-[#6b7280]">out of 170</p>
+              <p className="mt-2 text-xs text-[#9ca3af]">
+                {data.score}/{data.total} correct ({percent}%)
+              </p>
             </div>
           );
         })}
       </div>
+
+      {/* AWA Score (separate from V+Q total) */}
+      {isGre && (
+        <div className="mb-8 rounded-xl border border-amber-200 bg-amber-50 p-5 text-center animate-fade-in">
+          <p className="text-sm font-medium text-amber-700 mb-1">Analytical Writing</p>
+          <p className="text-2xl font-bold text-amber-800">
+            {awaScoreParam ? parseFloat(awaScoreParam).toFixed(1) : "—"}
+          </p>
+          <p className="text-sm text-amber-600">out of 6.0</p>
+          <p className="mt-1 text-xs text-amber-500">Scored separately — not included in 260–340 total</p>
+        </div>
+      )}
 
       {/* Subsection Breakdown (GRE adaptive) */}
       {isGre && hasSubsections && (
