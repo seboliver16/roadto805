@@ -3,13 +3,14 @@ import { ChatMessage, Section } from "@/types";
 
 const client = new Mistral({ apiKey: process.env.NEXT_PUBLIC_MISTRAL_API_KEY || "" });
 
-const SECTION_TUTOR_ROLE: Record<Section, string> = {
-  quant: "GMAT math tutor",
-  verbal: "GMAT verbal reasoning tutor",
-  "data-insights": "GMAT Data Insights tutor",
+const SECTION_TUTOR_ROLE: Record<string, string> = {
+  quant: "math tutor",
+  verbal: "verbal reasoning tutor",
+  "data-insights": "Data Insights tutor",
+  awa: "writing tutor",
 };
 
-const SECTION_WALKTHROUGH_INSTRUCTIONS: Record<Section, string> = {
+const SECTION_WALKTHROUGH_INSTRUCTIONS: Record<string, string> = {
   quant: `Instructions:
 1. First, briefly explain WHY the student's answer is wrong (common misconception or error).
 2. Then walk through the correct solution step-by-step, as if teaching a student.
@@ -199,6 +200,65 @@ Rules:
       choices: ["Option A", "Option B", "Option C", "Option D"],
       correctIndex: 0,
       explanation: "",
+    };
+  }
+}
+
+/**
+ * Score a GRE Analytical Writing essay on the 0-6 scale.
+ * Uses the same rubric as ETS: development, organization, language, mechanics.
+ */
+export async function scoreEssay(
+  essayText: string,
+  essayType: "issue" | "argument",
+  essayPrompt: string,
+  essayDirections: string
+): Promise<{ score: number; feedback: string }> {
+  const taskDescription =
+    essayType === "issue"
+      ? "The student was asked to analyze an issue — taking a position on a claim and supporting it with reasons and examples."
+      : "The student was asked to analyze an argument — evaluating the logical soundness of someone else's argument.";
+
+  const prompt = `You are an expert GRE Analytical Writing scorer. Score the following essay on the GRE 0–6 scale (half-point increments: 0, 0.5, 1.0, 1.5, ... 5.5, 6.0).
+
+TASK TYPE: ${essayType === "issue" ? "Analyze an Issue" : "Analyze an Argument"}
+${taskDescription}
+
+PROMPT:
+${essayPrompt}
+
+DIRECTIONS:
+${essayDirections}
+
+STUDENT'S ESSAY:
+${essayText}
+
+SCORING RUBRIC (GRE AWA):
+6 — Outstanding: Insightful analysis, compelling reasoning, well-organized, sophisticated vocabulary and sentence variety, virtually free of errors.
+5 — Strong: Thoughtful analysis, well-developed reasoning, clearly organized, good vocabulary, few errors.
+4 — Adequate: Competent analysis, adequate reasoning, reasonably organized, acceptable vocabulary, some errors.
+3 — Limited: Some analysis but weak reasoning, partially organized, limited vocabulary, noticeable errors.
+2 — Seriously Flawed: Weak analysis, poor reasoning, disorganized, limited vocabulary, frequent errors.
+1 — Fundamentally Deficient: Little or no analysis, incoherent, severe errors.
+0 — Off-topic, blank, or copied the prompt.
+
+Score the essay and provide detailed feedback. Return ONLY a JSON object (no markdown, no code fences):
+{"score": 4.5, "feedback": "Your essay demonstrates... [organized feedback covering: 1) Thesis & Position, 2) Development & Evidence, 3) Organization & Flow, 4) Language & Style, 5) Areas for Improvement]"}`;
+
+  const result = await client.chat.complete({
+    model: "mistral-small-latest",
+    messages: [{ role: "user", content: prompt }],
+  });
+
+  const raw = (result.choices?.[0]?.message?.content as string ?? "").trim();
+  try {
+    return JSON.parse(raw);
+  } catch {
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (jsonMatch) return JSON.parse(jsonMatch[0]);
+    return {
+      score: 3.0,
+      feedback: "Unable to generate detailed feedback. Please try again.",
     };
   }
 }

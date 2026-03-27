@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { useExam } from "@/exams/exam-context";
-import { getChapterById, getChaptersBySection } from "@/data/chapters";
+import { getChapterById } from "@/data/chapters";
+import { getExamChapters } from "@/exams/registry";
 import { PageSkeleton } from "@/components/loading-skeleton";
 import { Badge } from "@/components/badge";
 import { FrequencyBadge } from "@/components/frequency-badge";
@@ -98,7 +99,9 @@ export default function ChapterPage() {
 
   const sectionLabel = exam.sections.find(s => s.id === chapter.section)?.label || chapter.section;
 
-  const sectionChapters = getChaptersBySection(chapter.section);
+  const sectionChapters = getExamChapters(exam.slug)
+    .filter((ch) => ch.section === chapter.section)
+    .sort((a, b) => a.order - b.order);
   const currentIdx = sectionChapters.findIndex((ch) => ch.id === chapterId);
   const prevChapter = currentIdx > 0 ? sectionChapters[currentIdx - 1] : null;
   const nextChapter = currentIdx < sectionChapters.length - 1 ? sectionChapters[currentIdx + 1] : null;
@@ -132,9 +135,9 @@ export default function ChapterPage() {
           {/* Back link */}
           <button
             onClick={() => router.push(`${basePath}/learn`)}
-            className="mb-4 text-sm text-[#6b7280] hover:text-[#0d0d0d] transition-colors"
+            className="mb-4 inline-flex items-center gap-1.5 rounded-lg border border-[#e5e7eb] px-3 py-1.5 text-sm font-medium text-[#6b7280] hover:bg-[#fafafa] hover:text-[#0d0d0d] transition-colors"
           >
-            &larr; All Chapters
+            &larr; Back to Learn
           </button>
 
           {/* Chapter Header */}
@@ -143,7 +146,7 @@ export default function ChapterPage() {
               <Badge variant={chapter.section === "quant" ? "blue" : chapter.section === "verbal" ? "green" : "purple"}>
                 {sectionLabel}
               </Badge>
-              <FrequencyBadge frequency={chapter.frequency} percent={chapter.frequencyPercent} />
+              <FrequencyBadge frequency={chapter.frequency} percent={chapter.frequencyPercent} examName={exam.shortName} />
               <span className="text-sm text-[#9ca3af]">{chapter.estimatedMinutes} min read</span>
               {completed && (
                 <span className="flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-700">

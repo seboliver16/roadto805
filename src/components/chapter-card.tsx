@@ -6,10 +6,11 @@ import { FrequencyBadge } from "./frequency-badge";
 interface ChapterCardProps {
   chapter: Chapter;
   completed?: boolean;
+  examName?: string;
   onClick?: () => void;
 }
 
-export function ChapterCard({ chapter, completed = false, onClick }: ChapterCardProps) {
+export function ChapterCard({ chapter, completed = false, examName, onClick }: ChapterCardProps) {
   return (
     <button
       onClick={onClick}
@@ -32,7 +33,7 @@ export function ChapterCard({ chapter, completed = false, onClick }: ChapterCard
           </div>
           <p className="text-sm text-[#6b7280] line-clamp-2 mb-3">{chapter.description}</p>
           <div className="flex flex-wrap items-center gap-2">
-            <FrequencyBadge frequency={chapter.frequency} percent={chapter.frequencyPercent} />
+            <FrequencyBadge frequency={chapter.frequency} percent={chapter.frequencyPercent} examName={examName} />
             <span className="text-xs text-[#9ca3af]">
               {chapter.estimatedMinutes} min
             </span>

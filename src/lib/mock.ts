@@ -1,12 +1,7 @@
-import { Question, Section, Difficulty } from "@/types";
+import { Question, Difficulty } from "@/types";
 import { ExamConfig, MockSectionConfig } from "@/exams/types";
-import { allQuestions } from "@/data/questions";
-import { gmatConfig } from "@/exams/gmat/config";
 
-// Re-export for backward compatibility
 export type { MockSectionConfig } from "@/exams/types";
-export const MOCK_SECTIONS = gmatConfig.mockSections;
-export const MOCK_TOTAL_QUESTIONS = MOCK_SECTIONS.reduce((s, c) => s + c.questionCount, 0);
 
 function shuffleArray<T>(arr: T[]): T[] {
   const shuffled = [...arr];
@@ -153,6 +148,10 @@ export function getMockExamS1Questions(
       // Placeholder — will be filled after S1
       questions.push([]);
       s2Indices.push(i);
+    } else if (cfg.isEssay) {
+      // AWA section — pick 1 Issue + 1 Argument
+      questions.push(selectAWAQuestions(questionPool));
+      s1Indices.push(i);
     } else {
       questions.push(
         selectSectionQuestions(questionPool, cfg.section, cfg.questionCount, config.difficultyDistribution)
@@ -181,6 +180,19 @@ export function getMockExamS2Questions(
 }
 
 /**
+ * Select AWA (Analytical Writing) questions: 1 Issue + 1 Argument task.
+ */
+function selectAWAQuestions(questionPool: Question[]): Question[] {
+  const awaPool = questionPool.filter((q) => q.type === "analytical-writing");
+  const issues = shuffleArray(awaPool.filter((q) => q.essayType === "issue"));
+  const args = shuffleArray(awaPool.filter((q) => q.essayType === "argument"));
+  const selected: Question[] = [];
+  if (issues.length > 0) selected.push(issues[0]);
+  if (args.length > 0) selected.push(args[0]);
+  return selected;
+}
+
+/**
  * Generate mock exam questions using an exam config.
  * Returns an array of arrays, one per section in config order.
  *
@@ -194,6 +206,12 @@ export function getMockExamQuestionsForExam(
 ): Question[][] {
   const usedIds = new Set<string>();
   return config.mockSections.map((cfg) => {
+    // Essay sections get special handling
+    if (cfg.isEssay) {
+      const qs = selectAWAQuestions(questionPool);
+      qs.forEach((q) => usedIds.add(q.id));
+      return qs;
+    }
     const qs = selectSectionQuestions(
       questionPool, cfg.section, cfg.questionCount, config.difficultyDistribution, usedIds
     );
@@ -202,21 +220,6 @@ export function getMockExamQuestionsForExam(
   });
 }
 
-/**
- * Backward-compatible: Generate mock exam using GMAT config and default question pool.
- */
-export function getMockExamQuestions(): Question[][] {
-  return getMockExamQuestionsForExam(gmatConfig, allQuestions);
-}
-
-/**
- * Backward-compatible: Estimate a GMAT score.
- */
-export function estimateGmatScore(
-  sectionResults: Record<string, { score: number; total: number }>
-): { total: number; sections: Record<string, number> } {
-  return gmatConfig.estimateScore(sectionResults);
-}
 
 /**
  * Format seconds into MM:SS display string.

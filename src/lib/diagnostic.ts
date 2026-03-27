@@ -1,6 +1,6 @@
 import { Section, Theme, StudyPlan } from "@/types";
-import { allChapters } from "@/data/chapters";
 import { ExamConfig } from "@/exams/types";
+import { getExamChapters } from "@/exams/registry";
 import { gmatConfig } from "@/exams/gmat/config";
 
 interface DiagnosticResults {
@@ -15,6 +15,7 @@ export function generateStudyPlanFromDiagnostic(
   config?: ExamConfig
 ): Omit<StudyPlan, "id"> {
   const examConfig = config ?? gmatConfig;
+  const examChapters = getExamChapters(examConfig.slug);
   const { sectionScores, themeBreakdown } = results;
 
   // Identify weak areas: themes where accuracy < threshold or zero attempts
@@ -28,7 +29,7 @@ export function generateStudyPlanFromDiagnostic(
     const weakThemes: string[] = [];
     for (const [theme, data] of Object.entries(themeBreakdown)) {
       // Check if this theme belongs to this section by looking at chapters
-      const chapter = allChapters.find((ch) => ch.section === section.id && ch.topics.includes(theme));
+      const chapter = examChapters.find((ch) => ch.section === section.id && ch.topics.includes(theme));
       if (!chapter) continue;
 
       const themeAccuracy = data.total > 0 ? data.correct / data.total : 0;
@@ -47,7 +48,7 @@ export function generateStudyPlanFromDiagnostic(
   const frequencyData = examConfig.frequencyData;
   const recommendedChapters: StudyPlan["recommendedChapters"] = [];
 
-  for (const chapter of allChapters) {
+  for (const chapter of examChapters) {
     const sectionData = sectionScores[chapter.section];
     const sectionAccuracy = sectionData?.total > 0 ? sectionData.score / sectionData.total : 0;
 
@@ -86,5 +87,6 @@ export function generateStudyPlanFromDiagnostic(
     recommendedChapters,
     createdAt: Date.now(),
     updatedAt: Date.now(),
+    exam: examConfig.slug,
   };
 }

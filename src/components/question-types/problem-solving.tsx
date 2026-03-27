@@ -4,6 +4,7 @@ import { Question, THEME_LABELS, QUESTION_TYPE_LABELS } from "@/types";
 import { Badge } from "../badge";
 import { SourceBadge } from "../source-badge";
 import { SelectablePassage } from "../selectable-passage";
+import { SelectionFooter } from "./instruction-banner";
 
 interface Props {
   question: Question;
@@ -99,6 +100,8 @@ export function ProblemSolving({ question, selectedAnswer, showResult, onSelectA
           );
         })}
       </div>
+
+      {!showResult && <SelectionFooter text="Select one answer choice." />}
 
       {showResult && (
         <div className="mt-3 space-y-3">

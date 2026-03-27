@@ -60,6 +60,7 @@ function DiagnosticContent() {
         themeBreakdown: {},
         timestamp: Date.now(),
         completed: false,
+        exam: exam.slug,
       }).then(setSessionId);
     }
   }, [user, questions, sessionId]);
@@ -96,6 +97,7 @@ function DiagnosticContent() {
       themes: currentQuestion.themes,
       timestamp: Date.now(),
       sessionId,
+      exam: exam.slug,
     });
   }, [selectedAnswer, selectedAnswerB, currentQuestion, user, sessionId, isTPA]);
 

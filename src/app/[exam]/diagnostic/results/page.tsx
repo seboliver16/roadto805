@@ -44,7 +44,7 @@ function DiagnosticResultsContent() {
     const plan = generateStudyPlanFromDiagnostic(user.uid, sessionId, {
       sectionScores,
       themeBreakdown: session.themeBreakdown,
-    });
+    }, exam);
 
     const planId = await createStudyPlan(plan);
     await updateProfile(user.uid, { currentStudyPlanId: planId });

@@ -1,8 +1,10 @@
 import { Chapter } from "@/types";
+import { greAWAChapters } from "./awa";
 import { greVerbalChapters } from "./verbal";
 import { greQuantChapters } from "./quant";
 
 export const greChapters: Chapter[] = [
+  ...greAWAChapters,
   ...greVerbalChapters,
   ...greQuantChapters,
 ];

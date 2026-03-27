@@ -112,13 +112,16 @@ export async function getStudyPlan(planId: string): Promise<StudyPlan | null> {
   return snap.exists() ? (snap.data() as StudyPlan) : null;
 }
 
-export async function getUserStudyPlan(userId: string): Promise<StudyPlan | null> {
-  const q = query(
-    collection(db(), "studyPlans"),
+export async function getUserStudyPlan(userId: string, examSlug?: string): Promise<StudyPlan | null> {
+  const constraints = [
     where("userId", "==", userId),
     orderBy("createdAt", "desc"),
-    limit(1)
-  );
+    limit(1),
+  ];
+  if (examSlug) {
+    constraints.splice(1, 0, where("exam", "==", examSlug));
+  }
+  const q = query(collection(db(), "studyPlans"), ...constraints);
   const snap = await getDocs(q);
   if (snap.empty) return null;
   return snap.docs[0].data() as StudyPlan;

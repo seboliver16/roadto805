@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth-context";
 import { useExam } from "@/exams/exam-context";
 import { getSession, getUserAttempts, getUserSessions } from "@/lib/store";
 import { questionMap } from "@/data/questions";
+import { getExamQuestions } from "@/exams/registry";
 import {
   Question,
   Theme,
@@ -368,6 +369,7 @@ function DashboardReview() {
   const { user, loading: authLoading } = useAuth();
   const exam = useExam();
   const basePath = `/${exam.slug}`;
+  const examQuestionIds = useMemo(() => new Set(getExamQuestions(exam.slug).map(q => q.id)), [exam.slug]);
 
   // Raw data
   const [allAttempts, setAllAttempts] = useState<UserAttempt[]>([]);
@@ -386,7 +388,7 @@ function DashboardReview() {
   const [aiSummary, setAiSummary] = useState<{ theme: string; content: string } | null>(null);
   const [aiSummaryLoading, setAiSummaryLoading] = useState(false);
 
-  // Load data
+  // Load data — filter to current exam
   useEffect(() => {
     if (!user) return;
     async function load() {
@@ -394,12 +396,12 @@ function DashboardReview() {
         getUserAttempts(user!.uid, 500),
         getUserSessions(user!.uid, 50),
       ]);
-      setAllAttempts(attempts);
-      setAllSessions(sessions);
+      setAllAttempts(attempts.filter((a) => examQuestionIds.has(a.questionId)));
+      setAllSessions(sessions.filter((s) => s.questionIds?.some((qId) => examQuestionIds.has(qId))));
       setLoading(false);
     }
     load();
-  }, [user]);
+  }, [user, examQuestionIds]);
 
   const handleSectionChange = (section: Section | "all") => {
     setSectionFilter(section);

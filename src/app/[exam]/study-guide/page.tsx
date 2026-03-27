@@ -84,6 +84,7 @@ export default function StudyGuidePage() {
   const exam = useExam();
   const basePath = `/${exam.slug}`;
   const examQuestions = getExamQuestions(exam.slug);
+  const examQuestionIds = useMemo(() => new Set(examQuestions.map((q) => q.id)), [examQuestions]);
   const [items, setItems] = useState<StudyGuideItem[]>([]);
   const [fetching, setFetching] = useState(true);
   const [activeTab, setActiveTab] = useState<"saved" | "missed" | "weakness">("saved");
@@ -102,9 +103,9 @@ export default function StudyGuidePage() {
   useEffect(() => {
     if (!user) return;
     getUserAttempts(user.uid, 500)
-      .then(setAttempts)
+      .then((all) => setAttempts(all.filter((a) => examQuestionIds.has(a.questionId))))
       .finally(() => setAttemptsLoading(false));
-  }, [user]);
+  }, [user, examQuestionIds]);
 
   // Group missed questions by theme
   const missedByTheme = useMemo(() => {

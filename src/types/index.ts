@@ -147,6 +147,10 @@ export interface Question {
   quantityA?: string;                            // Quantity A for Quantitative Comparison
   quantityB?: string;                            // Quantity B for Quantitative Comparison
   givenInfo?: string;                            // Given information for QC (displayed above quantities)
+  // GRE Analytical Writing fields
+  essayType?: "issue" | "argument";              // AWA essay task type
+  essayPrompt?: string;                          // The full essay prompt/claim
+  essayDirections?: string;                      // Specific writing directions
 }
 
 // === Chapter ===

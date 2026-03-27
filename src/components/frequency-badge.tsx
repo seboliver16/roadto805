@@ -1,6 +1,7 @@
 interface FrequencyBadgeProps {
   percent?: number;
   frequency: "high" | "medium" | "low";
+  examName?: string;
 }
 
 const FREQ_LABELS = {
@@ -9,10 +10,10 @@ const FREQ_LABELS = {
   low: "Low Frequency",
 };
 
-export function FrequencyBadge({ percent, frequency }: FrequencyBadgeProps) {
+export function FrequencyBadge({ percent, frequency, examName }: FrequencyBadgeProps) {
   return (
     <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium bg-[#f3f4f6] ${frequency === "low" ? "text-[#6b7280]" : "text-[#374151]"}`}>
-      {percent ? `${percent}% of GMAT` : FREQ_LABELS[frequency]}
+      {percent ? `${percent}% of ${examName ?? "exam"}` : FREQ_LABELS[frequency]}
     </span>
   );
 }

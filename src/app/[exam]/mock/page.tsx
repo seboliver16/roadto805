@@ -41,6 +41,8 @@ function MockContent() {
   const [flaggedQuestions, setFlaggedQuestions] = useState<Set<string>>(new Set());
   // Answer strikethrough per question: questionId -> Set of choice indices
   const [strikethroughs, setStrikethroughs] = useState<Record<string, Set<number>>>({});
+  // Essay text per AWA question
+  const [essayTexts, setEssayTexts] = useState<Record<string, string>>({});
 
   // Timer: store the deadline (Date.now() + section time) for accuracy
   const [sectionDeadline, setSectionDeadline] = useState(0);
@@ -370,16 +372,27 @@ function MockContent() {
   // === Section intro ===
   if (phase === "section-intro" && currentSectionConfig) {
     const sectionIdx = currentSectionIndex;
+    const isEssaySection = currentSectionConfig.isEssay;
+    const sectionColor = currentSectionConfig.section === "awa" ? "yellow" :
+      currentSectionConfig.section === "verbal" ? "green" :
+      currentSectionConfig.section === "quant" ? "blue" : "purple";
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="max-w-md w-full px-4 text-center animate-fade-in">
-          <Badge variant={sectionIdx === 0 ? "blue" : sectionIdx === 1 ? "green" : "purple"}>
+          <Badge variant={sectionColor}>
             Section {sectionIdx + 1} of {MOCK_SECTIONS.length}
           </Badge>
           <h2 className="mt-4 text-3xl font-bold text-[#0d0d0d]">{currentSectionConfig.label}</h2>
+
+          {isEssaySection && (
+            <p className="mt-3 text-sm text-[#6b7280] leading-relaxed max-w-sm mx-auto">
+              You will write two essays: one &ldquo;Analyze an Issue&rdquo; task and one &ldquo;Analyze an Argument&rdquo; task. Your essays will be scored on a 0–6 scale by AI when you submit the exam.
+            </p>
+          )}
+
           <div className="mt-4 flex justify-center gap-4">
             <div className="rounded-lg bg-[#fafafa] border border-[#e5e7eb] px-4 py-2.5 text-sm text-[#374151] font-medium">
-              {currentSectionConfig.questionCount} questions
+              {isEssaySection ? "2 essays" : `${currentSectionConfig.questionCount} questions`}
             </div>
             <div className="rounded-lg bg-[#fafafa] border border-[#e5e7eb] px-4 py-2.5 text-sm text-[#374151] font-medium">
               {currentSectionConfig.timeMinutes} minutes
@@ -524,7 +537,7 @@ function MockContent() {
       <header className="border-b border-[#e5e7eb] bg-white sticky top-0 z-30">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            <Badge variant={currentSectionConfig.section === "verbal" ? "green" : currentSectionConfig.section === "quant" ? "blue" : "purple"}>
+            <Badge variant={currentSectionConfig.section === "awa" ? "yellow" : currentSectionConfig.section === "verbal" ? "green" : currentSectionConfig.section === "quant" ? "blue" : "purple"}>
               {currentSectionConfig.label}</Badge>
             <span className="text-sm font-bold text-[#0d0d0d]">
               {currentQuestionIndex + 1}
@@ -608,6 +621,10 @@ function MockContent() {
                 }
                 return { ...prev, [currentQuestion.id]: next };
               });
+            }}
+            essayText={essayTexts[currentQuestion.id] ?? ""}
+            onEssayChange={(text) => {
+              setEssayTexts((prev) => ({ ...prev, [currentQuestion.id]: text }));
             }}
           />
 

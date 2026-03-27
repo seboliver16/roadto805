@@ -12,6 +12,7 @@ import { TextCompletion } from "./question-types/text-completion";
 import { SentenceEquivalence } from "./question-types/sentence-equivalence";
 import { QuantitativeComparison } from "./question-types/quantitative-comparison";
 import { NumericEntry } from "./question-types/numeric-entry";
+import { AnalyticalWriting } from "./question-types/analytical-writing";
 
 export interface QuestionRendererProps {
   question: Question;
@@ -26,6 +27,10 @@ export interface QuestionRendererProps {
   onNumericChange?: (value: string) => void;
   strikethroughs?: Set<number>;
   onToggleStrikethrough?: (choiceIdx: number) => void;
+  // Analytical Writing props
+  essayText?: string;
+  onEssayChange?: (text: string) => void;
+  essayScore?: { score: number; feedback: string } | null;
 }
 
 export function QuestionRenderer(props: QuestionRendererProps) {
@@ -46,6 +51,9 @@ export function QuestionRenderer(props: QuestionRendererProps) {
       return <GraphicsInterpretation {...props} />;
     case "table-analysis":
       return <TableAnalysis {...props} />;
+    // GRE AWA
+    case "analytical-writing":
+      return <AnalyticalWriting {...props} />;
     // GRE types
     case "text-completion":
       return <TextCompletion {...props} />;

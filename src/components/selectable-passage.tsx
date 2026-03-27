@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { generateExplanation, sendFollowUp } from "@/lib/mistral";
 import { ChatMessage } from "@/types";
 import { Markdown } from "./markdown";
@@ -10,6 +11,108 @@ interface SelectablePassageProps {
   passage: string;
   questionContext?: string;
   className?: string;
+}
+
+function ExplanationSidePanel({
+  selectedText,
+  explanation,
+  loading,
+  messages,
+  followUpLoading,
+  onFollowUp,
+  onDismiss,
+}: {
+  selectedText: string;
+  explanation: string;
+  loading: boolean;
+  messages: ChatMessage[];
+  followUpLoading: boolean;
+  onFollowUp: (msg: string) => void;
+  onDismiss: () => void;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, followUpLoading]);
+
+  return createPortal(
+    <div className="fixed inset-y-0 right-0 z-50 flex animate-slide-in-right">
+      {/* Backdrop */}
+      <div className="fixed inset-0 bg-black/20" onClick={onDismiss} />
+
+      {/* Panel */}
+      <div className="relative ml-auto flex h-full w-[380px] max-w-[90vw] flex-col bg-white shadow-2xl border-l border-[#e5e7eb]">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-[#e5e7eb] px-5 py-3.5 shrink-0">
+          <h4 className="text-sm font-semibold text-[#0d0d0d] flex items-center gap-2">
+            <svg className="h-4 w-4 text-[#6b7280]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+            </svg>
+            AI Explanation
+          </h4>
+          <button
+            onClick={onDismiss}
+            className="rounded-md p-1.5 text-[#9ca3af] hover:text-[#0d0d0d] hover:bg-[#f3f4f6] transition-colors"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Selected text */}
+        {selectedText && (
+          <div className="border-b border-[#e5e7eb] px-5 py-3 bg-[#fafafa] shrink-0">
+            <p className="text-[11px] font-medium text-[#9ca3af] uppercase tracking-wide mb-1">Selected text</p>
+            <p className="text-sm text-[#374151] italic line-clamp-4">&ldquo;{selectedText}&rdquo;</p>
+          </div>
+        )}
+
+        {/* Body */}
+        <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
+          {loading ? (
+            <div className="flex items-center gap-2 text-[#6b7280]">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#9ca3af] border-t-transparent" />
+              <span className="text-sm">Analyzing...</span>
+            </div>
+          ) : (
+            <>
+              <Markdown className="text-sm text-[#374151]">{explanation}</Markdown>
+
+              {messages.slice(2).map((msg, i) => (
+                <div
+                  key={i}
+                  className={msg.role === "user" ? "border-t border-[#e5e7eb] pt-3" : ""}
+                >
+                  {msg.role === "user" ? (
+                    <p className="text-sm font-medium text-[#6b7280]">{msg.content}</p>
+                  ) : (
+                    <Markdown className="text-sm text-[#374151]">{msg.content}</Markdown>
+                  )}
+                </div>
+              ))}
+
+              {followUpLoading && (
+                <div className="flex items-center gap-2 text-[#6b7280]">
+                  <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#9ca3af] border-t-transparent" />
+                  <span className="text-xs">Thinking...</span>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* Follow-up input */}
+        {!loading && explanation && (
+          <div className="border-t border-[#e5e7eb] px-5 py-3 shrink-0">
+            <FollowUpInput onSend={onFollowUp} loading={followUpLoading} />
+          </div>
+        )}
+      </div>
+    </div>,
+    document.body
+  );
 }
 
 export function SelectablePassage({ passage, questionContext, className }: SelectablePassageProps) {
@@ -107,13 +210,15 @@ export function SelectablePassage({ passage, questionContext, className }: Selec
 
   return (
     <div ref={containerRef} className="relative">
-      <p
-        className={`leading-relaxed text-[#374151] whitespace-pre-line select-text cursor-text ${className ?? "text-sm"}`}
+      <div
+        className="select-text cursor-text"
         onMouseUp={handleMouseUp}
         onTouchEnd={handleMouseUp}
       >
-        {passage}
-      </p>
+        <Markdown className={`leading-relaxed text-[#374151] ${className ?? "text-sm"}`}>
+          {passage}
+        </Markdown>
+      </div>
 
       <p className="mt-2 flex items-center gap-1 text-[11px] text-[#9ca3af] select-none">
         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -140,55 +245,15 @@ export function SelectablePassage({ passage, questionContext, className }: Selec
       )}
 
       {showExplanation && (
-        <div className="mt-3 rounded-lg border border-[#e5e7eb] bg-[#fafafa] p-4 animate-fade-in">
-          <div className="flex items-center justify-between mb-2">
-            <h4 className="text-xs font-semibold text-[#0d0d0d] flex items-center gap-1.5">
-              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-              </svg>
-              AI Explanation
-            </h4>
-            <button
-              onClick={handleDismiss}
-              className="text-xs text-[#6b7280] hover:text-[#0d0d0d] font-medium"
-            >
-              Dismiss
-            </button>
-          </div>
-          {loading ? (
-            <div className="flex items-center gap-2 text-[#6b7280]">
-              <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#0d0d0d] border-t-transparent" />
-              <span className="text-xs">Analyzing...</span>
-            </div>
-          ) : (
-            <>
-              <Markdown className="text-[#374151] text-xs">{explanation}</Markdown>
-
-              {/* Follow-up messages */}
-              {messages.slice(2).map((msg, i) => (
-                <div
-                  key={i}
-                  className={msg.role === "user" ? "border-t border-[#e5e7eb] pt-2 mt-2" : "mt-2"}
-                >
-                  {msg.role === "user" ? (
-                    <p className="text-xs font-medium text-[#6b7280]">{msg.content}</p>
-                  ) : (
-                    <Markdown className="text-[#374151] text-xs">{msg.content}</Markdown>
-                  )}
-                </div>
-              ))}
-
-              {followUpLoading && (
-                <div className="flex items-center gap-2 text-[#6b7280] mt-2">
-                  <div className="h-3 w-3 animate-spin rounded-full border-2 border-[#0d0d0d] border-t-transparent" />
-                  <span className="text-xs">Thinking...</span>
-                </div>
-              )}
-
-              <FollowUpInput onSend={handleFollowUp} loading={followUpLoading} placeholder="Ask a follow-up..." />
-            </>
-          )}
-        </div>
+        <ExplanationSidePanel
+          selectedText={selectedText}
+          explanation={explanation}
+          loading={loading}
+          messages={messages}
+          followUpLoading={followUpLoading}
+          onFollowUp={handleFollowUp}
+          onDismiss={handleDismiss}
+        />
       )}
     </div>
   );

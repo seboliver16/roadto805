@@ -1,8 +1,11 @@
 import { Question } from "@/types";
 import { greQuantQCQuestions } from "./quant-qc";
+import { greQuantQCExpandedQuestions } from "./quant-qc-expanded";
 import { greQuantPSQuestions } from "./quant-ps";
+import { greQuantPSExpandedQuestions } from "./quant-ps-expanded";
 import { greQuantDIQuestions } from "./quant-di";
 import { greQuantNEQuestions } from "./quant-ne";
+import { greQuantNEExpandedQuestions } from "./quant-ne-expanded";
 
 // Legacy questions from the original small bank (kept for backward compatibility)
 const legacyQuantQuestions: Question[] = [
@@ -42,7 +45,10 @@ const legacyQuantQuestions: Question[] = [
 export const greQuantQuestions: Question[] = [
   ...legacyQuantQuestions,
   ...greQuantQCQuestions,
+  ...greQuantQCExpandedQuestions,
   ...greQuantPSQuestions,
+  ...greQuantPSExpandedQuestions,
   ...greQuantDIQuestions,
   ...greQuantNEQuestions,
+  ...greQuantNEExpandedQuestions,
 ];

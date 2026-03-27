@@ -9,11 +9,13 @@ export const greConfig: ExamConfig = {
 
   // === Sections ===
   sections: [
+    { id: "awa", label: "Analytical Writing", shortLabel: "AWA" },
     { id: "verbal", label: "Verbal Reasoning", shortLabel: "Verbal" },
     { id: "quant", label: "Quantitative Reasoning", shortLabel: "Quant" },
   ],
 
   sectionColors: {
+    awa: { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200", accent: "bg-amber-600" },
     verbal: { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200", accent: "bg-emerald-600" },
     quant: { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200", accent: "bg-blue-600" },
   },
@@ -142,6 +144,7 @@ export const greConfig: ExamConfig = {
 
   // === Question Types ===
   questionTypes: {
+    "analytical-writing": "Analytical Writing",
     "text-completion": "Text Completion",
     "sentence-equivalence": "Sentence Equivalence",
     "reading-comprehension": "Reading Comprehension",
@@ -152,19 +155,22 @@ export const greConfig: ExamConfig = {
   },
 
   questionTypesPerSection: {
+    awa: ["analytical-writing"],
     verbal: ["text-completion", "sentence-equivalence", "reading-comprehension"],
     quant: ["quantitative-comparison", "problem-solving", "numeric-entry", "data-interpretation"],
   },
 
   // === Mock Exam Config ===
-  // Real GRE: 4 scored sections in this order —
-  //   Verbal S1 (12q, 18min) → Quant S1 (12q, 21min) → Verbal S2 (15q, 23min) → Quant S2 (15q, 26min)
+  // Real GRE: 5 sections —
+  //   AWA (2 essays, 30min each = 60min total) → Verbal S1 (12q, 18min) → Quant S1 (12q, 21min)
+  //   → Verbal S2 (15q, 23min) → Quant S2 (15q, 26min)
   // S2 difficulty is adaptive based on S1 performance.
   mockSections: [
+    { section: "awa", label: "Analytical Writing", questionCount: 2, timeMinutes: 60, isEssay: true },
     { section: "verbal", label: "Verbal Reasoning — Section 1", questionCount: 12, timeMinutes: 18, subsection: 1 },
     { section: "quant", label: "Quantitative Reasoning — Section 1", questionCount: 12, timeMinutes: 21, subsection: 1 },
-    { section: "verbal", label: "Verbal Reasoning — Section 2", questionCount: 15, timeMinutes: 23, subsection: 2, adaptiveRef: 0 },
-    { section: "quant", label: "Quantitative Reasoning — Section 2", questionCount: 15, timeMinutes: 26, subsection: 2, adaptiveRef: 1 },
+    { section: "verbal", label: "Verbal Reasoning — Section 2", questionCount: 15, timeMinutes: 23, subsection: 2, adaptiveRef: 1 },
+    { section: "quant", label: "Quantitative Reasoning — Section 2", questionCount: 15, timeMinutes: 26, subsection: 2, adaptiveRef: 2 },
   ],
 
   difficultyDistribution: { easy: 0.3, medium: 0.4, hard: 0.3 },

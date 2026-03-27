@@ -6,6 +6,7 @@ import { useExam } from "@/exams/exam-context";
 import { Badge } from "../badge";
 import { SourceBadge } from "../source-badge";
 import { SelectablePassage } from "../selectable-passage";
+import { InstructionBanner } from "./instruction-banner";
 
 interface Props {
   question: Question;
@@ -59,6 +60,12 @@ export function NumericEntry({
 
   return (
     <div>
+      <InstructionBanner>
+        {isFraction
+          ? "Enter your answer as a fraction. Equivalent forms of the correct answer, such as 2.5 and 2.50, are all correct."
+          : "Enter your answer as an integer or a decimal."}
+      </InstructionBanner>
+
       <div className="mb-2 flex flex-wrap items-center gap-2">
         <Badge variant="purple">{typeLabel}</Badge>
         <Badge
@@ -71,10 +78,6 @@ export function NumericEntry({
       <div className="mb-4 rounded-lg bg-white p-4 border border-[#e5e7eb]">
         <SelectablePassage passage={question.text} className="text-base leading-relaxed" />
       </div>
-
-      <p className="mb-2 text-xs font-medium text-[#6b7280] uppercase tracking-wide">
-        {isFraction ? "Enter your answer as a fraction (e.g., 7/4)" : "Enter your answer as an integer or decimal"}
-      </p>
 
       <div className="flex items-center gap-3">
         <input

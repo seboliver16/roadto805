@@ -5,6 +5,7 @@ import { Question, THEME_LABELS, QUESTION_TYPE_LABELS } from "@/types";
 import { Badge } from "../badge";
 import { SourceBadge } from "../source-badge";
 import { SelectablePassage } from "../selectable-passage";
+import { SelectionFooter } from "./instruction-banner";
 
 interface Props {
   question: Question;
@@ -100,6 +101,8 @@ export function ReadingComprehension({ question, selectedAnswer, showResult, onS
               );
             })}
           </div>
+
+          {!showResult && <SelectionFooter text="Select one answer choice." />}
         </div>
       </div>
 

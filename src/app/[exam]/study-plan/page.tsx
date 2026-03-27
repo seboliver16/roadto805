@@ -23,17 +23,41 @@ export default function StudyPlanPage() {
 
   useEffect(() => {
     if (!user) return;
-    getUserStudyPlan(user.uid)
+    getUserStudyPlan(user.uid, exam.slug)
       .then(setPlan)
       .finally(() => setLoading(false));
-  }, [user]);
+  }, [user, exam.slug]);
 
   useEffect(() => {
     if (!authLoading && !user) router.push("/");
   }, [user, authLoading, router]);
 
-  if (loading || !plan) {
+  if (loading) {
     return <PageSkeleton label="Loading study plan..." />;
+  }
+
+  if (!plan) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="max-w-md text-center px-4">
+          <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-[#f3f4f6]">
+            <svg className="h-7 w-7 text-[#9ca3af]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-[#0d0d0d] mb-2">No study plan yet</h2>
+          <p className="text-[#6b7280] mb-6">
+            Take a diagnostic test and we will generate a personalized study plan based on your strengths and weaknesses.
+          </p>
+          <button
+            onClick={() => router.push(`${basePath}/diagnostic`)}
+            className="rounded-lg bg-[#0d0d0d] px-6 py-3 text-sm font-semibold text-white hover:bg-[#1a1a1a] transition-colors"
+          >
+            Start Diagnostic
+          </button>
+        </div>
+      </div>
+    );
   }
 
   const total = plan.recommendedChapters.length;
@@ -142,6 +166,7 @@ export default function StudyPlanPage() {
                     <ChapterCard
                       chapter={chapter}
                       completed={done}
+                      examName={exam.shortName}
                       onClick={() => router.push(`${basePath}/learn/${rec.chapterId}`)}
                     />
                     <button

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { useExam } from "@/exams/exam-context";
 import { Section } from "@/types";
-import { getChaptersBySection } from "@/data/chapters";
+import { getExamChapters } from "@/exams/registry";
 import { getAllChapterProgress } from "@/lib/store";
 import { PageSkeleton } from "@/components/loading-skeleton";
 import { SectionTabs } from "@/components/section-tabs";
@@ -16,7 +16,9 @@ export default function LearnPage() {
   const { user, loading } = useAuth();
   const exam = useExam();
   const basePath = `/${exam.slug}`;
-  const [activeSection, setActiveSection] = useState<Section | "all">(exam.sections[0]?.id || "quant");
+  // Default to verbal (skip AWA as landing section for GRE)
+  const defaultSection = exam.sections.find(s => s.id === "verbal")?.id ?? exam.sections[0]?.id ?? "quant";
+  const [activeSection, setActiveSection] = useState<Section | "all">(defaultSection);
   const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -52,7 +54,9 @@ export default function LearnPage() {
       </div>
 
       {sections.map((section) => {
-        const chapters = getChaptersBySection(section);
+        const chapters = getExamChapters(exam.slug)
+          .filter((ch) => ch.section === section)
+          .sort((a, b) => a.order - b.order);
         const completedCount = chapters.filter((ch) => completedIds.has(ch.id)).length;
         const sectionLabel = exam.sections.find(s => s.id === section)?.label || section;
         return (
@@ -78,6 +82,7 @@ export default function LearnPage() {
                   key={chapter.id}
                   chapter={chapter}
                   completed={completedIds.has(chapter.id)}
+                  examName={exam.shortName}
                   onClick={() => router.push(`${basePath}/learn/${chapter.id}`)}
                 />
               ))}

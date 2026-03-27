@@ -1,7 +1,10 @@
 import { Question } from "@/types";
 import { greVerbalTCQuestions } from "./verbal-tc";
+import { greVerbalTCExpandedQuestions } from "./verbal-tc-expanded";
 import { greVerbalSEQuestions } from "./verbal-se";
+import { greVerbalSEExpandedQuestions } from "./verbal-se-expanded";
 import { greVerbalRCQuestions } from "./verbal-rc";
+import { greVerbalRCExpandedQuestions } from "./verbal-rc-expanded";
 
 // Legacy questions from the original small bank (kept for backward compatibility)
 const legacyVerbalQuestions: Question[] = [
@@ -41,6 +44,9 @@ const legacyVerbalQuestions: Question[] = [
 export const greVerbalQuestions: Question[] = [
   ...legacyVerbalQuestions,
   ...greVerbalTCQuestions,
+  ...greVerbalTCExpandedQuestions,
   ...greVerbalSEQuestions,
+  ...greVerbalSEExpandedQuestions,
   ...greVerbalRCQuestions,
+  ...greVerbalRCExpandedQuestions,
 ];

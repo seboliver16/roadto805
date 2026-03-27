@@ -1,10 +1,61 @@
 "use client";
 
+import React from "react";
 import { Question } from "@/types";
 import { useExam } from "@/exams/exam-context";
 import { Badge } from "../badge";
 import { SourceBadge } from "../source-badge";
 import { SelectablePassage } from "../selectable-passage";
+import { InstructionBanner, SelectionFooter } from "./instruction-banner";
+
+const BLANK_UNDERLINE_COLORS = ["text-blue-600", "text-violet-600", "text-amber-600"];
+
+/**
+ * Render question text with styled blank markers.
+ * Replaces _______(i)_______ or _______ with a colored underline blank.
+ */
+function BlankHighlightedText({ text, selectedChoices }: { text: string; selectedChoices?: Record<string, string> }) {
+  // Replace combined patterns like "_____(i)_____" with just "(i)",
+  // then replace remaining standalone underscores with numbered blanks
+  let cleaned = text.replace(/_{2,}\s*\((i{1,3})\)\s*_{2,}/g, "($1)");
+  cleaned = cleaned.replace(/_{2,}\((i{1,3})\)/g, "($1)");
+  cleaned = cleaned.replace(/\((i{1,3})\)_{2,}/g, "($1)");
+
+  // Now split on (i), (ii), (iii) or remaining standalone underscores
+  const parts = cleaned.split(/(\(i{1,3}\)|_{3,})/g);
+
+  let blankIdx = 0;
+  return (
+    <span className="text-base leading-relaxed">
+      {parts.map((part, idx) => {
+        const blankMatch = part.match(/^\((i{1,3})\)$/);
+        if (blankMatch) {
+          const label = blankMatch[1];
+          const colorIdx = label === "i" ? 0 : label === "ii" ? 1 : 2;
+          const color = BLANK_UNDERLINE_COLORS[colorIdx];
+          const chosen = selectedChoices?.[label];
+          return (
+            <span key={idx} className={`inline-block border-b-2 border-current ${color} font-semibold min-w-[5rem] text-center mx-0.5`}>
+              {chosen || "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"}
+            </span>
+          );
+        }
+        if (/^_{3,}$/.test(part)) {
+          const color = BLANK_UNDERLINE_COLORS[blankIdx % 3];
+          const label = blankIdx === 0 ? "i" : blankIdx === 1 ? "ii" : "iii";
+          blankIdx++;
+          const chosen = selectedChoices?.[label];
+          return (
+            <span key={idx} className={`inline-block border-b-2 border-current ${color} font-semibold min-w-[5rem] text-center mx-0.5`}>
+              {chosen || "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"}
+            </span>
+          );
+        }
+        return <React.Fragment key={idx}>{part}</React.Fragment>;
+      })}
+    </span>
+  );
+}
 
 interface Props {
   question: Question;
@@ -43,6 +94,10 @@ export function TextCompletion({
   if (blankCount === 1) {
     return (
       <div>
+        <InstructionBanner>
+          Select one entry for the blank. Fill the blank in the way that best completes the text.
+        </InstructionBanner>
+
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <Badge variant="blue">{typeLabel}</Badge>
           <Badge
@@ -53,10 +108,11 @@ export function TextCompletion({
         </div>
 
         <div className="mb-4 rounded-lg bg-white p-4 border border-[#e5e7eb]">
-          <SelectablePassage passage={question.text} className="text-base leading-relaxed" />
+          <BlankHighlightedText
+            text={question.text}
+            selectedChoices={selectedAnswer !== null && selectedAnswer >= 0 ? { i: question.choices[selectedAnswer] } : undefined}
+          />
         </div>
-
-        <p className="mb-2 text-xs font-medium text-[#6b7280] uppercase tracking-wide">Select one answer</p>
 
         <div className="space-y-1.5">
           {question.choices.map((choice, i) => {
@@ -98,6 +154,8 @@ export function TextCompletion({
           })}
         </div>
 
+        {!showResult && <SelectionFooter text="Select one answer choice." />}
+
         {showResult && renderExplanation(question)}
       </div>
     );
@@ -113,8 +171,17 @@ export function TextCompletion({
     const choicesA = question.choices.slice(0, 3);
     const choicesB = question.choices.slice(3, 6);
 
+    // Build selected choices for blank highlighting
+    const selectedChoices2: Record<string, string> = {};
+    if (selectedAnswer !== null && selectedAnswer >= 0) selectedChoices2.i = choicesA[selectedAnswer];
+    if (selectedAnswerB != null && selectedAnswerB >= 3) selectedChoices2.ii = choicesB[selectedAnswerB - 3];
+
     return (
       <div>
+        <InstructionBanner>
+          For each blank select one entry from the corresponding column of choices. Fill all blanks in the way that best completes the text.
+        </InstructionBanner>
+
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <Badge variant="blue">{typeLabel}</Badge>
           <Badge
@@ -125,15 +192,16 @@ export function TextCompletion({
         </div>
 
         <div className="mb-4 rounded-lg bg-white p-4 border border-[#e5e7eb]">
-          <SelectablePassage passage={question.text} className="text-base leading-relaxed" />
+          <BlankHighlightedText text={question.text} selectedChoices={selectedChoices2} />
         </div>
-
-        <p className="mb-3 text-xs font-medium text-[#6b7280] uppercase tracking-wide">Select one answer for each blank</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Blank (i) */}
           <div>
-            <p className="mb-2 text-sm font-semibold text-[#374151]">{columns[0]}</p>
+            <p className="mb-2 text-sm font-semibold text-[#374151]">
+              <span className="inline-block w-2.5 h-2.5 rounded-sm bg-blue-400 mr-1.5 align-middle" />
+              {columns[0]}
+            </p>
             <div className="space-y-1.5">
               {choicesA.map((choice, i) => {
                 let borderColor = "border-[#e5e7eb]";
@@ -168,7 +236,10 @@ export function TextCompletion({
 
           {/* Blank (ii) */}
           <div>
-            <p className="mb-2 text-sm font-semibold text-[#374151]">{columns[1]}</p>
+            <p className="mb-2 text-sm font-semibold text-[#374151]">
+              <span className="inline-block w-2.5 h-2.5 rounded-sm bg-violet-400 mr-1.5 align-middle" />
+              {columns[1]}
+            </p>
             <div className="space-y-1.5">
               {choicesB.map((choice, i) => {
                 const globalIdx = i + 3;
@@ -202,6 +273,8 @@ export function TextCompletion({
             </div>
           </div>
         </div>
+
+        {!showResult && <SelectionFooter text="Select one entry from each column." />}
 
         {showResult && (
           <div className="mt-3 space-y-1 text-sm">
@@ -244,8 +317,18 @@ export function TextCompletion({
   const choicesB = question.choices.slice(3, 6);
   const choicesC = question.choices.slice(6, 9);
 
+  // Build selected choices for blank highlighting
+  const selectedChoices3: Record<string, string> = {};
+  if (selectedAnswer !== null && selectedAnswer >= 0) selectedChoices3.i = choicesA[selectedAnswer];
+  if (selectedAnswerB != null && selectedAnswerB >= 3) selectedChoices3.ii = choicesB[selectedAnswerB - 3];
+  if (selectedAnswerC != null && selectedAnswerC >= 6) selectedChoices3.iii = choicesC[selectedAnswerC - 6];
+
   return (
     <div>
+      <InstructionBanner>
+        For each blank select one entry from the corresponding column of choices. Fill all blanks in the way that best completes the text.
+      </InstructionBanner>
+
       <div className="mb-2 flex flex-wrap items-center gap-2">
         <Badge variant="blue">{typeLabel}</Badge>
         <Badge
@@ -256,15 +339,16 @@ export function TextCompletion({
       </div>
 
       <div className="mb-4 rounded-lg bg-white p-4 border border-[#e5e7eb]">
-        <SelectablePassage passage={question.text} className="text-base leading-relaxed" />
+        <BlankHighlightedText text={question.text} selectedChoices={selectedChoices3} />
       </div>
-
-      <p className="mb-3 text-xs font-medium text-[#6b7280] uppercase tracking-wide">Select one answer for each blank</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Blank (i) */}
         <div>
-          <p className="mb-2 text-sm font-semibold text-[#374151]">{columns[0]}</p>
+          <p className="mb-2 text-sm font-semibold text-[#374151]">
+            <span className="inline-block w-2.5 h-2.5 rounded-sm bg-blue-400 mr-1.5 align-middle" />
+            {columns[0]}
+          </p>
           <div className="space-y-1.5">
             {choicesA.map((choice, i) => {
               let borderColor = "border-[#e5e7eb]";
@@ -299,7 +383,10 @@ export function TextCompletion({
 
         {/* Blank (ii) */}
         <div>
-          <p className="mb-2 text-sm font-semibold text-[#374151]">{columns[1]}</p>
+          <p className="mb-2 text-sm font-semibold text-[#374151]">
+            <span className="inline-block w-2.5 h-2.5 rounded-sm bg-violet-400 mr-1.5 align-middle" />
+            {columns[1]}
+          </p>
           <div className="space-y-1.5">
             {choicesB.map((choice, i) => {
               const globalIdx = i + 3;
@@ -335,7 +422,10 @@ export function TextCompletion({
 
         {/* Blank (iii) */}
         <div>
-          <p className="mb-2 text-sm font-semibold text-[#374151]">{columns[2]}</p>
+          <p className="mb-2 text-sm font-semibold text-[#374151]">
+            <span className="inline-block w-2.5 h-2.5 rounded-sm bg-amber-400 mr-1.5 align-middle" />
+            {columns[2]}
+          </p>
           <div className="space-y-1.5">
             {choicesC.map((choice, i) => {
               const globalIdx = i + 6;
@@ -369,6 +459,8 @@ export function TextCompletion({
           </div>
         </div>
       </div>
+
+      {!showResult && <SelectionFooter text="Select one entry from each column." />}
 
       {showResult && (
         <div className="mt-3 space-y-1 text-sm">

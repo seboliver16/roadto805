@@ -5,6 +5,7 @@ import { useExam } from "@/exams/exam-context";
 import { Badge } from "../badge";
 import { SourceBadge } from "../source-badge";
 import { SelectablePassage } from "../selectable-passage";
+import { SelectionFooter } from "./instruction-banner";
 
 interface Props {
   question: Question;
@@ -91,7 +92,7 @@ export function QuantitativeComparison({
       )}
 
       {/* The 4 standard QC answer choices */}
-      <div className="space-y-1.5">
+      <div className="space-y-1.5" role="radiogroup">
         {choices.map((choice, i) => {
           let borderColor = "border-[#e5e7eb]";
           let bg = "bg-white";
@@ -130,6 +131,8 @@ export function QuantitativeComparison({
           );
         })}
       </div>
+
+      {!showResult && <SelectionFooter text="Select one answer choice." />}
 
       {showResult && (
         <div className="mt-3 space-y-3">

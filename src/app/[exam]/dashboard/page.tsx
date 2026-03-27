@@ -5,6 +5,7 @@ import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
 import { StudyPlan, UserAttempt, PracticeSession } from "@/types";
 import { getUserStudyPlan, getUserAttempts, getUserSessions, updateProfile } from "@/lib/store";
+import { getExamQuestions } from "@/exams/registry";
 import { PageSkeleton } from "@/components/loading-skeleton";
 import { ProgressRing } from "@/components/progress-ring";
 import { DiagnosticIcon, LearnIcon, PracticeIcon, ReviewIcon, ArrowRightIcon } from "@/components/icons";
@@ -32,6 +33,7 @@ export default function DashboardPage() {
 
   const sectionLabels = Object.fromEntries(exam.sections.map((s) => [s.id, s.shortLabel]));
   const basePath = `/${exam.slug}`;
+  const examQuestionIds = useMemo(() => new Set(getExamQuestions(exam.slug).map(q => q.id)), [exam.slug]);
 
   useEffect(() => {
     if (user) {
@@ -45,7 +47,7 @@ export default function DashboardPage() {
   useEffect(() => {
     if (!user || !profile?.currentStudyPlanId) return;
     let cancelled = false;
-    getUserStudyPlan(user.uid)
+    getUserStudyPlan(user.uid, exam.slug)
       .then((plan) => { if (!cancelled) setStudyPlan(plan); })
       .finally(() => { if (!cancelled) setPlanLoading(false); });
     return () => { cancelled = true; };
@@ -53,9 +55,13 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!user) return;
-    getUserAttempts(user.uid, 500).then(setAttempts);
-    getUserSessions(user.uid, 5).then(setRecentSessions);
-  }, [user]);
+    getUserAttempts(user.uid, 500).then((all) =>
+      setAttempts(all.filter((a) => examQuestionIds.has(a.questionId)))
+    );
+    getUserSessions(user.uid, 20).then((all) =>
+      setRecentSessions(all.filter((s) => s.questionIds?.some((qId) => examQuestionIds.has(qId))).slice(0, 5))
+    );
+  }, [user, examQuestionIds]);
 
   const weakThemes = useMemo(() => {
     const stats = new Map<string, { correct: number; total: number }>();

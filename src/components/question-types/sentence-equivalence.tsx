@@ -5,6 +5,7 @@ import { useExam } from "@/exams/exam-context";
 import { Badge } from "../badge";
 import { SourceBadge } from "../source-badge";
 import { SelectablePassage } from "../selectable-passage";
+import { InstructionBanner, SelectionFooter } from "./instruction-banner";
 
 interface Props {
   question: Question;
@@ -69,6 +70,10 @@ export function SentenceEquivalence({
 
   return (
     <div>
+      <InstructionBanner>
+        Select the <span className="underline font-medium">two</span> answer choices that, when used to complete the sentence, fit the meaning of the sentence as a whole <span className="underline font-medium">and</span> produce completed sentences that are alike in meaning.
+      </InstructionBanner>
+
       <div className="mb-2 flex flex-wrap items-center gap-2">
         <Badge variant="blue">{typeLabel}</Badge>
         <Badge
@@ -81,10 +86,6 @@ export function SentenceEquivalence({
       <div className="mb-4 rounded-lg bg-white p-4 border border-[#e5e7eb]">
         <SelectablePassage passage={question.text} className="text-base leading-relaxed" />
       </div>
-
-      <p className="mb-2 text-xs font-medium text-[#6b7280] uppercase tracking-wide">
-        Select exactly two answers that produce sentences most alike in meaning
-      </p>
 
       <div className="space-y-1.5">
         {question.choices.map((choice, i) => {
@@ -151,9 +152,12 @@ export function SentenceEquivalence({
       </div>
 
       {!showResult && (
-        <p className="mt-2 text-xs text-[#9ca3af]">
-          {selectedCount}/2 selected
-        </p>
+        <>
+          <p className="mt-2 text-xs text-[#9ca3af]">
+            {selectedCount}/2 selected
+          </p>
+          <SelectionFooter text="Select two answer choices." />
+        </>
       )}
 
       {showResult && (

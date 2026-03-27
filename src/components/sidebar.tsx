@@ -45,6 +45,15 @@ const NAV_ITEMS = [
     ),
   },
   {
+    path: "study-plan",
+    label: "Study Plan",
+    icon: (
+      <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
+      </svg>
+    ),
+  },
+  {
     path: "review",
     label: "Review",
     icon: (
@@ -143,7 +152,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
             </button>
 
             {examSwitcherOpen && (
-              <div className="absolute left-0 right-0 top-full mt-1 z-50 rounded-lg bg-[#2f2f2f] shadow-xl overflow-hidden border border-white/[0.08]">
+              <div className="absolute left-0 right-0 top-full mt-1 z-50 rounded-lg bg-[#2d2d2d] shadow-xl overflow-hidden border border-white/[0.08]">
                 {allExams.map((e) => (
                   <Link
                     key={e.slug}
@@ -220,7 +229,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
           </button>
 
           {userMenuOpen && (
-            <div className={`absolute bottom-full mb-1 z-50 rounded-lg bg-[#2f2f2f] shadow-xl overflow-hidden border border-white/[0.08] min-w-[200px] ${
+            <div className={`absolute bottom-full mb-1 z-50 rounded-lg bg-[#2d2d2d] shadow-xl overflow-hidden border border-white/[0.08] min-w-[200px] ${
               collapsed ? "left-full ml-2 bottom-0 mb-0" : "left-0 right-0"
             }`}>
               <div className="px-3 py-2.5 border-b border-white/[0.08]">
@@ -248,7 +257,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
       {!mobileOpen && (
         <button
           onClick={() => setMobileOpen(true)}
-          className="fixed top-3 left-3 z-50 flex h-9 w-9 items-center justify-center rounded-lg bg-[#171717] text-white/60 hover:text-white lg:hidden transition-colors"
+          className="fixed top-3 left-3 z-50 flex h-9 w-9 items-center justify-center rounded-lg bg-[#212121] text-white/60 hover:text-white lg:hidden transition-colors"
           aria-label="Open menu"
         >
           <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -258,7 +267,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
       )}
 
       <aside
-        className={`hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:bg-[#171717] z-40 transition-[width] duration-200 ease-in-out ${
+        className={`hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:bg-[#212121] z-40 transition-[width] duration-200 ease-in-out ${
           collapsed ? "lg:w-[60px]" : "lg:w-[260px]"
         }`}
       >
@@ -268,7 +277,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} />
-          <aside className="absolute inset-y-0 left-0 w-[280px] bg-[#171717] flex flex-col animate-slide-in">
+          <aside className="absolute inset-y-0 left-0 w-[280px] bg-[#212121] flex flex-col animate-slide-in">
             <button
               onClick={() => setMobileOpen(false)}
               className="absolute top-3 right-3 rounded-lg p-1.5 text-white/30 hover:text-white/60 hover:bg-white/[0.06] transition-colors"
